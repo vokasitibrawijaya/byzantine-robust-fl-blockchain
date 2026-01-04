@@ -1,0 +1,128 @@
+{
+  "gas_measurements": {
+    "contract_deployment": 1724238,
+    "register_20_clients": 85968,
+    "start_round": 85000,
+    "submit_update_per_client": 75000,
+    "mark_byzantine_per_client": 85000,
+    "complete_round": 80000
+  },
+  "gas_per_round": 2005000,
+  "total_gas_160_rounds": 322610206,
+  "cost_scenarios": [
+    {
+      "gas_scenario": "low",
+      "gas_price_gwei": 20,
+      "eth_scenario": "bearish",
+      "eth_price_usd": 2000,
+      "total_cost_eth": 6.45220412,
+      "total_cost_usd": 12904.40824,
+      "cost_per_round_usd": 80.6525515
+    },
+    {
+      "gas_scenario": "low",
+      "gas_price_gwei": 20,
+      "eth_scenario": "current",
+      "eth_price_usd": 3000,
+      "total_cost_eth": 6.45220412,
+      "total_cost_usd": 19356.61236,
+      "cost_per_round_usd": 120.97882725
+    },
+    {
+      "gas_scenario": "low",
+      "gas_price_gwei": 20,
+      "eth_scenario": "bullish",
+      "eth_price_usd": 4000,
+      "total_cost_eth": 6.45220412,
+      "total_cost_usd": 25808.81648,
+      "cost_per_round_usd": 161.305103
+    },
+    {
+      "gas_scenario": "medium",
+      "gas_price_gwei": 50,
+      "eth_scenario": "bearish",
+      "eth_price_usd": 2000,
+      "total_cost_eth": 16.1305103,
+      "total_cost_usd": 32261.020600000003,
+      "cost_per_round_usd": 201.63137875
+    },
+    {
+      "gas_scenario": "medium",
+      "gas_price_gwei": 50,
+      "eth_scenario": "current",
+      "eth_price_usd": 3000,
+      "total_cost_eth": 16.1305103,
+      "total_cost_usd": 48391.530900000005,
+      "cost_per_round_usd": 302.44706812500004
+    },
+    {
+      "gas_scenario": "medium",
+      "gas_price_gwei": 50,
+      "eth_scenario": "bullish",
+      "eth_price_usd": 4000,
+      "total_cost_eth": 16.1305103,
+      "total_cost_usd": 64522.04120000001,
+      "cost_per_round_usd": 403.2627575
+    },
+    {
+      "gas_scenario": "high",
+      "gas_price_gwei": 100,
+      "eth_scenario": "bearish",
+      "eth_price_usd": 2000,
+      "total_cost_eth": 32.2610206,
+      "total_cost_usd": 64522.04120000001,
+      "cost_per_round_usd": 403.2627575
+    },
+    {
+      "gas_scenario": "high",
+      "gas_price_gwei": 100,
+      "eth_scenario": "current",
+      "eth_price_usd": 3000,
+      "total_cost_eth": 32.2610206,
+      "total_cost_usd": 96783.06180000001,
+      "cost_per_round_usd": 604.8941362500001
+    },
+    {
+      "gas_scenario": "high",
+      "gas_price_gwei": 100,
+      "eth_scenario": "bullish",
+      "eth_price_usd": 4000,
+      "total_cost_eth": 32.2610206,
+      "total_cost_usd": 129044.08240000001,
+      "cost_per_round_usd": 806.525515
+    }
+  ],
+  "best_case": {
+    "gas_scenario": "low",
+    "gas_price_gwei": 20,
+    "eth_scenario": "bearish",
+    "eth_price_usd": 2000,
+    "total_cost_eth": 6.45220412,
+    "total_cost_usd": 12904.40824,
+    "cost_per_round_usd": 80.6525515
+  },
+  "worst_case": {
+    "gas_scenario": "high",
+    "gas_price_gwei": 100,
+    "eth_scenario": "bullish",
+    "eth_price_usd": 4000,
+    "total_cost_eth": 32.2610206,
+    "total_cost_usd": 129044.08240000001,
+    "cost_per_round_usd": 806.525515
+  },
+  "typical_case": {
+    "gas_scenario": "medium",
+    "gas_price_gwei": 50,
+    "eth_scenario": "current",
+    "eth_price_usd": 3000,
+    "total_cost_eth": 16.1305103,
+    "total_cost_usd": 48391.530900000005,
+    "cost_per_round_usd": 302.44706812500004
+  },
+  "recommendations": {
+    "use_layer2": true,
+    "estimated_l2_savings": 0.9,
+    "batch_operations": true,
+    "log_frequency": "every_10_rounds"
+  }
+}

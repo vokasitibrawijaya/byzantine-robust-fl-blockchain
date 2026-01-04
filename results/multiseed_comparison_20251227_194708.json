@@ -1,0 +1,237 @@
+{
+  "timestamp": "20251227_194708",
+  "configuration": {
+    "num_clients": 20,
+    "byzantine_ratio": 0.2,
+    "dirichlet_alpha": 0.5,
+    "learning_rate": 0.01,
+    "num_rounds": 50,
+    "local_epochs": 3,
+    "batch_size": 256,
+    "seeds": [
+      42,
+      123,
+      456
+    ],
+    "fedprox_mu": 0.01,
+    "feddyn_alpha": 0.01
+  },
+  "results": [
+    {
+      "method": "FedAvg",
+      "seed": 42,
+      "final_accuracy": 10.0,
+      "accuracies_per_10_rounds": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "method": "FedAvg",
+      "seed": 123,
+      "final_accuracy": 10.0,
+      "accuracies_per_10_rounds": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "method": "FedAvg",
+      "seed": 456,
+      "final_accuracy": 10.0,
+      "accuracies_per_10_rounds": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "method": "Krum",
+      "seed": 42,
+      "final_accuracy": 25.76,
+      "accuracies_per_10_rounds": [
+        17.86,
+        19.92,
+        21.79,
+        23.37,
+        25.76
+      ]
+    },
+    {
+      "method": "Krum",
+      "seed": 123,
+      "final_accuracy": 23.12,
+      "accuracies_per_10_rounds": [
+        14.1,
+        21.59,
+        20.91,
+        22.25,
+        23.12
+      ]
+    },
+    {
+      "method": "Krum",
+      "seed": 456,
+      "final_accuracy": 25.74,
+      "accuracies_per_10_rounds": [
+        13.39,
+        20.42,
+        21.82,
+        23.89,
+        25.74
+      ]
+    },
+    {
+      "method": "TrimmedMean",
+      "seed": 42,
+      "final_accuracy": 35.18,
+      "accuracies_per_10_rounds": [
+        26.3,
+        28.33,
+        30.85,
+        34.64,
+        35.18
+      ]
+    },
+    {
+      "method": "TrimmedMean",
+      "seed": 123,
+      "final_accuracy": 32.64,
+      "accuracies_per_10_rounds": [
+        24.07,
+        28.17,
+        30.69,
+        31.36,
+        32.64
+      ]
+    },
+    {
+      "method": "TrimmedMean",
+      "seed": 456,
+      "final_accuracy": 36.03,
+      "accuracies_per_10_rounds": [
+        27.41,
+        30.31,
+        32.83,
+        34.09,
+        36.03
+      ]
+    },
+    {
+      "method": "ATMA",
+      "seed": 42,
+      "final_accuracy": 10.0,
+      "accuracies_per_10_rounds": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "method": "ATMA",
+      "seed": 123,
+      "final_accuracy": 10.0,
+      "accuracies_per_10_rounds": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "method": "ATMA",
+      "seed": 456,
+      "final_accuracy": 10.0,
+      "accuracies_per_10_rounds": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "method": "FedProx",
+      "seed": 42,
+      "final_accuracy": 10.0,
+      "accuracies_per_10_rounds": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "method": "FedProx",
+      "seed": 123,
+      "final_accuracy": 10.0,
+      "accuracies_per_10_rounds": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "method": "FedProx",
+      "seed": 456,
+      "final_accuracy": 10.0,
+      "accuracies_per_10_rounds": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "method": "FedDyn",
+      "seed": 42,
+      "final_accuracy": 10.0,
+      "accuracies_per_10_rounds": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "method": "FedDyn",
+      "seed": 123,
+      "final_accuracy": 10.0,
+      "accuracies_per_10_rounds": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "method": "FedDyn",
+      "seed": 456,
+      "final_accuracy": 10.0,
+      "accuracies_per_10_rounds": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ]
+    }
+  ]
+}

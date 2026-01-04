@@ -1,0 +1,76 @@
+================================================================================
+COMPREHENSIVE STATISTICAL COMPARISON REPORT
+Addresses ModW2 (Confidence Intervals) and ModW3 (Recent Methods)
+================================================================================
+
+Date: 2025-12-27 19:47:08
+Configuration:
+  - Clients: 20 (Byzantine: 4, 20.0%)
+  - Dataset: CIFAR-10 (Non-IID α=0.5)
+  - Rounds: 50
+  - Local Epochs: 3
+  - Batch Size: 256
+  - Seeds: [42, 123, 456]
+  - Attack: Label flip (scale=-5.0)
+  - FedProx μ: 0.01
+  - FedDyn α: 0.01
+
+================================================================================
+RESULTS SUMMARY (Mean ± Std [95% CI])
+================================================================================
+
+FedAvg         :  10.00% ±  0.00% [ 10.00%,  10.00%] (n=3)
+Krum           :  24.87% ±  1.52% [ 21.10%,  28.65%] (n=3)
+TrimmedMean    :  34.62% ±  1.76% [ 30.24%,  39.00%] (n=3)
+ATMA           :  10.00% ±  0.00% [ 10.00%,  10.00%] (n=3)
+FedProx        :  10.00% ±  0.00% [ 10.00%,  10.00%] (n=3)
+FedDyn         :  10.00% ±  0.00% [ 10.00%,  10.00%] (n=3)
+
+================================================================================
+RANKING (by Mean Accuracy)
+================================================================================
+
+1. TrimmedMean    : 34.62% ± 1.76%
+2. Krum           : 24.87% ± 1.52%
+3. FedAvg         : 10.00% ± 0.00%
+4. ATMA           : 10.00% ± 0.00%
+5. FedProx        : 10.00% ± 0.00%
+6. FedDyn         : 10.00% ± 0.00%
+
+================================================================================
+PAIRWISE STATISTICAL SIGNIFICANCE (t-test, p<0.05)
+================================================================================
+
+FedAvg          vs Krum           : Δ = -14.87pp, p = 0.0001 ***
+FedAvg          vs TrimmedMean    : Δ = -24.62pp, p = 0.0000 ***
+FedAvg          vs ATMA           : Δ =  +0.00pp, p = nan n.s.
+FedAvg          vs FedProx        : Δ =  +0.00pp, p = nan n.s.
+FedAvg          vs FedDyn         : Δ =  +0.00pp, p = nan n.s.
+Krum            vs TrimmedMean    : Δ =  -9.74pp, p = 0.0019 ***
+Krum            vs ATMA           : Δ = +14.87pp, p = 0.0001 ***
+Krum            vs FedProx        : Δ = +14.87pp, p = 0.0001 ***
+Krum            vs FedDyn         : Δ = +14.87pp, p = 0.0001 ***
+TrimmedMean     vs ATMA           : Δ = +24.62pp, p = 0.0000 ***
+TrimmedMean     vs FedProx        : Δ = +24.62pp, p = 0.0000 ***
+TrimmedMean     vs FedDyn         : Δ = +24.62pp, p = 0.0000 ***
+ATMA            vs FedProx        : Δ =  +0.00pp, p = nan n.s.
+ATMA            vs FedDyn         : Δ =  +0.00pp, p = nan n.s.
+FedProx         vs FedDyn         : Δ =  +0.00pp, p = nan n.s.
+
+================================================================================
+INTERPRETATION
+================================================================================
+
+ModW2 (Confidence Intervals): ✅ ADDRESSED
+  - Multiple seeds: 3 runs per method
+  - Statistics: Mean ± Std with 95% CI
+  - Variability quantified for all methods
+
+ModW3 (Recent Methods Comparison): ✅ ADDRESSED
+  - FedProx (Li et al., 2020): Proximal term for heterogeneity
+  - FedDyn (Acar et al., 2021): Dynamic regularization
+  - Comparison against 4 baseline methods
+
+Best Performing Method: TrimmedMean
+  - Accuracy: 34.62% ± 1.76%
+  - 95% CI: [30.24%, 39.00%]

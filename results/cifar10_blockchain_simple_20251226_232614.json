@@ -1,0 +1,425 @@
+{
+  "timestamp": "20251226_232614",
+  "device": "cuda",
+  "blockchain_enabled": false,
+  "blockchain_rpc": "http://localhost:8545",
+  "experiment_config": {
+    "dataset": "CIFAR-10",
+    "num_clients": 20,
+    "byzantine_ratio": 0.2,
+    "dirichlet_alpha": 0.5,
+    "local_epochs": 5,
+    "learning_rate": 0.01,
+    "batch_size": 128
+  },
+  "results": [
+    {
+      "method": "FedAvg",
+      "rounds": 50,
+      "final_accuracy": 10.0,
+      "accuracies": [
+        {
+          "round": 10,
+          "accuracy": 10.0
+        },
+        {
+          "round": 20,
+          "accuracy": 10.0
+        },
+        {
+          "round": 30,
+          "accuracy": 10.0
+        },
+        {
+          "round": 40,
+          "accuracy": 10.0
+        },
+        {
+          "round": 50,
+          "accuracy": 10.0
+        }
+      ],
+      "blockchain_enabled": false,
+      "blockchain_logs": []
+    },
+    {
+      "method": "FedAvg",
+      "rounds": 160,
+      "final_accuracy": 10.0,
+      "accuracies": [
+        {
+          "round": 10,
+          "accuracy": 10.0
+        },
+        {
+          "round": 20,
+          "accuracy": 10.0
+        },
+        {
+          "round": 30,
+          "accuracy": 10.0
+        },
+        {
+          "round": 40,
+          "accuracy": 10.0
+        },
+        {
+          "round": 50,
+          "accuracy": 10.0
+        },
+        {
+          "round": 60,
+          "accuracy": 10.0
+        },
+        {
+          "round": 70,
+          "accuracy": 10.0
+        },
+        {
+          "round": 80,
+          "accuracy": 10.0
+        },
+        {
+          "round": 90,
+          "accuracy": 10.0
+        },
+        {
+          "round": 100,
+          "accuracy": 10.0
+        },
+        {
+          "round": 110,
+          "accuracy": 10.0
+        },
+        {
+          "round": 120,
+          "accuracy": 10.0
+        },
+        {
+          "round": 130,
+          "accuracy": 10.0
+        },
+        {
+          "round": 140,
+          "accuracy": 10.0
+        },
+        {
+          "round": 150,
+          "accuracy": 10.0
+        },
+        {
+          "round": 160,
+          "accuracy": 10.0
+        }
+      ],
+      "blockchain_enabled": false,
+      "blockchain_logs": []
+    },
+    {
+      "method": "Krum",
+      "rounds": 50,
+      "final_accuracy": 36.71,
+      "accuracies": [
+        {
+          "round": 10,
+          "accuracy": 33.29
+        },
+        {
+          "round": 20,
+          "accuracy": 41.12
+        },
+        {
+          "round": 30,
+          "accuracy": 37.82
+        },
+        {
+          "round": 40,
+          "accuracy": 37.64
+        },
+        {
+          "round": 50,
+          "accuracy": 36.71
+        }
+      ],
+      "blockchain_enabled": false,
+      "blockchain_logs": []
+    },
+    {
+      "method": "Krum",
+      "rounds": 160,
+      "final_accuracy": 43.41,
+      "accuracies": [
+        {
+          "round": 10,
+          "accuracy": 35.98
+        },
+        {
+          "round": 20,
+          "accuracy": 35.69
+        },
+        {
+          "round": 30,
+          "accuracy": 36.45
+        },
+        {
+          "round": 40,
+          "accuracy": 39.23
+        },
+        {
+          "round": 50,
+          "accuracy": 39.03
+        },
+        {
+          "round": 60,
+          "accuracy": 35.77
+        },
+        {
+          "round": 70,
+          "accuracy": 35.94
+        },
+        {
+          "round": 80,
+          "accuracy": 39.29
+        },
+        {
+          "round": 90,
+          "accuracy": 36.22
+        },
+        {
+          "round": 100,
+          "accuracy": 36.4
+        },
+        {
+          "round": 110,
+          "accuracy": 38.11
+        },
+        {
+          "round": 120,
+          "accuracy": 43.3
+        },
+        {
+          "round": 130,
+          "accuracy": 43.14
+        },
+        {
+          "round": 140,
+          "accuracy": 43.49
+        },
+        {
+          "round": 150,
+          "accuracy": 43.46
+        },
+        {
+          "round": 160,
+          "accuracy": 43.41
+        }
+      ],
+      "blockchain_enabled": false,
+      "blockchain_logs": []
+    },
+    {
+      "method": "TrimmedMean",
+      "rounds": 50,
+      "final_accuracy": 66.38,
+      "accuracies": [
+        {
+          "round": 10,
+          "accuracy": 58.01
+        },
+        {
+          "round": 20,
+          "accuracy": 63.27
+        },
+        {
+          "round": 30,
+          "accuracy": 64.74
+        },
+        {
+          "round": 40,
+          "accuracy": 65.51
+        },
+        {
+          "round": 50,
+          "accuracy": 66.38
+        }
+      ],
+      "blockchain_enabled": false,
+      "blockchain_logs": []
+    },
+    {
+      "method": "TrimmedMean",
+      "rounds": 160,
+      "final_accuracy": 67.92,
+      "accuracies": [
+        {
+          "round": 10,
+          "accuracy": 58.29
+        },
+        {
+          "round": 20,
+          "accuracy": 63.33
+        },
+        {
+          "round": 30,
+          "accuracy": 64.61
+        },
+        {
+          "round": 40,
+          "accuracy": 65.39
+        },
+        {
+          "round": 50,
+          "accuracy": 66.5
+        },
+        {
+          "round": 60,
+          "accuracy": 67.0
+        },
+        {
+          "round": 70,
+          "accuracy": 67.36
+        },
+        {
+          "round": 80,
+          "accuracy": 67.4
+        },
+        {
+          "round": 90,
+          "accuracy": 67.44
+        },
+        {
+          "round": 100,
+          "accuracy": 67.65
+        },
+        {
+          "round": 110,
+          "accuracy": 67.02
+        },
+        {
+          "round": 120,
+          "accuracy": 67.73
+        },
+        {
+          "round": 130,
+          "accuracy": 67.5
+        },
+        {
+          "round": 140,
+          "accuracy": 66.51
+        },
+        {
+          "round": 150,
+          "accuracy": 67.45
+        },
+        {
+          "round": 160,
+          "accuracy": 67.92
+        }
+      ],
+      "blockchain_enabled": false,
+      "blockchain_logs": []
+    },
+    {
+      "method": "ATMA",
+      "rounds": 50,
+      "final_accuracy": 64.38,
+      "accuracies": [
+        {
+          "round": 10,
+          "accuracy": 56.68
+        },
+        {
+          "round": 20,
+          "accuracy": 61.44
+        },
+        {
+          "round": 30,
+          "accuracy": 63.25
+        },
+        {
+          "round": 40,
+          "accuracy": 63.87
+        },
+        {
+          "round": 50,
+          "accuracy": 64.38
+        }
+      ],
+      "blockchain_enabled": false,
+      "blockchain_logs": []
+    },
+    {
+      "method": "ATMA",
+      "rounds": 160,
+      "final_accuracy": 65.78,
+      "accuracies": [
+        {
+          "round": 10,
+          "accuracy": 56.68
+        },
+        {
+          "round": 20,
+          "accuracy": 61.86
+        },
+        {
+          "round": 30,
+          "accuracy": 63.71
+        },
+        {
+          "round": 40,
+          "accuracy": 64.29
+        },
+        {
+          "round": 50,
+          "accuracy": 65.13
+        },
+        {
+          "round": 60,
+          "accuracy": 64.58
+        },
+        {
+          "round": 70,
+          "accuracy": 65.52
+        },
+        {
+          "round": 80,
+          "accuracy": 65.75
+        },
+        {
+          "round": 90,
+          "accuracy": 65.82
+        },
+        {
+          "round": 100,
+          "accuracy": 65.7
+        },
+        {
+          "round": 110,
+          "accuracy": 65.87
+        },
+        {
+          "round": 120,
+          "accuracy": 65.64
+        },
+        {
+          "round": 130,
+          "accuracy": 65.7
+        },
+        {
+          "round": 140,
+          "accuracy": 65.8
+        },
+        {
+          "round": 150,
+          "accuracy": 65.92
+        },
+        {
+          "round": 160,
+          "accuracy": 65.78
+        }
+      ],
+      "blockchain_enabled": false,
+      "blockchain_logs": []
+    }
+  ]
+}
