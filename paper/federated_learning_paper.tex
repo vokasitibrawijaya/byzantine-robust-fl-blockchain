@@ -226,7 +226,11 @@ This provides an immutable audit trail for post-hoc analysis and accountability.
 
 To ensure full reproducibility, we provide:
 \begin{itemize}
-    \item \textbf{Code Repository:} Complete implementation available at \url{https://github.com/vokasitibrawijaya/byzantine-robust-fl-blockchain}, including:
+    \item \textbf{Code Repository:} Complete implementation available at:
+    
+    {\small\path{https://github.com/vokasitibrawijaya/byzantine-robust-fl-blockchain}}
+    
+    including:
     \begin{itemize}
         \item Aggregation algorithms (Krum, TrimmedMean, Median, ATMA)
         \item Byzantine attack implementations (label-flip, sign-flip, scaling)
@@ -463,7 +467,7 @@ Comparing TrimmedMean at 50 rounds (84.85\%) versus 160 rounds (93.45\%) reveals
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.48\textwidth]{convergence_comparison.png}
+    \includegraphics[width=0.45\textwidth]{convergence_comparison.png}
     \caption{Convergence curves comparing all aggregation algorithms. TrimmedMean 160r shows steady improvement and achieves the highest final accuracy. Krum fails to converge due to overly conservative update selection. FedAvg converges quickly but remains vulnerable to Byzantine attacks.}
     \label{fig:convergence}
 \end{figure}
@@ -859,12 +863,13 @@ The simulated Layer-2 experiment achieves 93.03\% accuracy in only 50 rounds, de
 
 \subsection{Comparison with Literature}
 
-Table~\ref{tab:literature_comparison} compares our results with reported results in the literature.
+Table~\ref{tab:literature_comparison} provides context for our results relative to literature. Direct comparison is challenging due to differences in Byzantine attack configurations, non-IID distributions, and training settings.
 
 \begin{table}[t]
-\caption{Comparison with Literature}
+\caption{Comparison with Literature (Reference Context Only$^*$)}
 \label{tab:literature_comparison}
 \centering
+{\small
 \begin{tabular}{lccc}
 \toprule
 \textbf{Study} & \textbf{Accuracy} & \textbf{Byzantine} & \textbf{Dataset} \\
@@ -878,6 +883,9 @@ Blanchard et al. & 82-85 & Strong & MNIST \\
 Yin et al. & 88-91 & Strong & MNIST \\
 \bottomrule
 \end{tabular}
+}
+\\[0.1cm]
+{\footnotesize $^*$Not directly comparable due to different attack configurations and training settings. Provided for general context only.}
 \end{table}
 
 Our TrimmedMean 160r result (93.45\%) is competitive with state-of-the-art Byzantine-robust methods on MNIST. Direct comparison with prior work is limited by differences in threat model (attack type, Byzantine fraction), non-IID distribution, and communication budget. We report this result specifically for our setting: 20\% label-flip attackers, IID distribution, 160 communication rounds with blockchain integration.
@@ -1112,7 +1120,7 @@ FedDyn & 10.00 & $\pm$0.00 & $\pm$0.00 \\
 
 \textbf{L2 Cost Projections:} The 50--100x cost reduction for Layer-2 networks (Arbitrum, Optimism) is based on published benchmarks~\cite{arbitrum2023} and Arbitrum documentation, not measured deployments.
 
-\textbf{Testnet Deployment Plan:} We have prepared complete deployment infrastructure for Sepolia (L1) and Arbitrum Sepolia (L2) testnets. Contract address: \texttt{0x66Cd2b58094268CCfb162de8C8DCF5C0B9d58d17}. Deployment requires 0.5 ETH testnet funding (available via faucets). See supplementary materials for deployment scripts and faucet instructions.
+\textbf{Testnet Deployment Plan:} We have prepared complete deployment infrastructure for Sepolia (L1) and Arbitrum Sepolia (L2) testnets, including smart contracts, deployment scripts, and wallet (\texttt{0x66Cd...8d17}). Deployment requires 0.5 ETH testnet funding which was not obtained due to faucet availability constraints. All deployment code is available in the repository for future validation.
 
 \begin{table}[t]
 \caption{Blockchain Gas Cost Analysis}
@@ -1461,6 +1469,7 @@ R.~Jiang \emph{et al.},
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{moko.png}}]{Rachmad Andri Atmoko}
 received the B.App.Sc. degree in automation engineering and the M.Eng. degree in instrumentation engineering from the Institut Teknologi Sepuluh Nopember (ITS), Surabaya, Indonesia, in 2013 and 2015, respectively. He is currently a Lecturer with the Faculty of Vocational Studies, Universitas Brawijaya, Malang, Indonesia. His research interests include federated learning, blockchain technology, cybersecurity, the Internet of Things (IoT), and explainable AI (XAI).
 \end{IEEEbiography}
+\vspace{-0.5cm}
 
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{sholeh.png}}]{Sholeh Hadi Pramono}
 was born in 1958. He received the bachelor's degree in electrical power system from Universitas Brawijaya, Indonesia, in 1985, and the master's degree in opto-electro techniques and the Ph.D. degree in laser application from Universitas Indonesia, in 1990 and 2009, respectively. Since 1986, he has been a Lecturer with Universitas Brawijaya. He currently holds the esteemed position of Professor with the Faculty of Engineering, Universitas Brawijaya. His major research interests include optical communication, photovoltaic, and artificial intelligence.
