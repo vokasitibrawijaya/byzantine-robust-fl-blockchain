@@ -226,11 +226,7 @@ This provides an immutable audit trail for post-hoc analysis and accountability.
 
 To ensure full reproducibility, we provide:
 \begin{itemize}
-    \item \textbf{Code Repository:} Complete implementation available at:
-    
-    {\small\path{https://github.com/vokasitibrawijaya/byzantine-robust-fl-blockchain}}
-    
-    including:
+    \item \textbf{Code Repository:} Complete implementation available at GitHub\footnote{\url{https://github.com/vokasitibrawijaya/byzantine-robust-fl-blockchain}} including:
     \begin{itemize}
         \item Aggregation algorithms (Krum, TrimmedMean, Median, ATMA)
         \item Byzantine attack implementations (label-flip, sign-flip, scaling)
@@ -467,8 +463,8 @@ Comparing TrimmedMean at 50 rounds (84.85\%) versus 160 rounds (93.45\%) reveals
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.45\textwidth]{convergence_comparison.png}
-    \caption{Convergence curves comparing all aggregation algorithms. TrimmedMean 160r shows steady improvement and achieves the highest final accuracy. Krum fails to converge due to overly conservative update selection. FedAvg converges quickly but remains vulnerable to Byzantine attacks.}
+    \includegraphics[width=\columnwidth]{convergence_comparison.png}
+    \caption{Convergence curves comparing aggregation algorithms. TrimmedMean 160r achieves highest final accuracy. Krum fails to converge. FedAvg converges quickly but remains vulnerable to attacks.}
     \label{fig:convergence}
 \end{figure}
 
@@ -586,8 +582,8 @@ We validated our Byzantine-robust aggregation methods with real federated learni
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=0.95\textwidth]{visualizations/fl_convergence.pdf}
-    \caption{Real FL Training on MNIST (20 rounds). Left: Test accuracy progression showing clear learning trajectory. TrimmedMean achieves highest final accuracy (73\%), followed by Median (71.48\%) and Mean (66.95\%). Right: Final accuracy comparison with 95\% confidence intervals.}
+    \includegraphics[width=\columnwidth]{visualizations/fl_convergence.pdf}
+    \caption{Real FL Training on MNIST (20 rounds). TrimmedMean achieves 73\%, Median 71.48\%, Mean 66.95\%.}
     \label{fig:fl_convergence}
 \end{figure}
 
@@ -689,9 +685,7 @@ The adaptation pattern reveals:
     \item \textbf{Resilience:} Threshold remains stable ($\sigma=0.03$) despite intermittent Byzantine activity
 \end{itemize}
 
-\textbf{Extended Training Reference:} While our ATMA experiments use 50 rounds for controlled comparison, we also evaluate ATMA under extended training in the CIFAR-10 experiments (Section~\ref{sec:cifar10}). At 160 rounds, ATMA achieves \textbf{65.78\% accuracy} on CIFAR-10 with Dirichlet($\alpha$=0.5) non-IID distribution, competitive with TrimmedMean's 67.92\%. This demonstrates that ATMA's adaptive benefits persist across training durations, though static TrimmedMean's simpler approach achieves slightly higher peak accuracy with sufficient training budget.
-
-This validates ATMA's core advantage: \emph{adaptive defense without manual threshold tuning}.
+ATMA achieves 65.78\% accuracy on CIFAR-10 (160 rounds) with Dirichlet($\alpha$=0.5) non-IID distribution, competitive with TrimmedMean's 67.92\% (see Table~\ref{tab:cifar10_results}). This validates ATMA's core advantage: \emph{adaptive defense without manual threshold tuning}.
 
 \subsubsection{Statistical Significance}
 
@@ -863,29 +857,26 @@ The simulated Layer-2 experiment achieves 93.03\% accuracy in only 50 rounds, de
 
 \subsection{Comparison with Literature}
 
-Table~\ref{tab:literature_comparison} provides context for our results relative to literature. Direct comparison is challenging due to differences in Byzantine attack configurations, non-IID distributions, and training settings.
+Table~\ref{tab:literature_comparison} provides context for our results. Note: Direct comparison is not possible due to different experimental settings.
 
 \begin{table}[t]
-\caption{Comparison with Literature (Reference Context Only$^*$)}
+\caption{Literature Context (Not Directly Comparable$^*$)}
 \label{tab:literature_comparison}
 \centering
-{\small
+{\scriptsize
 \begin{tabular}{lccc}
 \toprule
-\textbf{Study} & \textbf{Accuracy} & \textbf{Byzantine} & \textbf{Dataset} \\
-& \textbf{(\%)} & \textbf{Defense} & \\
+\textbf{Study} & \textbf{Acc.} & \textbf{Defense} & \textbf{Data} \\
 \midrule
-\textbf{Our Work} & \textbf{93.45} & \textbf{Strong (20\%)} & \textbf{MNIST} \\
-Reference & 89.59 & Unknown & MNIST \\
-Typical FedAvg & 85-90 & None & MNIST \\
-Krum (Literature) & 70-80 & Moderate & Various \\
-Blanchard et al. & 82-85 & Strong & MNIST \\
-Yin et al. & 88-91 & Strong & MNIST \\
+\textbf{Our Work} & \textbf{93.45\%} & \textbf{20\% Byz.} & \textbf{MNIST} \\
+Blanchard~\cite{blanchard2017machine} & 82--85\% & Strong & MNIST \\
+Yin~\cite{yin2018byzantine} & 88--91\% & Strong & MNIST \\
+Typical FedAvg & 85--90\% & None & MNIST \\
 \bottomrule
 \end{tabular}
 }
-\\[0.1cm]
-{\footnotesize $^*$Not directly comparable due to different attack configurations and training settings. Provided for general context only.}
+\\[0.05cm]
+{\tiny $^*$Different attack types, Byzantine ratios, and training settings. For reference only.}
 \end{table}
 
 Our TrimmedMean 160r result (93.45\%) is competitive with state-of-the-art Byzantine-robust methods on MNIST. Direct comparison with prior work is limited by differences in threat model (attack type, Byzantine fraction), non-IID distribution, and communication budget. We report this result specifically for our setting: 20\% label-flip attackers, IID distribution, 160 communication rounds with blockchain integration.
@@ -1118,9 +1109,9 @@ FedDyn & 10.00 & $\pm$0.00 & $\pm$0.00 \\
     \item \textbf{Finality guarantees:} Instant vs. 12 confirmations (~2.5 min on Ethereum)
 \end{itemize}
 
-\textbf{L2 Cost Projections:} The 50--100x cost reduction for Layer-2 networks (Arbitrum, Optimism) is based on published benchmarks~\cite{arbitrum2023} and Arbitrum documentation, not measured deployments.
+\textbf{L2 Cost Projections:} The 50--100x cost reduction for Layer-2 networks (Arbitrum, Optimism) is based on official Arbitrum documentation and L2Fees.info benchmarks, not measured deployments in this study.
 
-\textbf{Testnet Deployment Plan:} We have prepared complete deployment infrastructure for Sepolia (L1) and Arbitrum Sepolia (L2) testnets, including smart contracts, deployment scripts, and wallet (\texttt{0x66Cd...8d17}). Deployment requires 0.5 ETH testnet funding which was not obtained due to faucet availability constraints. All deployment code is available in the repository for future validation.
+\textbf{Future Testnet Validation:} Smart contracts and deployment scripts are available in our repository. Testnet deployment on Sepolia/Arbitrum is planned for future work to validate real-world network conditions (block latency, gas volatility).
 
 \begin{table}[t]
 \caption{Blockchain Gas Cost Analysis}
@@ -1164,10 +1155,10 @@ Our study has addressed several previous limitations:
     
     \item \textbf{Remaining Limitations:}
     \begin{itemize}
-        \item Attack types limited to random noise Byzantine attacks; sophisticated attacks (label-flipping with ALIE, backdoor~\cite{sun2019backdoor,nguyen2022flame}) require future study.
+        \item Attack types limited to random noise and label-flip attacks; sophisticated attacks (ALIE~\cite{baruch2019little}, backdoor~\cite{sun2019backdoor}) require future study.
         \item Scalability validated to 1,000 clients; 10,000+ requires additional testing.
-        \item \textbf{Blockchain Environment:} Ganache local simulation provides accurate gas measurements but does not capture real-world network conditions (12s block time latency, mempool congestion, gas price volatility 10--500+ Gwei). Testnet deployment infrastructure is prepared (wallet: \texttt{0x66Cd...8d17}, contracts ready) but requires 0.5 ETH testnet funding. Production deployment validation on Sepolia/Arbitrum testnets is recommended future work.
-        \item \textbf{L2 Cost Projections:} The 50--100x Layer-2 cost reduction is based on Arbitrum documentation and published benchmarks, not measured deployments.
+        \item \textbf{Blockchain Environment:} Ganache local simulation provides accurate gas measurements but does not capture real-world network conditions (block latency, gas volatility). Testnet validation is planned as future work.
+        \item \textbf{L2 Cost Projections:} Layer-2 cost estimates are based on documentation, not measured deployments.
     \end{itemize}
 \end{enumerate}
 
@@ -1469,24 +1460,23 @@ R.~Jiang \emph{et al.},
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{moko.png}}]{Rachmad Andri Atmoko}
 received the B.App.Sc. degree in automation engineering and the M.Eng. degree in instrumentation engineering from the Institut Teknologi Sepuluh Nopember (ITS), Surabaya, Indonesia, in 2013 and 2015, respectively. He is currently a Lecturer with the Faculty of Vocational Studies, Universitas Brawijaya, Malang, Indonesia. His research interests include federated learning, blockchain technology, cybersecurity, the Internet of Things (IoT), and explainable AI (XAI).
 \end{IEEEbiography}
-\vspace{-0.5cm}
-
+\vspace{-1.2cm}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{sholeh.png}}]{Sholeh Hadi Pramono}
 was born in 1958. He received the bachelor's degree in electrical power system from Universitas Brawijaya, Indonesia, in 1985, and the master's degree in opto-electro techniques and the Ph.D. degree in laser application from Universitas Indonesia, in 1990 and 2009, respectively. Since 1986, he has been a Lecturer with Universitas Brawijaya. He currently holds the esteemed position of Professor with the Faculty of Engineering, Universitas Brawijaya. His major research interests include optical communication, photovoltaic, and artificial intelligence.
 \end{IEEEbiography}
-
+\vspace{-1.2cm}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{fauzan.png}}]{M. Fauzan Edy Purnomo}
 received the B.E. and M.E. degrees in electrical engineering from Universitas Brawijaya, Malang, Indonesia, and the Ph.D. degree in electrical and electronic engineering from the University of Miyazaki, Miyazaki, Japan. He is currently a Lecturer and Researcher with the Department of Electrical Engineering, Faculty of Engineering, Universitas Brawijaya. His research interests include antenna theory and design, microwave engineering, electromagnetic wave propagation, wireless sensor networks (WSN), and wireless power transfer.
 \end{IEEEbiography}
-
+\vspace{-1.2cm}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{panca.png}}]{Panca Mudjirahardjo}
 received the B.Eng. degree in electrical engineering from Universitas Brawijaya, Indonesia, in 1995, the M.Eng. degree in electrical engineering from Universitas Gadjah Mada, Indonesia, in 2001, and the Dr.Eng. degree in control engineering from the Machine Intelligence Laboratory, Kyushu Institute of Technology, Japan, in 2015. Since 2002, he has been a Faculty Member with the Department of Electrical Engineering, Universitas Brawijaya, where he currently holds the position of an Associate Professor. His current research interests include digital and analog instrumentation system design, pattern recognition, image processing, and computer vision.
 \end{IEEEbiography}
-
+\vspace{-1.2cm}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mahdin.png}}]{Mahdin Rohmatillah}
 received the B.Eng. degree in electrical engineering from Universitas Brawijaya, Malang, Indonesia, in 2016, the M.Sc. degree in electrical engineering from National Sun Yat-sen University, Kaohsiung, Taiwan, in 2018, and the Ph.D. degree from National Yang Ming Chiao Tung University, Taiwan, in 2024. Currently, he is a Lecturer with Universitas Brawijaya. His research interests include machine learning, deep reinforcement learning, and dialogue systems.
 \end{IEEEbiography}
-
+\vspace{-1.2cm}
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{cries.png}}]{Cries Avian}
 received the bachelor's and master's degrees in electrical engineering from Universitas Jember, Indonesia, in 2016 and 2020, respectively, and the Ph.D. degree in electronic and computer engineering from the National Taiwan University of Science and Technology, in 2024. He is currently affiliated with the Department of Electrical Engineering, Universitas Brawijaya, Indonesia. His professional experience includes working as a Machine Learning Engineer with AAEON, Taiwan, where he focused on deep learning model optimization and embedded AI systems. His research interests span embedded computing, biomedical signal and image processing, artificial intelligence, and intelligent control systems.
 \end{IEEEbiography}
