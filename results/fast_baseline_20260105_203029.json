@@ -1,0 +1,40 @@
+{
+  "config": {
+    "num_clients": 10,
+    "num_rounds": 20,
+    "local_epochs": 3,
+    "batch_size": 64,
+    "learning_rate": 0.01,
+    "dirichlet_alpha": 0.5,
+    "seed": 42
+  },
+  "clean": {
+    "FedAvg": {
+      "accuracy": 59.13,
+      "time": 710.6496398448944
+    },
+    "FedProx": {
+      "accuracy": 60.07,
+      "time": 879.758624792099
+    },
+    "TrimmedMean": {
+      "accuracy": 56.68,
+      "time": 719.2195017337799
+    }
+  },
+  "attacked": {
+    "FedAvg": {
+      "accuracy": 54.99,
+      "time": 663.6817765235901
+    },
+    "FedProx": {
+      "accuracy": 56.67,
+      "time": 832.9970235824585
+    },
+    "TrimmedMean": {
+      "accuracy": 53.19,
+      "time": 656.0347073078156
+    }
+  },
+  "timestamp": "2026-01-05T20:30:29.492889"
+}

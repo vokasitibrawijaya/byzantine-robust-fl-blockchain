@@ -151,9 +151,25 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) for deta
 
 ## 🔗 Related Resources
 
-- [ARTIFACT_MANIFEST.md](ARTIFACT_MANIFEST.md) - Detailed mapping of paper tables to result files
-- [MAJOR_REVISION_RESPONSE.md](MAJOR_REVISION_RESPONSE.md) - Complete revision changelog
+- Paper PDF: [paper/federated_learning_paper.pdf](paper/federated_learning_paper.pdf)
+- Aggregation algorithms: [src/aggregation/](src/aggregation/)
+- Experiment scripts: [src/experiments/](src/experiments/)
+- All results: [results/](results/)
 
 ---
 
-*Last Updated: January 4, 2026*
+## 📊 Latest Results (January 2026)
+
+### Byzantine Degradation Analysis (CIFAR-10, 30% Byzantine Attack)
+
+| Method | Clean Baseline | Under Attack | Degradation |
+|--------|----------------|--------------|-------------|
+| FedAvg | 59.13% | 54.99% | **7.0%** |
+| FedProx | 60.07% | 56.67% | **5.7%** |
+| TrimmedMean | 56.68% | 53.19% | **6.2%** |
+
+*Experimental setup: NVIDIA RTX 5060 Ti GPU, PyTorch 2.9.1+cu128, seed=42*
+
+---
+
+*Last Updated: January 6, 2026*
