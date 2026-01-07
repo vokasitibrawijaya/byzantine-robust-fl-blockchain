@@ -93,7 +93,7 @@ This paper addresses these challenges through a comprehensive empirical study of
     
     \item \textbf{Transparency Paradox Resolution:} We empirically test FLARE-style adaptive attacks~\cite{baruch2019little} that exploit blockchain transparency, demonstrating that blockchain-informed attackers achieve only 11.6\% success rate with 1.8\% model degradation, while defenders gain overwhelming forensic and reputation-based advantages.
     
-    \item \textbf{Blockchain Integration:} We integrate federated learning with Ethereum smart contracts to provide transparent, immutable audit trails of all model updates and detected Byzantine attacks. Our system successfully detected and recorded 59 Byzantine attacks across all experiments.
+    \item \textbf{Blockchain Integration:} We integrate federated learning with Ethereum smart contracts to provide transparent, immutable audit trails of all model updates and detected Byzantine attacks. Our system recorded 59 on-chain Byzantine detection events in the 160-round TrimmedMean experiment---this represents \emph{flagged anomalies} by the detection algorithm, not total attack attempts (4 clients $\times$ 80\% activation $\times$ 160 rounds $\approx$ 512 potential attacks, with TrimmedMean's coordinate-wise filtering preventing most from significantly affecting the model).
     
     \item \textbf{Convergence Analysis:} We analyze convergence behavior across different training durations (50 vs. 160 rounds), demonstrating that extended training significantly improves performance from 84.85\% to 93.45\% for TrimmedMean.
     
@@ -190,11 +190,11 @@ While simple and efficient, FedAvg offers no Byzantine defense.
 Krum selects the update that is most similar to other updates. For each client $i$, compute the score:
 
 \begin{equation}
-\text{Score}(i) = \sum_{j \in \mathcal{N}_i^{n-f-2}} \|\mathbf{w}_i - \mathbf{w}_j\|^2
+\text{Score}(i) = \sum_{j \in \mathcal{N}_i^{(n-f-2)}} \|\mathbf{w}_i - \mathbf{w}_j\|^2
 \label{eq:krum_score}
 \end{equation}
 
-where $\mathcal{N}_i^{n-f-2}$ contains the $n-f-2$ nearest neighbors of update $i$, and $f$ is the maximum number of Byzantine clients. The update with the minimum score is selected as the global update.
+where $\mathcal{N}_i^{(n-f-2)}$ denotes the set of $n-f-2$ nearest neighbors of client $i$'s update (excluding $i$ itself), $n$ is the total number of clients, and $f$ is the maximum tolerated Byzantine clients. The update with minimum score is selected.
 
 \subsubsection{TrimmedMean}
 
@@ -205,7 +205,7 @@ w_j^{(t+1)} = \text{Mean}\left(\{\mathbf{w}_{i,j}^{(t)}\}_{i \in \mathcal{T}_j}\
 \label{eq:trimmed_mean}
 \end{equation}
 
-where $\mathcal{T}_j$ contains the remaining updates after removing the top and bottom $\beta \cdot N$ values along dimension $j$. We use $\beta = 0.2$ to trim 20\% of extremes.
+where $\mathcal{T}_j \subseteq \{1,\ldots,N\}$ is the set of client indices remaining after removing clients with the $\lfloor\beta \cdot N\rfloor$ highest and lowest values along dimension $j$. We use $\beta = 0.2$ (trim 20\% from each extreme, retaining 60\% of updates per coordinate).
 
 \subsection{Blockchain Integration}
 
@@ -279,18 +279,18 @@ Training Rounds & 50, 160 \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:fl_config} summarizes our federated learning configuration. We distribute data in a non-IID manner, where each client has a biased distribution over digit classes, simulating realistic heterogeneous data scenarios.
+Table~\ref{tab:fl_config} summarizes our federated learning configuration (see Table~\ref{tab:experiment_config} for complete experiment matrix across all datasets). We distribute data in a non-IID manner, where each client has a biased distribution over digit classes, simulating realistic heterogeneous data scenarios.
 
 \subsubsection{Byzantine Attack Strategy}
 
 Byzantine clients implement a label flipping attack combined with gradient scaling:
 \begin{itemize}
     \item Flip labels: $y' = (y + 1) \mod 10$
-    \item Scale gradients by factor $\lambda \in [2, 5]$
-    \item Activate randomly in 80\% of rounds
+    \item Scale gradients by factor $\lambda = -5.0$ (aggressive) or $\lambda \in [2, 5]$ (adaptive experiments)
+    \item Activate in 80\% of rounds (i.e., 4 Byzantine clients $\times$ 80\% $\times$ 50 rounds = 160 potential attacks; with TrimmedMean filtering, only statistically anomalous updates trigger on-chain detection)
 \end{itemize}
 
-This attack aims to poison the global model while remaining somewhat stealthy.
+This attack aims to poison the global model. The negative scaling ($\lambda=-5.0$) inverts and amplifies gradients, creating stronger poisoning than positive scaling.
 
 \begin{table*}[t]
 \caption{Unified Experiment Configuration (One Source of Truth)}
@@ -464,7 +464,7 @@ Comparing TrimmedMean at 50 rounds (84.85\%) versus 160 rounds (93.45\%) reveals
 \begin{figure}[t]
     \centering
     \includegraphics[width=\columnwidth]{convergence_comparison.png}
-    \caption{Convergence curves comparing aggregation algorithms. TrimmedMean 160r achieves highest final accuracy. Krum fails to converge. FedAvg converges quickly but remains vulnerable to attacks.}
+    \caption{Convergence curves comparing aggregation algorithms (single seed=42). TrimmedMean 160r achieves highest final accuracy (93.45\%). Krum fails to converge under aggressive attacks. FedAvg plateaus at 87.60\%. Note: Multi-seed confidence intervals are provided in Table~\ref{tab:multiseed_ci} for statistical validation.}
     \label{fig:convergence}
 \end{figure}
 
@@ -526,7 +526,7 @@ To validate the quality of blockchain-based provenance detection, we conducted c
 \begin{figure}[t]
     \centering
     \includegraphics[width=0.48\textwidth]{visualizations/h2_roc_curve.pdf}
-    \caption{H2 Provenance Detection ROC Curve. Blockchain system achieves strong discriminative power (AUC=0.957), detecting 81\% of attacks with zero false positives. Centralized system with mutable logs shows zero detection capability (AUC=0.0) as attackers can tamper logs. Results from valid rerun experiment (seed=42, 50 rounds, 30\% attack probability).}
+    \caption{Provenance Verification ROC Curve. Blockchain system achieves AUC=0.957, detecting 81\% of tamper attempts. The ``Centralized (Mutable)'' baseline (AUC=0.0) represents a \emph{log immutability test}, not detection algorithm comparison: attackers who can modify logs render provenance queries ``unverifiable'' regardless of detection quality. Results: seed=42, 50 rounds, 30\% attack probability.}
     \label{fig:h2_roc}
 \end{figure}
 
@@ -543,9 +543,9 @@ Table~\ref{tab:h2_confusion} presents the confusion matrix at this optimal thres
 
 \input{visualizations/h2_confusion_matrix}
 
-The centralized system achieves AUC=0.000 \emph{by design}: this comparison tests \textbf{log immutability}, not detection algorithm quality. In centralized systems without immutable logs, sophisticated attackers can tamper with detection records post-hoc, making all provenance queries return ``unverifiable.'' This produces identical true/false positive rates (random classification on the tamper-detection task). 
+\textbf{Important Note on AUC=0.0 Baseline:} The centralized system's AUC=0.000 is \emph{by design}---this tests \textbf{log immutability for provenance verification}, not detection algorithm quality. In systems without immutable logs, sophisticated attackers can tamper with detection records post-hoc, making \emph{all} provenance queries return ``unverifiable'' (equivalent to random classification on the ``was this log tampered?'' task).
 
-\textbf{Clarification:} We are \emph{not} comparing blockchain detection vs. centralized anomaly detection algorithms (e.g., Mahalanobis distance, Isolation Forest). Rather, we demonstrate that blockchain immutability is \emph{necessary} for reliable provenance verification---without it, even perfect detection is meaningless since records can be altered. Future work could compare blockchain+detection vs. centralized+detection for algorithm-level analysis.
+\textbf{Scope Clarification:} We compare \emph{provenance verification capability} (can we trust audit logs?), not anomaly detection algorithms (Mahalanobis, Isolation Forest, etc.). The AUC=0.957 reflects blockchain's ability to provide trustworthy forensic evidence; the AUC=0.0 reflects complete loss of auditability when logs can be modified. Algorithm-level detection comparisons (e.g., our threshold-based detector vs. ML-based detectors) remain future work.
 
 \subsection{Cost Model Robustness Analysis (H3)}
 
@@ -628,7 +628,7 @@ We conducted 36 controlled experiments across three topologies (Centralized, Blo
     \item \textbf{Clients:} 20 total, 50\% participation per round
     \item \textbf{Model:} SimpleCNN (10K parameters)
     \item \textbf{Rounds:} 50 training rounds
-    \item \textbf{Attack:} Label flipping + gradient scaling ($\lambda \in [2,5]$)
+    \item \textbf{Attack:} Label flipping + gradient scaling ($\lambda = -5.0$)
     \item \textbf{Seeds:} 42, 43, 44 for reproducibility
 \end{itemize}
 
