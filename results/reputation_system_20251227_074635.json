@@ -1,0 +1,109 @@
+{
+  "timestamp": "20251227_074635",
+  "configuration": {
+    "num_clients": 20,
+    "byzantine_ratio": 0.2,
+    "num_rounds": 50,
+    "initial_reputation": 1.0,
+    "reward_good": 0.05,
+    "penalty_bad": 0.15,
+    "selection_threshold": 0.7
+  },
+  "final_statistics": {
+    "mean": 0.9550000000000001,
+    "median": 1.0,
+    "min": 0.5499999999999999,
+    "max": 1.0,
+    "above_threshold": 18,
+    "percentage_above_threshold": 90.0,
+    "threshold": 0.7
+  },
+  "claim_validated": true,
+  "honest_clients_reputation": {
+    "mean": 1.0,
+    "std": 0.0
+  },
+  "byzantine_clients_reputation": {
+    "mean": 0.7749999999999999,
+    "std": 0.22500000000000003
+  },
+  "round_statistics": [
+    {
+      "round": 10,
+      "accuracy": 10.0,
+      "selected_clients": 18,
+      "reputation_stats": {
+        "mean": 0.9550000000000001,
+        "median": 1.0,
+        "min": 0.5499999999999999,
+        "max": 1.0,
+        "above_threshold": 18,
+        "percentage_above_threshold": 90.0,
+        "threshold": 0.7
+      }
+    },
+    {
+      "round": 20,
+      "accuracy": 10.0,
+      "selected_clients": 18,
+      "reputation_stats": {
+        "mean": 0.9550000000000001,
+        "median": 1.0,
+        "min": 0.5499999999999999,
+        "max": 1.0,
+        "above_threshold": 18,
+        "percentage_above_threshold": 90.0,
+        "threshold": 0.7
+      }
+    },
+    {
+      "round": 30,
+      "accuracy": 10.0,
+      "selected_clients": 18,
+      "reputation_stats": {
+        "mean": 0.9550000000000001,
+        "median": 1.0,
+        "min": 0.5499999999999999,
+        "max": 1.0,
+        "above_threshold": 18,
+        "percentage_above_threshold": 90.0,
+        "threshold": 0.7
+      }
+    },
+    {
+      "round": 40,
+      "accuracy": 10.0,
+      "selected_clients": 18,
+      "reputation_stats": {
+        "mean": 0.9550000000000001,
+        "median": 1.0,
+        "min": 0.5499999999999999,
+        "max": 1.0,
+        "above_threshold": 18,
+        "percentage_above_threshold": 90.0,
+        "threshold": 0.7
+      }
+    },
+    {
+      "round": 50,
+      "accuracy": 10.0,
+      "selected_clients": 18,
+      "reputation_stats": {
+        "mean": 0.9550000000000001,
+        "median": 1.0,
+        "min": 0.5499999999999999,
+        "max": 1.0,
+        "above_threshold": 18,
+        "percentage_above_threshold": 90.0,
+        "threshold": 0.7
+      }
+    }
+  ],
+  "accuracy_history": [
+    10.0,
+    10.0,
+    10.0,
+    10.0,
+    10.0
+  ]
+}

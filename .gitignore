@@ -1,0 +1,100 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+.venv312/
+.venv_gpu/
+venv/
+**/venv/
+
+# Large data files and datasets
+data/
+**/data/
+**/MNIST/
+**/cifar-10-batches-py/
+*.tar.gz
+*.gz
+*.zip
+
+# Large binary files
+*.bin
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.pt
+*.pth
+*.onnx
+
+# Node.js
+node_modules/
+**/node_modules/
+
+# Logs
+*.log
+logs*/
+logs_*/
+**/logs/*.log
+
+# Document exports
+*.docx.pdf
+update2025-*.pdf
+
+# OS
+Thumbs.db
+.DS_Store
+
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+*.toc
+
+# Trash folder
+trash/
+
+# Font files (large, not needed for code)
+*.pfb
+*.tfm
+
+# Large folders to exclude
+topologyA_centralized/
+topologyB_docker/
+topologyC_testnet/
+controlled_experiments/
+robustness_results/
+results_gpu_scientific/
+results_scientific_validated/
+results_updated_2025/
+results_2025_integrated/
+visualizations_updated_2025/
+latex2rtf_paper/
+
+# Backup files
+*.bak
+*_backup*
+
+# Duplicate/old tex files in root
+federated_learning_paper.tex
+federated_learning_paper_simple.tex
+federated_learning_paper.pdf
+federated_learning_paper_simple.pdf
+*.png.tex
+ieeeaccess.cls
+IEEEtran.bst
+IEEEtran.cls
+spotcolor.sty
+
+# Common ML artifacts
+*.pt
+*.pth
+*.ckpt

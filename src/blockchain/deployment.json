@@ -1,0 +1,9 @@
+{
+  "contractAddress": "0x5b1869D9A4C187F2EAa108f3062412ecf0526b24",
+  "deployer": "0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1",
+  "network": "localhost",
+  "chainId": 1337,
+  "blockNumber": 2,
+  "gasUsed": 1724238,
+  "timestamp": 1766793038
+}

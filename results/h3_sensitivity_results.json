@@ -1,0 +1,330 @@
+{
+  "baseline": {
+    "gas_per_storage_slot": 20000,
+    "gas_price_gwei": 30,
+    "l1_to_l2_cost_ratio": 10,
+    "centralized_bandwidth_mbps": 100,
+    "centralized_cost_per_tb": 0.1
+  },
+  "variations": [
+    0.5,
+    0.75,
+    1.0,
+    1.25,
+    1.5
+  ],
+  "parameter_analyses": {
+    "gas_per_storage_slot": {
+      "parameter": "gas_per_storage_slot",
+      "baseline_value": 20000,
+      "results": [
+        {
+          "multiplier": 0.5,
+          "param_value": 10000.0,
+          "l2_cost_usd": 0.12000000000000001,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -64324.50944000001,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 0.75,
+          "param_value": 15000.0,
+          "l2_cost_usd": 0.18000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -96536.76416,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.0,
+          "param_value": 20000.0,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.25,
+          "param_value": 25000.0,
+          "l2_cost_usd": 0.30000000000000004,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -160961.27360000001,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.5,
+          "param_value": 30000.0,
+          "l2_cost_usd": 0.36000000000000004,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -193173.52832,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      ]
+    },
+    "gas_price_gwei": {
+      "parameter": "gas_price_gwei",
+      "baseline_value": 30,
+      "results": [
+        {
+          "multiplier": 0.5,
+          "param_value": 15.0,
+          "l2_cost_usd": 0.12000000000000001,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -64324.50944000001,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 0.75,
+          "param_value": 22.5,
+          "l2_cost_usd": 0.18000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -96536.76416,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.0,
+          "param_value": 30.0,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.25,
+          "param_value": 37.5,
+          "l2_cost_usd": 0.30000000000000004,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -160961.27360000001,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.5,
+          "param_value": 45.0,
+          "l2_cost_usd": 0.36000000000000004,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -193173.52832,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      ]
+    },
+    "l1_to_l2_cost_ratio": {
+      "parameter": "l1_to_l2_cost_ratio",
+      "baseline_value": 10,
+      "results": [
+        {
+          "multiplier": 0.5,
+          "param_value": 5.0,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 0.75,
+          "param_value": 7.5,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.0,
+          "param_value": 10.0,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.25,
+          "param_value": 12.5,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.5,
+          "param_value": 15.0,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      ]
+    },
+    "centralized_bandwidth_mbps": {
+      "parameter": "centralized_bandwidth_mbps",
+      "baseline_value": 100,
+      "results": [
+        {
+          "multiplier": 0.5,
+          "param_value": 50.0,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 0.75,
+          "param_value": 75.0,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.0,
+          "param_value": 100.0,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.25,
+          "param_value": 125.0,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.5,
+          "param_value": 150.0,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      ]
+    },
+    "centralized_cost_per_tb": {
+      "parameter": "centralized_cost_per_tb",
+      "baseline_value": 0.1,
+      "results": [
+        {
+          "multiplier": 0.5,
+          "param_value": 0.05,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 9.313225746154785e-05,
+          "cost_reduction": -257598.03776000004,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 0.75,
+          "param_value": 0.07500000000000001,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001396983861923218,
+          "cost_reduction": -171698.69183999996,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.0,
+          "param_value": 0.1,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0001862645149230957,
+          "cost_reduction": -128749.01888000002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.25,
+          "param_value": 0.125,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.00023283064365386963,
+          "cost_reduction": -102979.21510400002,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        {
+          "multiplier": 1.5,
+          "param_value": 0.15000000000000002,
+          "l2_cost_usd": 0.24000000000000002,
+          "centralized_cost_usd": 0.0002793967723846436,
+          "cost_reduction": -85799.34591999998,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        }
+      ]
+    }
+  },
+  "summary": {
+    "gas_per_storage_slot": {
+      "min_cost_reduction": -193173.52832,
+      "max_cost_reduction": -64324.50944000001,
+      "range": 128849.01888,
+      "cv": 0
+    },
+    "gas_price_gwei": {
+      "min_cost_reduction": -193173.52832,
+      "max_cost_reduction": -64324.50944000001,
+      "range": 128849.01888,
+      "cv": 0
+    },
+    "l1_to_l2_cost_ratio": {
+      "min_cost_reduction": -128749.01888000002,
+      "max_cost_reduction": -128749.01888000002,
+      "range": 0.0,
+      "cv": 0
+    },
+    "centralized_bandwidth_mbps": {
+      "min_cost_reduction": -128749.01888000002,
+      "max_cost_reduction": -128749.01888000002,
+      "range": 0.0,
+      "cv": 0
+    },
+    "centralized_cost_per_tb": {
+      "min_cost_reduction": -257598.03776000004,
+      "max_cost_reduction": -85799.34591999998,
+      "range": 171798.69184000004,
+      "cv": 0
+    }
+  }
+}

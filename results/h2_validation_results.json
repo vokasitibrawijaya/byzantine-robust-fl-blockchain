@@ -1,0 +1,77 @@
+{
+  "blockchain_detection": [
+    {
+      "run": 1,
+      "anomalies": 1,
+      "true_positives": 1,
+      "false_positives": 0,
+      "precision": 1.0,
+      "recall": 0.25,
+      "integrity_verified": true
+    },
+    {
+      "run": 2,
+      "anomalies": 1,
+      "true_positives": 1,
+      "false_positives": 0,
+      "precision": 1.0,
+      "recall": 0.25,
+      "integrity_verified": true
+    },
+    {
+      "run": 3,
+      "anomalies": 1,
+      "true_positives": 1,
+      "false_positives": 0,
+      "precision": 1.0,
+      "recall": 0.25,
+      "integrity_verified": true
+    }
+  ],
+  "centralized_detection": [
+    {
+      "run": 1,
+      "anomalies": 0,
+      "can_identify_client": false,
+      "transparency": "limited",
+      "integrity_verifiable": false
+    },
+    {
+      "run": 2,
+      "anomalies": 0,
+      "can_identify_client": false,
+      "transparency": "limited",
+      "integrity_verifiable": false
+    },
+    {
+      "run": 3,
+      "anomalies": 2,
+      "can_identify_client": false,
+      "transparency": "limited",
+      "integrity_verifiable": false
+    }
+  ],
+  "comparison": {
+    "blockchain": {
+      "avg_precision": 1.0,
+      "avg_recall": 0.25,
+      "avg_true_positives": 1.0,
+      "integrity_verifiable": true
+    },
+    "h2_validated": false,
+    "key_advantages": [
+      "Immutable audit trail",
+      "Client-level tracking",
+      "Integrity verification",
+      "Transparent Byzantine detection",
+      "Tamper-proof logs"
+    ],
+    "centralized_limitations": [
+      "No client-level tracking",
+      "Logs can be tampered",
+      "No integrity verification",
+      "Cannot identify Byzantine clients",
+      "Limited transparency"
+    ]
+  }
+}

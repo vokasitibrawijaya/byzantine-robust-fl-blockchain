@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "experiment": "H3_1000_clients",
+    "timestamp": "2025-12-24T17:33:06.683164",
+    "n_clients": 1000,
+    "n_byzantine": 200,
+    "n_rounds": 50,
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "device": "cuda:0"
+  },
+  "cost_analysis": {
+    "n_clients": 1000,
+    "n_byzantine": 200,
+    "n_rounds": 50,
+    "l1_total_gas": 1000000000,
+    "l1_cost_usd": 90000.0,
+    "l2_total_gas": 10000000,
+    "l2_cost_usd": 900.0,
+    "cost_reduction_pct": 99.0,
+    "gas_price_gwei": 30.0,
+    "l2_multiplier": 0.01,
+    "eth_price_usd": 3000.0
+  },
+  "detection_results": [
+    {
+      "n_clients": 1000,
+      "n_byzantine": 200,
+      "sketch_dim": 32,
+      "gradient_dim": 5000,
+      "precision": 1.0,
+      "recall": 0.495,
+      "f1": 0.6622,
+      "accuracy": 0.899,
+      "tp": 99,
+      "fp": 0,
+      "tn": 800,
+      "fn": 101,
+      "threshold": 707.1986083984375,
+      "duration_sec": 0.22,
+      "seed": 42
+    },
+    {
+      "n_clients": 1000,
+      "n_byzantine": 200,
+      "sketch_dim": 32,
+      "gradient_dim": 5000,
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1": 0.6667,
+      "accuracy": 0.9,
+      "tp": 100,
+      "fp": 0,
+      "tn": 800,
+      "fn": 100,
+      "threshold": 707.1862182617188,
+      "duration_sec": 0.09,
+      "seed": 43
+    },
+    {
+      "n_clients": 1000,
+      "n_byzantine": 200,
+      "sketch_dim": 32,
+      "gradient_dim": 5000,
+      "precision": 1.0,
+      "recall": 0.55,
+      "f1": 0.7097,
+      "accuracy": 0.91,
+      "tp": 110,
+      "fp": 0,
+      "tn": 800,
+      "fn": 90,
+      "threshold": 706.2598876953125,
+      "duration_sec": 0.09,
+      "seed": 44
+    }
+  ],
+  "summary": {
+    "precision_mean": 1.0,
+    "precision_std": 0.0,
+    "recall_mean": 0.515,
+    "recall_std": 0.0248,
+    "f1_mean": 0.6795,
+    "f1_std": 0.0214,
+    "duration_mean": 0.13,
+    "cost_reduction_pct": 99.0,
+    "l2_cost_usd": 900.0,
+    "scalability_proven": true,
+    "clients_tested": 1000
+  }
+}

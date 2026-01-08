@@ -1,0 +1,28 @@
+
+% H2 Confusion Matrix - VALID RERUN (2026-01-04)
+% Experiment: 50 rounds, 20 clients, 20% Byzantine, 30% attack probability
+% Seed: 42, Attack types: stealthy(30%), subtle(30%), moderate(25%), obvious(15%)
+\begin{table}[h]
+\centering
+\caption{H2 Provenance Detection Confusion Matrix (Valid Rerun)}
+\label{tab:h2_confusion}
+\begin{tabular}{|l|c|c|}
+\hline
+ & \textbf{Predicted Clean} & \textbf{Predicted Attack} \\
+\hline
+\textbf{Actual Clean} & 29 & 0 \\
+\hline
+\textbf{Actual Attack} & 4 & 17 \\
+\hline
+\end{tabular}
+\\[0.3cm]
+\begin{tabular}{ll}
+TPR (Recall): & 81.0\% \\
+FPR: & 0.0\% \\
+Precision: & 100.0\% \\
+F1 Score: & 0.895 \\
+AUC: & 0.957 \\
+\end{tabular}
+\\[0.2cm]
+\small \textbf{Note:} Results from valid rerun with sklearn.metrics. 4 stealthy attacks (within 1$\sigma$) evaded detection.
+\end{table}

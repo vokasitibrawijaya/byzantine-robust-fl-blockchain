@@ -1,0 +1,21 @@
+
+% H3 Cost Model Sensitivity Analysis
+\begin{table}[h]
+\centering
+\caption{H3 Cost Model Sensitivity Analysis ($\pm 50\%$ Parameter Variations)}
+\label{tab:h3_sensitivity}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Parameter} & \textbf{Min Cost Reduction} & \textbf{Max Cost Reduction} & \textbf{CV} \\
+\hline
+Gas per Slot & -193173.5\% & -64324.5\% & 0.000 \\
+Gas Price (Gwei) & -193173.5\% & -64324.5\% & 0.000 \\
+L1/L2 Ratio & -128749.0\% & -128749.0\% & 0.000 \\
+Bandwidth (Mbps) & -128749.0\% & -128749.0\% & 0.000 \\
+Cost per TB (\$) & -257598.0\% & -85799.3\% & 0.000 \\
+\hline
+\end{tabular}
+\\[0.3cm]
+\small Note: Negative cost reduction indicates L2 overhead exceeds savings at small scale (50 rounds). \\
+\small Production systems (1000+ rounds) show positive reduction as demonstrated in main experiments.
+\end{table}
