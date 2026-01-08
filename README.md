@@ -10,7 +10,7 @@ This repository contains the experimental code, results, and artifacts for:
 
 **"Byzantine-Robust Federated Learning with Adaptive Aggregation and Blockchain: Empirical Validation and Resolution of the Transparency Paradox"**
 
-*Submitted to IEEE Access (Major Revision)*
+
 
 ---
 
