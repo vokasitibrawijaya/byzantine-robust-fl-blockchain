@@ -149,10 +149,7 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) for deta
 
 ---
 
-## 🔗 Related Resources
 
-- [ARTIFACT_MANIFEST.md](ARTIFACT_MANIFEST.md) - Detailed mapping of paper tables to result files
-- [MAJOR_REVISION_RESPONSE.md](MAJOR_REVISION_RESPONSE.md) - Complete revision changelog
 
 ---
 
