@@ -32,7 +32,7 @@ This repository contains the experimental code, results, and artifacts for:
 │   ├── multiseed_comparison_*.json   # Table XIII
 │   └── blockchain_cost_benefit_analysis.json  # Table XIV
 ├── visualizations/                   # Generated figures
-├── ARTIFACT_MANIFEST.md              # Detailed artifact documentation
+
 
 ```
 
