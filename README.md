@@ -129,17 +129,7 @@ python src/experiments/quick_multiseed_fedprox_feddyn.py
 
 ---
 
-## 📄 Citation
 
-```bibtex
-@article{author2026byzantine,
-  title={Byzantine-Robust Federated Learning with Adaptive Aggregation and Blockchain},
-  author={[Author Names Withheld for Blind Review]},
-  journal={IEEE Access},
-  year={2026},
-  note={Under Review}
-}
-```
 
 ---
 
