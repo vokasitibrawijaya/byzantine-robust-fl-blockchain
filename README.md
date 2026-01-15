@@ -1,6 +1,5 @@
 # Byzantine-Robust Federated Learning with Blockchain
 
-[![Paper](https://img.shields.io/badge/Paper-IEEE%20Access-blue)](https://doi.org/10.1109/ACCESS.2026.XXXXXXX)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10+-yellow.svg)](https://python.org)
 
