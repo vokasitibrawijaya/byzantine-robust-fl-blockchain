@@ -1,0 +1,155 @@
+\documentclass[12pt,a4paper,onecolumn]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{times}
+\usepackage{float}
+\usepackage{bm}
+\usepackage{amssymb}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+% ============================================================
+%  PART 1: RESPONSES TO REVIEWERS
+% ============================================================
+
+\begin{center}
+{\Large\textbf{Response to Reviewer Comments}}\\[10pt]
+Manuscript \#18579\\
+``Byzantine-Robust Federated Learning with Adaptive Aggregation and Blockchain:\\
+Empirical Validation of ATMA and Resolution of the Transparency Paradox''\\[10pt]
+\today
+\end{center}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+We sincerely thank the editor and reviewers for their constructive feedback. We have carefully addressed every comment below. All changes in the revised manuscript are marked with \textcolor{blue}{blue text} where feasible. Page and section numbers refer to the revised manuscript that follows this response.
+
+\bigskip
+
+% -----------------------------------------------
+%  REVIEWER A
+% -----------------------------------------------
+\noindent\textbf{\large Reviewer A}
+
+\bigskip
+
+\noindent\textbf{Comment A1:} \textit{``Attack types are limited to label-flip and random noise; sophisticated attacks (ALIE [18], backdoor [20]) require future study.'' rephrase this as the citations look strange now}
+
+\noindent\textbf{Answer:} We agree that the inline citation format was unclear. We have rephrased the sentence in Section~7 (Limitations) as follows:
+
+\begin{quote}
+``Attack types are limited to random noise and label-flip attacks. More sophisticated attack strategies, such as the `A Little Is Enough' (ALIE) approach proposed by Baruch et al.~[10] and backdoor attacks studied by Sun et al.~[11], were not fully evaluated in this work and require future study.''
+\end{quote}
+
+The citation numbers now clearly refer to the named authors and their specific attack methods, eliminating the ambiguity.
+
+\bigskip
+
+\noindent\textbf{Comment A2:} \textit{Figures 1-2 not readable.}
+
+\noindent\textbf{Answer:} We have fully regenerated both figures:
+
+\begin{itemize}
+    \item \textbf{Figure~1 (Convergence Comparison):} Regenerated at 300~DPI with distinct markers (square, triangle, diamond, circle), distinct colors, thicker lines (2.0--2.5~pt), and larger axis labels (13~pt bold). The figure now clearly shows CIFAR-10 convergence curves for all four algorithms (TrimmedMean, ATMA, Krum, FedAvg) over 160 rounds, with final accuracy values in the legend.
+    
+    \item \textbf{Figure~2 (ROC Curve):} Regenerated at 300~DPI with thicker curve lines (3.0~pt for blockchain, 2.5~pt for centralized), annotated optimal operating point (FPR=0.00, TPR=0.81), 13~pt bold axis labels, and clear legend showing AUC values.
+\end{itemize}
+
+Both figures are now publication-quality at 300~DPI with clearly distinguishable elements. The previous version suffered from low resolution and thin lines that became illegible in the Word document conversion.
+
+\bigskip
+
+\noindent\textbf{Comment A3:} \textit{Conclusion (and article) too short I think.}
+
+\noindent\textbf{Answer:} We have substantially expanded the Conclusion section from one page to approximately three pages. The expanded conclusion now includes:
+
+\begin{itemize}
+    \item \textbf{Section~7.1 (Summary of Key Findings):} Four clearly numbered findings with specific accuracy values and statistical tests.
+    \item \textbf{Section~7.2 (Comparative Analysis with Prior Work):} A new Table~XII comparing our contributions against Blanchard et al.~[3], Yin et al.~[4], Shayan et al.~[27], Kalibbala et al.~[46], and Cao et al.~[35] across six dimensions (robust aggregation, blockchain audit, adaptive defense, non-IID validation, transparency paradox, multi-seed CI).
+    \item \textbf{Section~7.3 (Practical Contributions and Deployment Guidelines):} Concrete recommendations for algorithm selection, cost management, scalability, and security posture.
+    \item \textbf{Section~7.4 (Limitations):} Honest enumeration of four specific limitations.
+    \item \textbf{Section~7.5 (Future Work):} Six concrete future research directions.
+\end{itemize}
+
+\bigskip
+
+\noindent\textbf{Comment A4:} \textit{Expand it to include comparative analysis, contribution discussion.}
+
+\noindent\textbf{Answer:} Addressed in Comment A3 above. Table~XII in the revised conclusion provides a structured comparative analysis against five key prior studies, and the ``Practical Contributions'' subsection explicitly discusses what each contribution means for practitioners deploying Byzantine-robust federated learning.
+
+\bigskip
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\bigskip
+
+% -----------------------------------------------
+%  REVIEWER B
+% -----------------------------------------------
+\noindent\textbf{\large Reviewer B}
+
+\bigskip
+
+\noindent\textbf{Comment B1:} \textit{It is not clear what EXACTLY the authors did and how (step by step).}
+
+\noindent\textbf{Answer:} We acknowledge this was a significant weakness in the original manuscript. We have added a new subsection \textbf{Section~4.6 ``Step-by-Step Experimental Procedure''} that describes the exact procedure we executed, with no generic terms:
+
+\begin{enumerate}
+    \item \textbf{Data Loading:} Downloaded MNIST via \texttt{torchvision.datasets.MNIST} and CIFAR-10 via \texttt{torchvision.datasets.CIFAR10}; normalized with dataset-specific $\mu$ and $\sigma$ values.
+    \item \textbf{Non-IID Partitioning:} Applied Dirichlet($\alpha=0.5$) allocation using \texttt{numpy.random.dirichlet} to create heterogeneous per-client data splits.
+    \item \textbf{Model Initialization:} SimpleMNISTNet for MNIST (2 Conv + 2 FC); ResNet-18 for CIFAR-10. Same seed for identical initialization.
+    \item \textbf{Byzantine Client Selection:} Randomly selected 4 of 20 clients as Byzantine, fixed per seed.
+    \item \textbf{Blockchain Contract Deployment:} Deployed \texttt{FederatedLearningAggregator} Solidity contract to Ganache using \texttt{solcx}.
+    \item \textbf{Training Loop} (per round): client selection $\rightarrow$ local SGD training $\rightarrow$ Byzantine attack injection (label-flip + scale $\lambda=-5.0$) $\rightarrow$ blockchain submission (SHA-256 hash) $\rightarrow$ server-side aggregation $\rightarrow$ Byzantine detection logging (on-chain) $\rightarrow$ global model update $\rightarrow$ test evaluation.
+    \item \textbf{Result Serialization:} All metrics saved to JSON.
+    \item \textbf{Multi-Seed Replication:} Seeds 42, 43, 44 for confidence intervals.
+\end{enumerate}
+
+The detailed 8-step procedure in the revised manuscript specifies every operation, parameter value, and code-level function, so that another researcher can reproduce our work exactly.
+
+\bigskip
+
+\noindent\textbf{Comment B2:} \textit{There is no point in throwing a lot of terms without being specific on what you did exactly and how. Not generic information. SPECIFICALLY in this work.}
+
+\noindent\textbf{Answer:} We completely agree. Beyond the new Step-by-Step procedure (Section~4.6), we have reviewed the entire paper to ensure specificity. Key improvements:
+
+\begin{itemize}
+    \item \textbf{Every aggregation algorithm} is described with its exact formula and our configuration (e.g., TrimmedMean: $\beta=0.2$, meaning top/bottom 20\% trimmed per coordinate; ATMA: adaptation rate $\alpha=0.05$, bounds $[\tau_{\min},\tau_{\max}]=[0.05, 0.30]$).
+    \item \textbf{Every experiment} references the \textbf{specific result file} in our public repository (Table~I lists file names: \texttt{h2\_valid\_rerun.json}, \texttt{real\_fl\_FIXED.json}, etc.).
+    \item \textbf{Specific data paths:} We state that MNIST is loaded ``via \texttt{torchvision.datasets.MNIST}'' (not just ``MNIST dataset''), Dirichlet partitioning is done ``using \texttt{numpy.random.dirichlet}'' with $\alpha=0.5$.
+    \item \textbf{Blockchain operations:} Contract deployment gas (1,724,238 gas), per-submission gas ($\approx$75,000 gas), and each on-chain function call (\texttt{submitUpdate}, \texttt{markByzantine}, \texttt{completeRound}) are explicitly described.
+    \item \textbf{All source code} is available at \url{https://github.com/vokasitibrawijaya/byzantine-robust-fl-blockchain} for full reproducibility.
+\end{itemize}
+
+\newpage
+
+% ============================================================
+%  PART 2: REVISED MANUSCRIPT
+% ============================================================
+% INSTRUCTIONS FOR SUBMISSION:
+% 1. Compile this response document to PDF
+% 2. Compile the revised paper:
+%    paper_1kolom/1kolomByzantine_Robust_Federated_Learning_with_Adaptive_Aggregation_and_Blockchain_FIXED.tex
+% 3. Combine both PDFs (response pages + revised paper) into one document
+% 4. Convert to Word (.docx) for ETASR upload
+% ============================================================
+
+\begin{center}
+{\Large\textbf{--- REVISED MANUSCRIPT FOLLOWS ---}}\\[10pt]
+See separate file: \texttt{1kolomByzantine\_Robust\_Federated\_Learning\_\\with\_Adaptive\_Aggregation\_and\_Blockchain\_FIXED.tex}
+\end{center}
+
+\end{document}

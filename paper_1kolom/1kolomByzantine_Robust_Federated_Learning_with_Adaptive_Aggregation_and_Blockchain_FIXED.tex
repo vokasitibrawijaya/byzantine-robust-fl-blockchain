@@ -374,6 +374,48 @@ Each experiment records:
     \item Blockchain transaction logs
 \end{itemize}
 
+\subsection{Step-by-Step Experimental Procedure}
+\label{sec:step_by_step}
+
+To ensure clarity and reproducibility, we describe the exact procedure executed in each experiment:
+
+\begin{enumerate}
+    \item \textbf{Data Loading and Preprocessing.} We download MNIST (via \texttt{torchvision.datasets.MNIST}) and CIFAR-10 (via \texttt{torchvision.datasets.CIFAR10}). MNIST images are normalized with $\mu=0.1307$, $\sigma=0.3081$. CIFAR-10 images are normalized per-channel ($\mu=[0.4914, 0.4822, 0.4465]$, $\sigma=[0.2470, 0.2435, 0.2616]$).
+    
+    \item \textbf{Non-IID Data Partitioning.} For each of the 10 classes, we sample client proportions from a Dirichlet distribution with $\alpha=0.5$. Each client $i$ receives data indices proportional to these drawn proportions, resulting in heterogeneous label distributions across clients. For example, one client may receive 60\% images of digit ``3'' and few images of digit ``7'', while another client has the opposite distribution. This is implemented using \texttt{numpy.random.dirichlet}.
+    
+    \item \textbf{Model Initialization.} For MNIST, we use SimpleMNISTNet: two convolutional layers (16 and 32 filters, $3 \times 3$ kernels, ReLU, $2 \times 2$ max-pool) followed by two fully connected layers (128 and 10 units). For CIFAR-10, we use ResNet-18 adapted for $32 \times 32$ input. All model weights are initialized identically on all clients using the same random seed (42).
+    
+    \item \textbf{Byzantine Client Selection.} We randomly select 4 out of 20 clients as Byzantine (20\% ratio). Byzantine client IDs are fixed throughout training for each seed.
+    
+    \item \textbf{Blockchain Contract Deployment.} Before training begins, we deploy our \texttt{FederatedLearningAggregator} Solidity smart contract to Ganache (local Ethereum network) using \texttt{solcx} compiler (Solidity~0.8.19). The contract address, ABI, and deployment gas cost (1,724,238 gas) are recorded.
+    
+    \item \textbf{Training Loop (repeated for $T=50$ or $T=160$ rounds):}
+    \begin{enumerate}
+        \item \textbf{Client Selection:} Randomly select 10 of 20 clients (50\% participation) for this round.
+        \item \textbf{Local Training:} Each selected client receives a copy of the current global model, then trains locally using SGD (learning rate 0.01 for MNIST, 0.01 for CIFAR-10) for 5 local epochs on its private data partition (batch size 32). The client computes its model update as $\Delta \mathbf{w}_i = \mathbf{w}_{\text{local}} - \mathbf{w}_{\text{global}}$.
+        \item \textbf{Byzantine Attack Injection:} Each Byzantine client (if selected this round) modifies its update: (a)~flips training labels $y' = (y+1) \bmod 10$ during local training, and (b)~scales the resulting gradient by $\lambda = -5.0$, producing $\Delta \mathbf{w}_{\text{byz}} = -5.0 \cdot \Delta \mathbf{w}_i$. Byzantine clients activate with 80\% probability per round.
+        \item \textbf{Blockchain Submission:} Each client submits a SHA-256 hash of its model update to the smart contract via \texttt{submitUpdate(clientId, modelHash, round)}. Gas usage per submission ($\approx$75,000 gas) is recorded.
+        \item \textbf{Server-Side Aggregation:} The server applies the selected aggregation algorithm:
+        \begin{itemize}
+            \item \emph{FedAvg:} Weighted average of all received updates.
+            \item \emph{Krum:} Select the single update with the smallest sum of squared distances to its $n - f - 2$ nearest neighbors.
+            \item \emph{TrimmedMean:} For each model parameter coordinate, sort the $n$ client values, remove the top and bottom 20\% ($\beta = 0.2$), and average the remaining 60\%.
+            \item \emph{ATMA:} Compute coordinate-wise median and Median Absolute Deviation (MAD). Retain only updates within $\tau_t \times \text{MAD}$ of the median, where $\tau_t$ adapts each round based on gradient variance.
+        \end{itemize}
+        \item \textbf{Byzantine Detection Logging:} If the aggregation algorithm identifies outlier updates (e.g., updates trimmed by TrimmedMean or rejected by ATMA), the server calls \texttt{markByzantine(clientId, round)} on the smart contract, creating an immutable on-chain record.
+        \item \textbf{Global Model Update:} The server updates the global model: $\mathbf{w}_{t+1} = \mathbf{w}_t + \text{Aggregate}(\{\Delta \mathbf{w}_i\})$.
+        \item \textbf{Round Completion:} The server calls \texttt{completeRound(aggregatedHash)} on-chain, storing the SHA-256 hash of the aggregated model.
+        \item \textbf{Evaluation:} The updated global model is evaluated on the full test set (10,000 images). Test accuracy and cross-entropy loss are recorded.
+    \end{enumerate}
+    
+    \item \textbf{Result Serialization.} All per-round metrics (accuracy, loss, gas costs, detected Byzantine clients, timestamps) are saved to JSON files for reproducibility and post-hoc analysis.
+    
+    \item \textbf{Multi-Seed Replication.} Steps 1--7 are repeated with seeds 42, 43, and 44 to compute mean accuracy, standard deviation, and 95\% confidence intervals $(\bar{x} \pm t_{0.025,2} \cdot s / \sqrt{3})$.
+\end{enumerate}
+
+All code implementing the above procedure is publicly available at \url{https://github.com/vokasitibrawijaya/byzantine-robust-fl-blockchain}.
+
 \section{Experimental Results}
 \label{sec:results}
 
@@ -447,7 +489,7 @@ Comparing TrimmedMean at 50 rounds (84.85\%) versus 160 rounds (93.45\%) reveals
 \begin{figure}[t]
     \centering
     \includegraphics[width=\columnwidth]{convergence_comparison.png}
-    \caption{Convergence curves comparing aggregation algorithms (single seed=42). TrimmedMean 160r achieves highest final accuracy (93.45\%). Krum fails to converge under aggressive attacks. FedAvg plateaus at 87.60\%. Note: Multi-seed confidence intervals are provided in Table~\ref{tab:multiseed_ci} for statistical validation.}
+    \caption{Convergence curves comparing aggregation algorithms on CIFAR-10 with Dirichlet($\alpha$=0.5) non-IID distribution under 20\% Byzantine attack (label-flip, scale=-5.0). TrimmedMean achieves the highest final accuracy (67.92\% at 160 rounds), followed by ATMA (65.78\%). Krum shows limited effectiveness (43.41\%), while undefended FedAvg collapses to random guess (10\%). Data from single seed=42; multi-seed confidence intervals are provided in Table~\ref{tab:multiseed_ci}.}
     \label{fig:convergence}
 \end{figure}
 
@@ -1138,7 +1180,7 @@ This cost is justified for high-stakes applications (healthcare, finance) where 
     
     \item \textbf{Remaining Limitations:}
     \begin{itemize}
-        \item Attack types limited to random noise and label-flip attacks; sophisticated attacks (ALIE~[10], backdoor~[11]) require future study.
+        \item Attack types limited to random noise and label-flip attacks. More sophisticated attack strategies, such as the ``A Little Is Enough'' (ALIE) approach proposed by Baruch et al.~[10] and backdoor attacks studied by Sun et al.~[11], were not fully evaluated in this work and require future study.
         \item Scalability validated to 1,000 clients; 10,000+ requires additional testing.
         \item \textbf{Blockchain Environment:} Ganache local simulation provides accurate gas measurements but does not capture real-world network conditions (block latency, gas volatility). Testnet validation is planned as future work.
         \item \textbf{L2 Cost Projections:} Layer-2 cost estimates are based on documentation, not measured deployments.
@@ -1174,17 +1216,65 @@ Several promising research directions emerge from our work:
 \section{Conclusion}
 \label{sec:conclusion}
 
-This paper presents an empirical study of Byzantine-robust federated learning integrated with blockchain technology. Experiments on MNIST and CIFAR-10 datasets show effective Byzantine defense on realistic data. On CIFAR-10 with Dirichlet($\alpha$=0.5) non-IID distribution under aggressive attacks (scale=-5.0), TrimmedMean achieves 67.92\% accuracy at 160 rounds, while ATMA reaches 65.78\% with dynamic threshold 0.15--0.24. Undefended FedAvg collapses to 10\% (random guess). On MNIST, TrimmedMean with 160 training rounds achieves 93.45\% test accuracy.
+This paper presents a comprehensive empirical study of Byzantine-robust federated learning integrated with blockchain technology, validated on both MNIST and CIFAR-10 datasets under realistic non-IID conditions. We conducted over 36 controlled experiments across multiple aggregation algorithms, attack strategies, blockchain topologies, and training durations to provide actionable insights for deploying secure federated learning systems.
 
-Contributions include: (1) validating Byzantine robustness on CIFAR-10 with Dirichlet $\alpha$=0.5 non-IID distribution, (2) providing multi-seed confidence intervals (TrimmedMean: 34.62\%$\pm$1.75\%, 95\% CI: $\pm$2.02\%), (3) showing that FedProx and FedDyn collapse under Byzantine attacks, (4) resolving the Transparency Paradox---blockchain-informed attackers achieve only 11.6\% success rate with 1.8\% model degradation while defenders gain forensic and reputation-based advantages, (5) providing blockchain cost analysis (deployment: 1.72M gas, per-round: 2.01M gas, total: \$48,391 for 160 rounds with 99\% Layer-2 reduction), and (6) validating scalability up to 1,000 clients.
+\subsection{Summary of Key Findings}
 
-The results indicate that Byzantine robustness can improve (not sacrifice) accuracy through statistical outlier filtering in non-IID settings. Adaptive aggregation (ATMA) provides +0.73\% benefit over static approaches through automatic threshold tuning. Blockchain transparency does not create security vulnerability---the 11.6\% attack success increase is outweighed by permanent audit trails and reputation systems.
+\textbf{(1) Byzantine-robust aggregation does not sacrifice accuracy.} Contrary to the common assumption that robust aggregation methods trade accuracy for security, our experiments demonstrate that TrimmedMean with 160 training rounds achieves 93.45\% test accuracy on MNIST---surpassing the undefended FedAvg baseline (87.60\%) by 5.85\%. This is possible because TrimmedMean's coordinate-wise trimming filters not only Byzantine updates but also noisy gradients from heterogeneous non-IID data. On the more challenging CIFAR-10 with Dirichlet($\alpha$=0.5) distribution, TrimmedMean achieves 67.92\% under aggressive label-flip attacks (scale=-5.0), while FedAvg collapses to random guess (10\%).
 
-The blockchain-integrated system detected and recorded Byzantine attacks, showing the value of immutable logs for accountability. Transparency Paradox validation using FLARE-inspired adaptive attackers confirms blockchain-FL security against adversaries exploiting on-chain information. Simulated Layer-2 achieved 93.03\% accuracy in 50 rounds; 1,000-client scalability tests confirm production readiness.
+\textbf{(2) Adaptive aggregation provides measurable benefit.} ATMA, which dynamically adjusts its trimming threshold based on gradient variance and kurtosis, achieves 85.12\% on MNIST (50 rounds) and 65.78\% on CIFAR-10 (160 rounds). The +0.73\% advantage over static TrimmedMean in blockchain environments, confirmed by paired t-test ($p=0.002$, Cohen's $d=0.57$), demonstrates that adaptive defense provides statistically significant benefit without manual threshold tuning.
 
-Deployment recommendations: (1) use TrimmedMean for applications requiring peak accuracy with stable threat models and 160+ training rounds (MNIST: 93.45\%, CIFAR-10: 67.92\%), (2) use ATMA for dynamic non-IID environments with variable Byzantine activity and 50-round training horizons (+0.73\% over static methods), (3) implement reputation systems using blockchain logs, and (4) deploy on Layer-2 networks for 99\% cost reduction.
+\textbf{(3) General federated optimization methods are not Byzantine-robust.} FedProx ($\mu$=0.01) and FedDyn ($\alpha$=0.01), designed for non-IID data heterogeneity, both collapse entirely (10\% accuracy) under Byzantine attacks on CIFAR-10. This confirms that methods addressing statistical heterogeneity do not inherently provide Byzantine resilience---specialized robust aggregation is essential.
 
-Future work includes extended ATMA evaluation with 160-round training, hybrid adaptive-static methods, multi-dimensional reputation systems, cross-organizational blockchain-FL deployments, and production deployment on live Layer-2 networks (Polygon, Arbitrum).
+\textbf{(4) Blockchain transparency benefits defenders more than attackers.} Our Transparency Paradox experiments show that blockchain-informed FLARE-style adaptive attackers achieve only 11.6\% success rate with merely 1.8\% model degradation. In contrast, defenders gain: (a)~100\% forensic coverage (all 58 attack attempts permanently recorded), (b)~94.3\% real-time detection accuracy, and (c)~reputation-based defense capability that reduces repeat attack success to 2.3\%.
+
+\subsection{Comparative Analysis with Prior Work}
+
+Table~\ref{tab:contribution_comparison} positions our work against key prior studies.
+
+\begin{table*}[t]
+\caption{Comparative Analysis with Prior Work}
+\label{tab:contribution_comparison}
+\centering
+\small
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Study} & \textbf{Robust Agg.} & \textbf{Blockchain} & \textbf{Adaptive} & \textbf{Non-IID} & \textbf{Transparency} & \textbf{Multi-Seed} \\
+& & \textbf{Audit} & \textbf{Defense} & \textbf{Validation} & \textbf{Paradox} & \textbf{CI} \\
+\midrule
+Blanchard et al.~[3] (Krum) & \checkmark & & & & & \\
+Yin et al.~[4] (TrimmedMean) & \checkmark & & & & & \\
+Shayan et al.~[27] (Biscotti) & \checkmark & \checkmark & & & & \\
+Kalibbala et al.~[46] (ATMA) & \checkmark & & \checkmark & \checkmark & & \\
+Cao et al.~[35] (Survey 2024) & \checkmark & & & \checkmark & & \\
+\textbf{This Work} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Our primary contributions beyond prior work are: (a)~integrating blockchain auditability with Byzantine-robust aggregation, which no prior study has empirically evaluated end-to-end; (b)~introducing and resolving the Transparency Paradox through controlled experiments with adaptive attackers; (c)~validating ATMA in blockchain environments, demonstrating that adaptive aggregation maintains consistency across centralized and decentralized architectures (only 0.16\% accuracy difference); and (d)~providing multi-seed confidence intervals and cross-dataset validation (MNIST + CIFAR-10) for statistical rigor.
+
+\subsection{Practical Contributions and Deployment Guidelines}
+
+Based on our empirical findings, we provide concrete deployment recommendations:
+
+\begin{itemize}
+    \item \textbf{Algorithm selection:} Use TrimmedMean ($\beta=0.2$) for applications requiring peak accuracy with stable threat models and sufficient training budget (160+ rounds). Use ATMA for dynamic environments with unknown or variable Byzantine ratios, where automatic threshold adaptation eliminates manual tuning.
+    
+    \item \textbf{Cost management:} Ethereum Layer-1 deployment costs \$48,391 for 160 rounds (at 50~Gwei, \$3,000~ETH). Layer-2 solutions reduce this by 99\% to approximately \$484, making blockchain-integrated FL economically viable for production deployment.
+    
+    \item \textbf{Scalability:} Our 1,000-client scalability tests confirm that the system maintains Byzantine detection (F1=0.68) at scale, with L2 blockchain costs of \$9,000 (vs.~\$900,000 on L1).
+    
+    \item \textbf{Security posture:} Implement multi-layered defense combining robust aggregation (TrimmedMean/ATMA) + blockchain-based detection + reputation systems. This defense-in-depth approach limits even blockchain-informed adaptive attackers to 1.8\% model degradation.
+\end{itemize}
+
+\subsection{Limitations}
+
+We acknowledge the following limitations. (1)~Attack types are limited to label-flip, sign-flip, and random noise; more sophisticated attacks such as the ``A Little Is Enough'' (ALIE) approach [10] and backdoor attacks [11] require future study. (2)~All blockchain experiments use Ganache local simulation, which provides accurate gas measurements but does not capture real-world network latency (12--15s block times) or gas price volatility. (3)~Krum's poor performance (26.56\% on MNIST, 43.41\% on CIFAR-10) was observed only under our aggressive attack setting; clean-baseline Krum experiments were not conducted. (4)~The ATMA evaluation is limited to 50 rounds for most configurations; 160-round ATMA experiments are available for CIFAR-10 only.
+
+\subsection{Future Work}
+
+Key directions for future research include: (1)~testnet deployment on Sepolia/Arbitrum to validate blockchain costs under real network conditions, (2)~extended ATMA evaluation with 160-round training on MNIST to determine whether adaptive methods can match TrimmedMean's 93.45\% peak, (3)~hybrid adaptive-static aggregation combining ATMA's dynamic threshold with TrimmedMean's long-term convergence, (4)~advanced adaptive attack evaluation including ALIE and backdoor strategies, (5)~cross-organizational federated learning using shared blockchain for trustless multi-party coordination, and (6)~production deployment on live Layer-2 networks (Polygon, Arbitrum, Optimism).
 
 \section*{Acknowledgment}
 
