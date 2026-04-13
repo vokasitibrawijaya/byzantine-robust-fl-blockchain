@@ -1,4 +1,5 @@
-\documentclass{ieeeaccess}
+\documentclass[12pt,a4paper,onecolumn]{article}
+\usepackage[margin=2.5cm]{geometry}
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
@@ -9,63 +10,45 @@
 \usepackage{multirow}
 \usepackage{booktabs}
 \usepackage{url}
+\usepackage{hyperref}
+\usepackage{times}
+\usepackage{float}
 
 \usepackage{bm}
-\makeatletter
-\AtBeginDocument{\DeclareMathVersion{bold}
-\SetSymbolFont{operators}{bold}{T1}{times}{b}{n}
-\SetSymbolFont{NewLetters}{bold}{T1}{times}{b}{it}
-\SetMathAlphabet{\mathrm}{bold}{T1}{times}{b}{n}
-\SetMathAlphabet{\mathit}{bold}{T1}{times}{b}{it}
-\SetMathAlphabet{\mathbf}{bold}{T1}{times}{b}{n}
-\SetMathAlphabet{\mathtt}{bold}{OT1}{pcr}{b}{n}
-\SetSymbolFont{symbols}{bold}{OMS}{cmsy}{b}{n}
-\renewcommand\boldmath{\@nomath\boldmath\mathversion{bold}}}
-\makeatother
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \begin{document}
-\history{Date of publication January 2026, date of current version January 4, 2026.}
-\doi{10.1109/ACCESS.2026.XXXXXXX}
 
-\title{Byzantine-Robust Federated Learning with Adaptive Aggregation and Blockchain: Empirical Validation of ATMA and Resolution of the Transparency Paradox}
+\title{\textbf{Byzantine-Robust Federated Learning with Adaptive Aggregation and Blockchain: Empirical Validation of ATMA and Resolution of the Transparency Paradox}}
 
-\author{\uppercase{Rachmad Andri Atmoko}\authorrefmark{1,2},
-\uppercase{Sholeh Hadi Pramono}\authorrefmark{1},
-\uppercase{M. Fauzan Edy Purnomo}\authorrefmark{1},
-\uppercase{Panca Mudjirahardjo}\authorrefmark{1},
-\uppercase{Mahdin Rohmatillah}\authorrefmark{1}, and
-\uppercase{Cries Avian}\authorrefmark{1}}
+\author{
+Rachmad Andri Atmoko$^{1,2}$,
+Sholeh Hadi Pramono$^{1}$,
+M. Fauzan Edy Purnomo$^{1}$,
+Panca Mudjirahardjo$^{1}$,
+Mahdin Rohmatillah$^{1}$, and
+Cries Avian$^{1}$\\[10pt]
+$^{1}$Electrical Engineering Department, Faculty of Engineering, Universitas Brawijaya, Malang 65145, Indonesia\\
+$^{2}$Faculty of Vocational Studies, Universitas Brawijaya, Malang 65145, Indonesia\\[5pt]
+\textit{Corresponding author: Sholeh Hadi Pramono (e-mail: sholehpramono@ub.ac.id)}
+}
 
-\address[1]{Electrical Engineering Department, Faculty of Engineering, Universitas Brawijaya, Malang 65145, Indonesia}
-\address[2]{Faculty of Vocational Studies, Universitas Brawijaya, Malang 65145, Indonesia}
-
-\tfootnote{This work was supported by the Laboratory of Internet of Things \& Human Centered Design, Faculty of Vocational Studies, Universitas Brawijaya.}
-
-\markboth
-{Atmoko \textit{et al.}: Byzantine-Robust Federated Learning with Adaptive Aggregation and Blockchain}
-{Atmoko \textit{et al.}: Byzantine-Robust Federated Learning with Adaptive Aggregation and Blockchain}
-
-\corresp{Corresponding author: Sholeh Hadi Pramono (e-mail: sholehpramono@ub.ac.id).}
-
-\begin{abstract}
-Federated learning enables collaborative model training across distributed clients while preserving data privacy. However, the presence of Byzantine clients that send malicious updates poses significant security challenges. This paper presents a comprehensive empirical study of Byzantine-robust aggregation algorithms integrated with blockchain technology for transparent audit trails. We evaluate multiple aggregation methods including static approaches (Krum, FedAvg, TrimmedMean) and state-of-the-art adaptive methods (ATMA) under Byzantine attack scenarios with 20\% adversarial clients (4 Byzantine out of 20 total). \textbf{Critically, we validate our findings on CIFAR-10 with Dirichlet($\alpha$=0.5) non-IID distribution}, where \textbf{TrimmedMean achieves highest peak accuracy (67.92\% at 160 rounds)} under aggressive label-flip attacks (scale=-5.0), while \textbf{ATMA provides competitive performance (65.78\%) with adaptive threshold adjustment}, and undefended FedAvg collapses to 10\% (random guess). On MNIST, TrimmedMean with 160 training rounds achieves 93.45\% test accuracy, exceeding both the reference benchmark (89.59\%) by 3.86\% and the undefended FedAvg baseline (87.60\%) by 5.85\%. We provide multi-seed confidence intervals: TrimmedMean achieves 34.62\%$\pm$1.75\% (95\% CI: $\pm$2.02\%) on CIFAR-10 at 50 rounds. \textbf{We also compare against recent federated optimization methods (FedProx, FedDyn), demonstrating that both collapse under Byzantine attacks}, validating the necessity of Byzantine-specific defenses. To address emerging threats, we empirically test the \emph{Transparency Paradox}: whether blockchain transparency aids adaptive FLARE-style attackers. Results show blockchain-informed attackers achieve only 11.6\% success rate with 1.8\% model degradation, while defenders gain comprehensive forensic capabilities and reputation-based defense. \textbf{We provide detailed blockchain cost analysis}: deployment costs 1.72M gas, per-round costs 2.01M gas, totaling \$48,391 for 160 rounds (at 50 Gwei, \$3000 ETH), with Layer-2 solutions achieving 99\% cost reduction. This study provides a comprehensive empirical validation of Byzantine-robust federated learning that: (1) validates on CIFAR-10 with Dirichlet non-IID distribution, (2) provides confidence intervals through multi-seed experiments (seeds 42-44), (3) compares against recent methods (FedProx, FedDyn), (4) empirically tests the Transparency Paradox, and (5) provides blockchain cost analysis. Code and configurations are available at \url{https://github.com/vokasitibrawijaya/byzantine-robust-fl-blockchain}.
-\end{abstract}
-
-\begin{keywords}
-Byzantine-robust aggregation, blockchain, federated learning, TrimmedMean, ATMA, adaptive attacks, transparency paradox, model poisoning, distributed machine learning, privacy-preserving learning
-\end{keywords}
-
-\titlepgskip=-21pt
+\date{January 2026}
 
 \maketitle
+
+\begin{abstract}
+Federated learning enables collaborative model training across distributed clients while preserving data privacy, but Byzantine clients sending malicious updates pose security challenges. This paper evaluates Byzantine-robust aggregation algorithms integrated with blockchain technology for transparent audit trails. We test static approaches (Krum, FedAvg, TrimmedMean) and adaptive methods (ATMA) under 20\% adversarial clients (4 Byzantine out of 20 total). On CIFAR-10 with Dirichlet($\alpha$=0.5) non-IID distribution under label-flip attacks (scale=-5.0), TrimmedMean achieves 67.92\% accuracy at 160 rounds, while ATMA reaches 65.78\% with adaptive threshold adjustment; undefended FedAvg collapses to 10\%. On MNIST, TrimmedMean with 160 rounds achieves 93.45\% test accuracy, exceeding the reference benchmark (89.59\%) by 3.86\% and undefended FedAvg (87.60\%) by 5.85\%. Multi-seed experiments (seeds 42--44) yield confidence intervals: TrimmedMean achieves 34.62\%$\pm$1.75\% (95\% CI: $\pm$2.02\%) on CIFAR-10 at 50 rounds. FedProx and FedDyn both collapse under Byzantine attacks, confirming the need for specialized defenses. We test the \emph{Transparency Paradox}: whether blockchain transparency aids adaptive FLARE-style attackers. Blockchain-informed attackers achieve only 11.6\% success rate with 1.8\% model degradation, while defenders gain forensic capabilities and reputation-based defense. Blockchain cost analysis shows deployment costs 1.72M gas, per-round costs 2.01M gas, totaling \$48,391 for 160 rounds (at 50 Gwei, \$3000 ETH), with Layer-2 solutions reducing costs by 99\%. Code available at \url{https://github.com/vokasitibrawijaya/byzantine-robust-fl-blockchain}.
+\end{abstract}
+
+\noindent\textbf{Keywords:} Byzantine-robust aggregation, blockchain, federated learning, TrimmedMean, ATMA, adaptive attacks, transparency paradox, model poisoning, distributed machine learning, privacy-preserving learning
 
 \section{Introduction}
 \label{sec:introduction}
 
-\PARstart{F}{ederated} learning (FL) has emerged as a paradigm-shifting approach for training machine learning models across distributed devices while preserving data privacy \cite{mcmahan2017communication,kairouz2021advances}. Unlike traditional centralized learning, FL enables multiple clients to collaboratively train a global model without sharing their raw data, addressing critical privacy concerns in sensitive domains such as healthcare \cite{xu2021federated}, finance, and mobile applications \cite{kang2020reliable}.
+Federated learning (FL) is an approach for training machine learning models across distributed devices while preserving data privacy \cite{mcmahan2017communication,kairouz2021advances}. Unlike centralized learning, FL enables multiple clients to collaboratively train a global model without sharing raw data, addressing privacy concerns in healthcare \cite{xu2021federated}, finance, and mobile applications \cite{kang2020reliable}.
 
 However, the decentralized nature of federated learning introduces significant security vulnerabilities. Byzantine clients---malicious or compromised participants that send arbitrary or poisoned model updates---can severely degrade the global model's performance \cite{blanchard2017machine,yin2018byzantine,cao2024comprehensive}. This challenge is particularly acute in open federated learning systems where client authenticity cannot be guaranteed. Traditional aggregation methods like Federated Averaging (FedAvg) \cite{mcmahan2017communication} are vulnerable to such attacks, as they naively average all client updates without verification.
 
@@ -82,14 +65,14 @@ Existing Byzantine-robust aggregation algorithms, such as Krum \cite{blanchard20
 
 \subsection{Contributions}
 
-This paper addresses these challenges through a comprehensive empirical study of Byzantine-robust federated learning integrated with blockchain technology. Our key contributions are:
+This paper addresses these challenges through an empirical study of Byzantine-robust federated learning integrated with blockchain technology. Our contributions are:
 
 \begin{enumerate}
     \item \textbf{Byzantine-Robust Performance Demonstration:} We demonstrate that TrimmedMean aggregation achieves 93.45\% accuracy with 160 training rounds in our experimental setup, comparing favorably to the undefended FedAvg baseline (87.60\%) while defending against 20\% Byzantine clients.
     
-    \item \textbf{Comprehensive Algorithm Comparison:} We conduct extensive experiments comparing static aggregation algorithms (Krum, FedAvg, TrimmedMean) and adaptive methods (ATMA) under identical conditions across 36 controlled experiments, providing practical insights for algorithm selection in heterogeneous federated learning environments.
+    \item \textbf{Algorithm Comparison:} We compare static aggregation algorithms (Krum, FedAvg, TrimmedMean) and adaptive methods (ATMA) under identical conditions across 36 controlled experiments, providing insights for algorithm selection in heterogeneous federated learning environments.
     
-    \item \textbf{Adaptive Aggregation Validation:} We validate state-of-the-art ATMA~\cite{kalibbala2025atma} for non-IID data, demonstrating 85.12\% accuracy with dynamic threshold adaptation (0.15-0.24) that shows +0.73\% improvement over static TrimmedMean in our blockchain environment tests.
+    \item \textbf{Adaptive Aggregation Validation:} We validate ATMA~\cite{kalibbala2025atma} for non-IID data, achieving 85.12\% accuracy with dynamic threshold adaptation (0.15-0.24) and +0.73\% improvement over static TrimmedMean in blockchain environment tests.
     
     \item \textbf{Transparency Paradox Resolution:} We empirically test FLARE-style adaptive attacks~\cite{baruch2019little} that exploit blockchain transparency, demonstrating that blockchain-informed attackers achieve only 11.6\% success rate with 1.8\% model degradation, while defenders gain overwhelming forensic and reputation-based advantages.
     
@@ -139,7 +122,7 @@ Several important works have advanced Byzantine-robust federated learning since 
 
 \textbf{LASA}~\cite{wang2024lasa} proposes layer-adaptive sparse aggregation, achieving robustness through sparsification rather than statistical trimming. This complements our approach by offering alternative defense mechanisms.
 
-\textbf{FedCmp}~\cite{li2024fedcmp} presents comprehensive experimental comparisons of Byzantine defenses, providing valuable benchmarks. Our work extends this by integrating blockchain auditability.
+\textbf{FedCmp}~\cite{li2024fedcmp} presents experimental comparisons of Byzantine defenses, providing valuable benchmarks. Our work extends this by integrating blockchain auditability.
 
 \textbf{2024 Survey}~\cite{rodriguez2024survey} provides updated taxonomy of Byzantine attacks and defenses, categorizing methods by detection vs. tolerance approaches. Our ATMA evaluation follows their recommended adaptive defense category.
 
@@ -399,7 +382,7 @@ Each experiment records:
 Table~\ref{tab:overall_results} presents the complete results across all experiments. TrimmedMean with 160 rounds achieves the highest accuracy of 93.45\%, significantly exceeding both the reference benchmark (89.59\%) and the undefended FedAvg baseline (87.60\%).
 
 \begin{table*}[t]
-\caption{Comprehensive Experimental Results}
+\caption{Experimental Results Summary}
 \label{tab:overall_results}
 \centering
 \begin{tabular}{lcccccccc}
@@ -422,7 +405,7 @@ TrimmedMean & C (L2) & 50 & 93.03 & 0.248 & N/A & 0 & 38 & Strong \\
 
 \subsubsection{TrimmedMean Achieves Optimal Performance}
 
-Our most significant finding is that TrimmedMean with 160 training rounds achieves 93.45\% accuracy, which:
+TrimmedMean with 160 training rounds achieves 93.45\% accuracy, which:
 \begin{itemize}
     \item \textbf{Exceeds reference benchmark} by +3.86\% (93.45\% vs. 89.59\%)
     \item \textbf{Exceeds undefended FedAvg} by +5.85\% (93.45\% vs. 87.60\%)
@@ -430,7 +413,7 @@ Our most significant finding is that TrimmedMean with 160 training rounds achiev
     \item \textbf{Far exceeds Krum} by +66.89\% (93.45\% vs. 26.56\%)
 \end{itemize}
 
-These results provide strong evidence that Byzantine-robust aggregation does not require sacrificing model performance. In fact, TrimmedMean's statistical robustness may help filter noise and outliers, leading to better convergence.
+These results show that Byzantine-robust aggregation does not require sacrificing model performance. TrimmedMean's statistical robustness helps filter noise and outliers, leading to better convergence.
 
 \subsubsection{Krum Performance Analysis}
 
@@ -517,7 +500,7 @@ Our blockchain-integrated system successfully detected and recorded 59 Byzantine
     \item Impact on aggregated model
 \end{itemize}
 
-This demonstrates the value of blockchain integration for transparency and accountability in federated learning systems.
+Blockchain integration enables transparency and accountability in federated learning systems.
 
 \subsection{Provenance Detection Quality Analysis (H2)}
 
@@ -559,12 +542,12 @@ Key findings:
     
     \item \textbf{Stable Performance:} Coefficient of variation (CV) remained below 0.15 for all parameters, demonstrating robustness to parameter estimation errors.
     
-    \item \textbf{Scalability Validation:} Testing with 1,000 clients confirms 99\% cost reduction is maintained at scale (L2: \$9,000 vs L1: \$900,000), with detection F1 score of 0.68 (Precision 100\%, Recall 51.5\%). This validates that L2 blockchain mechanisms~\cite{wu2024blockchain} provide economically viable Byzantine detection for large federated learning deployments.
+    \item \textbf{Scalability Validation:} Testing with 1,000 clients confirms 99\% cost reduction at scale (L2: \$9,000 vs L1: \$900,000), with detection F1 score of 0.68 (Precision 100\%, Recall 51.5\%). L2 blockchain mechanisms~\cite{wu2024blockchain} provide economically viable Byzantine detection for large federated learning deployments.
     
     \item \textbf{Small-Scale Note:} The negative cost reduction values reflect L2 overhead at small scale (50 rounds). Production systems with 1000+ rounds demonstrate positive cost reduction (94-99\%) as shown in main experiments, where fixed setup costs are amortized over many aggregations.
 \end{itemize}
 
-This sensitivity analysis validates that our cost model maintains accuracy across realistic parameter ranges, ensuring reliable cost predictions for deployment planning.
+The sensitivity analysis shows that our cost model maintains accuracy across realistic parameter ranges, ensuring reliable cost predictions for deployment planning.
 
 \subsection{Real Federated Learning Validation}
 
@@ -606,7 +589,7 @@ This validation confirms that Byzantine-robust aggregation methods (TrimmedMean,
 
 \subsection{Adaptive Trimmed Mean Aggregation (ATMA) Validation}
 
-To evaluate state-of-the-art adaptive aggregation methods, we implemented ATMA~\cite{kalibbala2025atma}, an adaptive Byzantine-robust algorithm designed for highly non-IID federated learning environments. Unlike static methods (Median, Krum, TrimmedMean) with fixed parameters, ATMA dynamically adjusts its trimming threshold based on gradient distribution statistics.
+To evaluate adaptive aggregation methods, we implemented ATMA~\cite{kalibbala2025atma}, an adaptive Byzantine-robust algorithm for non-IID federated learning environments. Unlike static methods (Median, Krum, TrimmedMean) with fixed parameters, ATMA dynamically adjusts its trimming threshold based on gradient distribution statistics.
 
 \subsubsection{ATMA Algorithm Design}
 
@@ -656,7 +639,7 @@ TrimmedMean & 84.85 $\pm$ 0.6 & 84.23 $\pm$ 0.7 & 0.20 & 0.427 \\
 
 Key findings:
 \begin{enumerate}
-    \item \textbf{Adaptive Superiority:} ATMA achieves 85.12\% accuracy (centralized) and 84.96\% (blockchain), outperforming static TrimmedMean (84.85\%/84.23\%) by +0.27\%/+0.73\% respectively. This demonstrates adaptive thresholding benefits, particularly in blockchain environments where latency induces additional gradient variance.
+    \item \textbf{Adaptive Superiority:} ATMA achieves 85.12\% accuracy (centralized) and 84.96\% (blockchain), outperforming static TrimmedMean (84.85\%/84.23\%) by +0.27\%/+0.73\% respectively. Adaptive thresholding benefits blockchain environments where latency induces additional gradient variance.
     
     \item \textbf{Convergence Stability:} ATMA exhibits lower standard deviation ($\sigma=0.5\%$) than FedAvg ($\sigma=1.2\%$), indicating more stable convergence under Byzantine attacks.
     
@@ -685,7 +668,7 @@ The adaptation pattern reveals:
     \item \textbf{Resilience:} Threshold remains stable ($\sigma=0.03$) despite intermittent Byzantine activity
 \end{itemize}
 
-ATMA achieves 65.78\% accuracy on CIFAR-10 (160 rounds) with Dirichlet($\alpha$=0.5) non-IID distribution, competitive with TrimmedMean's 67.92\% (see Table~\ref{tab:cifar10_results}). This validates ATMA's core advantage: \emph{adaptive defense without manual threshold tuning}.
+ATMA achieves 65.78\% accuracy on CIFAR-10 (160 rounds) with Dirichlet($\alpha$=0.5) non-IID distribution, competitive with TrimmedMean's 67.92\% (see Table~\ref{tab:cifar10_results}). ATMA's core advantage is \emph{adaptive defense without manual threshold tuning}.
 
 \subsubsection{Statistical Significance}
 
@@ -832,10 +815,11 @@ Table~\ref{tab:gas_analysis} presents the gas consumption breakdown. Despite the
 \caption{Gas Consumption Analysis}
 \label{tab:gas_analysis}
 \centering
-\begin{tabular}{lccc}
+{\small
+\begin{tabular}{lrrr}
 \toprule
-\textbf{Algorithm} & \textbf{Total Gas} & \textbf{Gas per} & \textbf{Gas per} \\
-& \textbf{(M)} & \textbf{Round (M)} & \textbf{Client (M)} \\
+\textbf{Algorithm} & \textbf{Total} & \textbf{Per Round} & \textbf{Per Client} \\
+& \textbf{(M gas)} & \textbf{(M gas)} & \textbf{(M gas)} \\
 \midrule
 Krum & 90.0 & 1.80 & 0.09 \\
 FedAvg & 88.6 & 1.77 & 0.09 \\
@@ -843,6 +827,7 @@ TrimmedMean 50r & 88.3 & 1.77 & 0.09 \\
 TrimmedMean 160r & 283.2 & 1.77 & 0.09 \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 \subsection{Layer-2 Validation}
@@ -879,7 +864,7 @@ Typical FedAvg & 85--90\% & None & MNIST \\
 {\tiny $^*$Different attack types, Byzantine ratios, and training settings. For reference only.}
 \end{table}
 
-Our TrimmedMean 160r result (93.45\%) is competitive with state-of-the-art Byzantine-robust methods on MNIST. Direct comparison with prior work is limited by differences in threat model (attack type, Byzantine fraction), non-IID distribution, and communication budget. We report this result specifically for our setting: 20\% label-flip attackers, IID distribution, 160 communication rounds with blockchain integration.
+Our TrimmedMean 160r result (93.45\%) is competitive with existing Byzantine-robust methods on MNIST. Direct comparison with prior work is limited by differences in threat model (attack type, Byzantine fraction), non-IID distribution, and communication budget. We report this result for our setting: 20\% label-flip attackers, IID distribution, 160 communication rounds with blockchain integration.
 
 \section{Discussion}
 \label{sec:discussion}
@@ -902,7 +887,7 @@ The surprising result that TrimmedMean exceeds FedAvg can be explained by severa
 
 \subsection{Practical Implications}
 
-Our results have several important practical implications:
+Based on our experiments:
 
 \subsubsection{Deployment Recommendations}
 
@@ -930,7 +915,7 @@ For production Byzantine-robust federated learning systems, we recommend:
 
 \subsection{Adaptive vs. Static Aggregation Trade-offs}
 
-Our comprehensive evaluation of ATMA (adaptive) vs. TrimmedMean (static) reveals important design trade-offs:
+Our evaluation of ATMA (adaptive) vs. TrimmedMean (static) reveals important design trade-offs:
 
 \begin{table}[t]
 \caption{Adaptive vs. Static Aggregation Comparison}
@@ -991,7 +976,7 @@ Our blockchain integration provides several practical advantages:
     \item Detection latency reduction from manual review (hours) to automated alerts (seconds)
 \end{itemize}
 
-This validates blockchain-FL for production deployment despite sophisticated adaptive adversaries.
+Blockchain-FL is suitable for production deployment despite sophisticated adaptive adversaries.
 
 \subsection{Computational Cost Analysis}
 
@@ -1033,9 +1018,9 @@ FedDyn ($\alpha$=0.01) & 10.00 & 10.00 & Collapsed \\
 
 \subsection{Comparison with Recent Federated Optimization Methods}
 
-To address reviewer concerns about comparison with recent methods (2020-2025), we implemented and tested FedProx~\cite{li2020fedprox} and FedDyn~\cite{acar2021feddyn}---state-of-the-art federated optimization algorithms designed for non-IID data.
+To compare with recent methods (2020-2025), we implemented and tested FedProx~\cite{li2020fedprox} and FedDyn~\cite{acar2021feddyn}---federated optimization algorithms for non-IID data.
 
-\textbf{Critical Finding:} Both FedProx ($\mu$=0.01) and FedDyn ($\alpha$=0.01) \textbf{collapse to 10\% accuracy} under Byzantine attacks. This validates our core thesis:
+\textbf{Result:} Both FedProx ($\mu$=0.01) and FedDyn ($\alpha$=0.01) collapse to 10\% accuracy under Byzantine attacks, supporting our core thesis:
 \begin{itemize}
     \item General federated optimization methods are \textbf{NOT} Byzantine-robust
     \item Specialized aggregation (TrimmedMean, ATMA) is \textbf{essential} for adversarial environments
@@ -1142,16 +1127,14 @@ This cost is justified for high-stakes applications (healthcare, finance) where 
 
 \subsection{Limitations and Threats to Validity}
 
-Our study has addressed several previous limitations:
-
 \begin{enumerate}
-    \item \textbf{Dataset Validation:} \textbf{ADDRESSED} --- We now validate on CIFAR-10 with Dirichlet($\alpha$=0.5) non-IID distribution, achieving 67.92\% TrimmedMean accuracy.
+    \item \textbf{Dataset Validation:} Results validated on CIFAR-10 with Dirichlet($\alpha$=0.5) non-IID distribution (67.92\% TrimmedMean accuracy).
     
-    \item \textbf{Recent Methods Comparison:} \textbf{ADDRESSED} --- FedProx and FedDyn tested; both collapse under Byzantine attacks, validating our approach.
+    \item \textbf{Recent Methods Comparison:} FedProx and FedDyn tested; both collapse under Byzantine attacks.
     
-    \item \textbf{Confidence Intervals:} \textbf{ADDRESSED} --- Multi-seed experiments (42, 43, 44) provide statistical rigor.
+    \item \textbf{Confidence Intervals:} Multi-seed experiments (42, 43, 44) provide statistical rigor.
     
-    \item \textbf{Blockchain Cost Analysis:} \textbf{ADDRESSED} --- Detailed gas measurements with 9 cost scenarios.
+    \item \textbf{Blockchain Cost Analysis:} Gas measurements with 9 cost scenarios.
     
     \item \textbf{Remaining Limitations:}
     \begin{itemize}
@@ -1191,17 +1174,17 @@ Several promising research directions emerge from our work:
 \section{Conclusion}
 \label{sec:conclusion}
 
-This paper presents a comprehensive empirical study of Byzantine-robust federated learning integrated with blockchain technology. Through extensive experiments on both MNIST and \textbf{CIFAR-10} datasets, we demonstrate robust Byzantine defense on realistic data. On CIFAR-10 with Dirichlet($\alpha$=0.5) non-IID distribution under aggressive attacks (scale=-5.0), \textbf{TrimmedMean achieves highest peak accuracy (67.92\% at 160 rounds)}, while \textbf{ATMA provides competitive adaptive performance (65.78\% with dynamic threshold 0.15--0.24)}. Undefended FedAvg collapses to 10\% (random guess). On MNIST, TrimmedMean with 160 training rounds achieves 93.45\% test accuracy, suggesting it as a strong choice for high-accuracy applications with sufficient training budget.
+This paper presents an empirical study of Byzantine-robust federated learning integrated with blockchain technology. Experiments on MNIST and CIFAR-10 datasets show effective Byzantine defense on realistic data. On CIFAR-10 with Dirichlet($\alpha$=0.5) non-IID distribution under aggressive attacks (scale=-5.0), TrimmedMean achieves 67.92\% accuracy at 160 rounds, while ATMA reaches 65.78\% with dynamic threshold 0.15--0.24. Undefended FedAvg collapses to 10\% (random guess). On MNIST, TrimmedMean with 160 training rounds achieves 93.45\% test accuracy.
 
-Our key contributions include: (1) \textbf{validating Byzantine robustness on CIFAR-10} with realistic non-IID distribution (Dirichlet $\alpha$=0.5), demonstrating TrimmedMean's peak performance and ATMA's adaptive capabilities, (2) providing \textbf{multi-seed confidence intervals} (TrimmedMean: 34.62\%$\pm$1.75\%, 95\% CI: $\pm$2.02\%), (3) demonstrating that \textbf{recent federated optimization methods (FedProx, FedDyn) collapse} under Byzantine attacks, validating the necessity of specialized defenses, (4) empirically resolving the Transparency Paradox by demonstrating that blockchain-informed attackers achieve only 11.6\% success rate with 1.8\% model degradation while defenders gain overwhelming forensic and reputation-based advantages, (5) providing \textbf{detailed blockchain cost analysis} (deployment: 1.72M gas, per-round: 2.01M gas, total: \$48,391 for 160 rounds with 99\% Layer-2 reduction), and (6) validating scalability up to 1,000 clients.
+Contributions include: (1) validating Byzantine robustness on CIFAR-10 with Dirichlet $\alpha$=0.5 non-IID distribution, (2) providing multi-seed confidence intervals (TrimmedMean: 34.62\%$\pm$1.75\%, 95\% CI: $\pm$2.02\%), (3) showing that FedProx and FedDyn collapse under Byzantine attacks, (4) resolving the Transparency Paradox---blockchain-informed attackers achieve only 11.6\% success rate with 1.8\% model degradation while defenders gain forensic and reputation-based advantages, (5) providing blockchain cost analysis (deployment: 1.72M gas, per-round: 2.01M gas, total: \$48,391 for 160 rounds with 99\% Layer-2 reduction), and (6) validating scalability up to 1,000 clients.
 
-These results challenge conventional beliefs on multiple fronts. First, Byzantine robustness can \emph{improve} (not sacrifice) accuracy through statistical outlier filtering and implicit regularization in non-IID settings. Second, adaptive aggregation methods (ATMA) provide tangible benefits (+0.73\%) over static approaches through automatic threshold tuning. Third, blockchain transparency does \emph{not} create a security vulnerability---the 11.6\% attack success increase is vastly outweighed by permanent audit trails, reputation systems, and cross-organizational client validation.
+The results indicate that Byzantine robustness can improve (not sacrifice) accuracy through statistical outlier filtering in non-IID settings. Adaptive aggregation (ATMA) provides +0.73\% benefit over static approaches through automatic threshold tuning. Blockchain transparency does not create security vulnerability---the 11.6\% attack success increase is outweighed by permanent audit trails and reputation systems.
 
-Our blockchain-integrated system successfully detected and recorded all Byzantine attacks, demonstrating the practical value of immutable logs for accountability and reproducibility. The Transparency Paradox validation using FLARE-inspired adaptive attackers confirms that blockchain-FL is secure against sophisticated adversaries who exploit on-chain information. The simulated Layer-2 validation achieving 93.03\% accuracy in 50 rounds, combined with 1,000-client scalability tests, further demonstrates the production-readiness of our approach.
+The blockchain-integrated system detected and recorded Byzantine attacks, showing the value of immutable logs for accountability. Transparency Paradox validation using FLARE-inspired adaptive attackers confirms blockchain-FL security against adversaries exploiting on-chain information. Simulated Layer-2 achieved 93.03\% accuracy in 50 rounds; 1,000-client scalability tests confirm production readiness.
 
-We provide concrete deployment recommendations: (1) \textbf{use TrimmedMean for peak accuracy applications} with stable threat models and sufficient training budget (160+ rounds), achieving highest performance (MNIST: 93.45\%, CIFAR-10: 67.92\%), (2) \textbf{use ATMA for dynamic non-IID environments} with variable Byzantine activity and short-to-medium training horizons (50 rounds), offering adaptive defense (+0.73\% over static methods) without manual tuning, (3) implement reputation systems leveraging blockchain logs to detect and exclude malicious clients, and (4) deploy on Layer-2 networks for 99\% cost reduction while maintaining detection quality. These guidelines enable secure, transparent, and high-performance federated learning systems suitable for real-world applications in healthcare, finance, and other privacy-sensitive domains.
+Deployment recommendations: (1) use TrimmedMean for applications requiring peak accuracy with stable threat models and 160+ training rounds (MNIST: 93.45\%, CIFAR-10: 67.92\%), (2) use ATMA for dynamic non-IID environments with variable Byzantine activity and 50-round training horizons (+0.73\% over static methods), (3) implement reputation systems using blockchain logs, and (4) deploy on Layer-2 networks for 99\% cost reduction.
 
-Future work will explore extended ATMA evaluation with 160-round training, hybrid adaptive-static methods, multi-dimensional reputation systems, cross-organizational blockchain-FL deployments, advanced adaptive attacks beyond our 11.6\% baseline, privacy-preserving aggregation with blockchain-verifiable proofs, and production deployment on live Layer-2 networks (Polygon, Arbitrum) to measure real-world performance under production workloads.
+Future work includes extended ATMA evaluation with 160-round training, hybrid adaptive-static methods, multi-dimensional reputation systems, cross-organizational blockchain-FL deployments, and production deployment on live Layer-2 networks (Polygon, Arbitrum).
 
 \section*{Acknowledgment}
 
@@ -1454,33 +1437,5 @@ R.~Jiang \emph{et al.},
 ``WFAgg: Byzantine-robust aggregation for securing decentralized federated learning,'' 2025.
 
 \end{thebibliography}
-
-\vspace{11pt}
-
-\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{moko.png}}]{Rachmad Andri Atmoko}
-received the B.App.Sc. degree in automation engineering and the M.Eng. degree in instrumentation engineering from the Institut Teknologi Sepuluh Nopember (ITS), Surabaya, Indonesia, in 2013 and 2015, respectively. He is currently a Lecturer with the Faculty of Vocational Studies, Universitas Brawijaya, Malang, Indonesia. His research interests include federated learning, blockchain technology, cybersecurity, the Internet of Things (IoT), and explainable AI (XAI).
-\end{IEEEbiography}
-\vspace{-1.2cm}
-\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{sholeh.png}}]{Sholeh Hadi Pramono}
-was born in 1958. He received the bachelor's degree in electrical power system from Universitas Brawijaya, Indonesia, in 1985, and the master's degree in opto-electro techniques and the Ph.D. degree in laser application from Universitas Indonesia, in 1990 and 2009, respectively. Since 1986, he has been a Lecturer with Universitas Brawijaya. He currently holds the esteemed position of Professor with the Faculty of Engineering, Universitas Brawijaya. His major research interests include optical communication, photovoltaic, and artificial intelligence.
-\end{IEEEbiography}
-\vspace{-1.2cm}
-\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{fauzan.png}}]{M. Fauzan Edy Purnomo}
-received the B.E. and M.E. degrees in electrical engineering from Universitas Brawijaya, Malang, Indonesia, and the Ph.D. degree in electrical and electronic engineering from the University of Miyazaki, Miyazaki, Japan. He is currently a Lecturer and Researcher with the Department of Electrical Engineering, Faculty of Engineering, Universitas Brawijaya. His research interests include antenna theory and design, microwave engineering, electromagnetic wave propagation, wireless sensor networks (WSN), and wireless power transfer.
-\end{IEEEbiography}
-\vspace{-1.2cm}
-\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{panca.png}}]{Panca Mudjirahardjo}
-received the B.Eng. degree in electrical engineering from Universitas Brawijaya, Indonesia, in 1995, the M.Eng. degree in electrical engineering from Universitas Gadjah Mada, Indonesia, in 2001, and the Dr.Eng. degree in control engineering from the Machine Intelligence Laboratory, Kyushu Institute of Technology, Japan, in 2015. Since 2002, he has been a Faculty Member with the Department of Electrical Engineering, Universitas Brawijaya, where he currently holds the position of an Associate Professor. His current research interests include digital and analog instrumentation system design, pattern recognition, image processing, and computer vision.
-\end{IEEEbiography}
-\vspace{-1.2cm}
-\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mahdin.png}}]{Mahdin Rohmatillah}
-received the B.Eng. degree in electrical engineering from Universitas Brawijaya, Malang, Indonesia, in 2016, the M.Sc. degree in electrical engineering from National Sun Yat-sen University, Kaohsiung, Taiwan, in 2018, and the Ph.D. degree from National Yang Ming Chiao Tung University, Taiwan, in 2024. Currently, he is a Lecturer with Universitas Brawijaya. His research interests include machine learning, deep reinforcement learning, and dialogue systems.
-\end{IEEEbiography}
-\vspace{-1.2cm}
-\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{cries.png}}]{Cries Avian}
-received the bachelor's and master's degrees in electrical engineering from Universitas Jember, Indonesia, in 2016 and 2020, respectively, and the Ph.D. degree in electronic and computer engineering from the National Taiwan University of Science and Technology, in 2024. He is currently affiliated with the Department of Electrical Engineering, Universitas Brawijaya, Indonesia. His professional experience includes working as a Machine Learning Engineer with AAEON, Taiwan, where he focused on deep learning model optimization and embedded AI systems. His research interests span embedded computing, biomedical signal and image processing, artificial intelligence, and intelligent control systems.
-\end{IEEEbiography}
-
-\EOD
 
 \end{document}
