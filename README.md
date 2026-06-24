@@ -1,175 +1,102 @@
-# Byzantine-Robust Federated Learning with Blockchain
+# Byzantine-Robust Federated Learning with Blockchain Auditability
 
-[![Paper](https://img.shields.io/badge/Paper-IEEE%20Access-blue)](https://doi.org/10.1109/ACCESS.2026.XXXXXXX)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.10+-yellow.svg)](https://python.org)
+This repository contains the reproducible experiment used for manuscript
+revision R2:
 
-## Paper Supplementary Materials
+**"Byzantine-Robust Federated Learning with Adaptive Aggregation and
+Blockchain: A Reproducible Empirical Evaluation"**
 
-This repository contains the experimental code, results, and artifacts for:
+## Final R2 Experiment
 
-**"Byzantine-Robust Federated Learning with Adaptive Aggregation and Blockchain: Empirical Validation and Resolution of the Transparency Paradox"**
+All compared methods use one configuration:
 
-*Submitted to IEEE Access (Major Revision)*
+| Parameter | Value |
+|---|---|
+| Dataset | MNIST |
+| Model | CNN, 105,866 parameters |
+| Clients | 20, full participation |
+| Byzantine clients | IDs 0-3 (20%) |
+| Partition | Dirichlet alpha=0.5 |
+| Attack | Cyclic label flip plus 5x model-delta scaling |
+| Rounds | 20 |
+| Local work | 3 mini-batch SGD steps/client/round |
+| Seeds | 42, 43, 44 |
 
----
+Final test accuracy:
 
-## 📁 Repository Structure
+| Method | Mean | Sample SD | 95% CI |
+|---|---:|---:|---:|
+| FedAvg (clean) | 82.49% | 1.29 | [79.28, 85.69] |
+| FedAvg (attack) | 22.36% | 2.81 | [15.39, 29.33] |
+| Krum | 60.01% | 7.37 | [41.71, 78.32] |
+| TrimmedMean | 78.23% | 1.51 | [74.47, 81.99] |
+| ATMA | 78.15% | 1.80 | [73.68, 82.62] |
 
-```
-├── src/                              # Source code
-│   ├── aggregation/                  # Aggregation algorithms (ATMA, TrimmedMean, Krum, etc.)
-│   ├── experiments/                  # Main experiment scripts
-│   │   ├── h2_valid_rerun.py        # H2: ROC/AUC provenance detection
-│   │   ├── real_fl_training_FIXED.py # Real FL training on MNIST
-│   │   ├── run_cifar10_blockchain_simple.py  # CIFAR-10 experiments
-│   │   └── ...
-│   ├── blockchain/                   # Smart contracts & blockchain integration
-│   └── utils/                        # Utility functions
-├── results/                          # Experiment results (JSON)
-│   ├── h2_valid_rerun_results.json   # Table II, Figure 2
-│   ├── real_fl_training_FIXED.json   # Table VI
-│   ├── cifar10_blockchain_simple_*.json  # Table XII
-│   ├── multiseed_comparison_*.json   # Table XIII
-│   └── blockchain_cost_benefit_analysis.json  # Table XIV
-├── visualizations/                   # Generated figures
-├── ACCESS_latex_template_20240429/   # Paper LaTeX source
-├── ARTIFACT_MANIFEST.md              # Detailed artifact documentation
-└── MAJOR_REVISION_RESPONSE.md        # Revision changelog
-```
+ATMA and TrimmedMean have statistically indistinguishable final accuracy
+(`p=0.706`). ATMA's contribution in this experiment is automatic trim-ratio
+adaptation and anomaly flagging, not higher final accuracy.
 
----
+## Blockchain Evidence
 
-## 📊 Key Results Summary
+The ATMA seed-42 run deploys `FLAudit.sol` to Ganache chain 1337 and records:
 
-### CIFAR-10 Validation (Dirichlet α=0.5, 20% Byzantine)
+- 400 client-update hashes
+- 20 round summaries
+- 420 successful post-deployment transactions
+- 24,415,241 measured gas including deployment
+- successful contract read-back verification for every stored update
 
-| Method | 50 Rounds | 160 Rounds | Status |
-|--------|-----------|------------|--------|
-| **TrimmedMean** | 66.38% | **67.92%** | Best |
-| ATMA | 64.38% | 65.78% | Competitive |
-| Krum | 36.71% | 43.41% | Moderate |
-| FedAvg | 10.0% | 10.0% | Collapsed |
-| FedProx | 10.0% | 10.0% | Not Byzantine-robust |
-| FedDyn | 10.0% | 10.0% | Not Byzantine-robust |
+These are local EVM audit measurements. They are not mainnet cost, Layer-2,
+latency, decentralization, or production-readiness claims.
 
-### Provenance Detection (H2)
+## Reproduce
 
-| Metric | Blockchain | Centralized |
-|--------|------------|-------------|
-| **AUC** | **0.957** | 0.000 |
-| TPR | 81.0% | 0% |
-| FPR | 0.0% | 0% |
+Start Ganache:
 
-### Real FL on MNIST (20 rounds, seeds 42-44)
-
-| Method | Accuracy |
-|--------|----------|
-| TrimmedMean | 73.00% ± 3.39% |
-| Median | 71.48% ± 4.52% |
-| Mean | 66.95% ± 3.55% |
-
----
-
-## 🔧 Installation
-
-```bash
-# Clone repository
-git clone https://github.com/vokasitibrawijaya/byzantine-robust-fl-blockchain.git
-cd byzantine-robust-fl-blockchain
-
-# Create virtual environment
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-
-# Install dependencies
-pip install torch torchvision numpy scikit-learn web3 matplotlib
+```powershell
+ganache --server.host 127.0.0.1 --server.port 8545 `
+  --wallet.deterministic --wallet.totalAccounts 25 `
+  --chain.chainId 1337 --logging.quiet
 ```
 
----
+Compile the contract:
 
-## 🚀 Running Experiments
-
-### H2: Provenance Detection (ROC/AUC)
-```bash
-python src/experiments/h2_valid_rerun.py
-# Output: results/h2_valid_rerun_results.json
+```powershell
+npx --yes solc@0.8.19 --bin --abi `
+  src/blockchain/contracts/FLAudit.sol `
+  -o artifacts/blockchain/fl_audit
 ```
 
-### Real FL Training on MNIST
-```bash
-python src/experiments/real_fl_training_FIXED.py
-# Output: results/real_fl_training_FIXED.json
+Run the experiment:
+
+```powershell
+python -m src.experiments.unified_mnist_blockchain_experiment `
+  --rounds 20 --max-batches 3 --seeds 42 43 44 `
+  --methods clean_fedavg fedavg krum trimmed_mean atma `
+  --blockchain --output results/unified_mnist_actual.json
 ```
 
-### CIFAR-10 with Byzantine Attacks
-```bash
-python src/experiments/run_cifar10_blockchain_simple.py
-# Output: results/cifar10_blockchain_simple_*.json
+Regenerate statistics and figures:
+
+```powershell
+python -m src.experiments.analyze_unified_revision
 ```
 
-### Multi-seed Confidence Intervals
-```bash
-python src/experiments/quick_multiseed_fedprox_feddyn.py
-# Output: results/multiseed_comparison_*.json
+Run aggregation tests:
+
+```powershell
+python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
----
+## Main Artifacts
 
-## 📋 Experiment Configuration
+- `results/unified_mnist_actual.json`: raw final runs and transaction receipts
+- `results/unified_mnist_analysis.json`: calculated statistics
+- `src/aggregation/robust_aggregation.py`: corrected Krum and ATMA
+- `src/blockchain/contracts/FLAudit.sol`: audit contract
+- `visualizations/revision_actual/`: generated figures and LaTeX tables
+- `revision_ETASR_APRIL2026/18579_REVISION_R2_ETASR_FINAL.docx`: submission file
+- `revision_ETASR_APRIL2026/18579_REVISION_R2_EVIDENCE_BASED.pdf`: review PDF
 
-| Experiment | Dataset | Attack | Byzantine | Rounds | Seeds |
-|------------|---------|--------|-----------|--------|-------|
-| Table II | MNIST | Tamper | 30% prob | 50 | 42 |
-| Table VI | MNIST | Sign-flip | 4/20 | 20 | 42,43,44 |
-| Table XII | CIFAR-10 | Label-flip(λ=-5) | 4/20 | 50-160 | 42 |
-| Table XIII | CIFAR-10 | Label-flip(λ=-5) | 4/20 | 50 | 42,43,44 |
-
-**Note:** Table XIII uses reduced hyperparameters (epochs=3, batch=256) for rapid multi-seed evaluation, explaining the 34.62% vs 66.38% accuracy difference from Table XII.
-
----
-
-## 📄 Citation
-
-```bibtex
-@article{author2026byzantine,
-  title={Byzantine-Robust Federated Learning with Adaptive Aggregation and Blockchain},
-  author={[Author Names Withheld for Blind Review]},
-  journal={IEEE Access},
-  year={2026},
-  note={Under Review}
-}
-```
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
-
----
-
-## 🔗 Related Resources
-
-- Paper PDF: [paper/federated_learning_paper.pdf](paper/federated_learning_paper.pdf)
-- Aggregation algorithms: [src/aggregation/](src/aggregation/)
-- Experiment scripts: [src/experiments/](src/experiments/)
-- All results: [results/](results/)
-
----
-
-## 📊 Latest Results (January 2026)
-
-### Byzantine Degradation Analysis (CIFAR-10, 30% Byzantine Attack)
-
-| Method | Clean Baseline | Under Attack | Degradation |
-|--------|----------------|--------------|-------------|
-| FedAvg | 59.13% | 54.99% | **7.0%** |
-| FedProx | 60.07% | 56.67% | **5.7%** |
-| TrimmedMean | 56.68% | 53.19% | **6.2%** |
-
-*Experimental setup: NVIDIA RTX 5060 Ti GPU, PyTorch 2.9.1+cu128, seed=42*
-
----
-
-*Last Updated: January 6, 2026*
+Files and results from earlier development iterations remain for provenance but
+are not used as evidence in revision R2.

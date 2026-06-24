@@ -1,0 +1,184 @@
+{
+  "source_result": "results\\unified_mnist_actual.json",
+  "summary": {
+    "atma": {
+      "n": 3,
+      "accuracies_percent": [
+        76.5,
+        80.07,
+        77.89
+      ],
+      "mean_accuracy_percent": 78.15333333333332,
+      "sample_std_percent": 1.7995091923447684,
+      "confidence_interval_95_percent": [
+        73.6831046860437,
+        82.62356198062294
+      ],
+      "confidence_interval_95_margin_percent": 4.470228647289621
+    },
+    "clean_fedavg": {
+      "n": 3,
+      "accuracies_percent": [
+        81.62,
+        81.87,
+        83.97
+      ],
+      "mean_accuracy_percent": 82.48666666666666,
+      "sample_std_percent": 1.2906716597699528,
+      "confidence_interval_95_percent": [
+        79.28046052318447,
+        85.69287281014886
+      ],
+      "confidence_interval_95_margin_percent": 3.2062061434821985
+    },
+    "fedavg": {
+      "n": 3,
+      "accuracies_percent": [
+        25.5,
+        20.09,
+        21.5
+      ],
+      "mean_accuracy_percent": 22.363333333333333,
+      "sample_std_percent": 2.806427147341141,
+      "confidence_interval_95_percent": [
+        15.3917818214297,
+        29.334884845236967
+      ],
+      "confidence_interval_95_margin_percent": 6.971551511903634
+    },
+    "krum": {
+      "n": 3,
+      "accuracies_percent": [
+        54.669999999999995,
+        56.95,
+        68.42
+      ],
+      "mean_accuracy_percent": 60.01333333333334,
+      "sample_std_percent": 7.369099899806853,
+      "confidence_interval_95_percent": [
+        41.707474370794415,
+        78.31919229587227
+      ],
+      "confidence_interval_95_margin_percent": 18.30585896253893
+    },
+    "trimmed_mean": {
+      "n": 3,
+      "accuracies_percent": [
+        76.91,
+        79.88,
+        77.9
+      ],
+      "mean_accuracy_percent": 78.23,
+      "sample_std_percent": 1.5122499793354256,
+      "confidence_interval_95_percent": [
+        74.47336279678576,
+        81.98663720321424
+      ],
+      "confidence_interval_95_margin_percent": 3.7566372032142343
+    }
+  },
+  "paired_tests": {
+    "fedavg_minus_clean_fedavg": {
+      "mean_difference_percentage_points": -60.123333333333335,
+      "paired_t_statistic": 29.88901657871952,
+      "p_value_two_sided": 0.0011175019401718082,
+      "seedwise_differences_percentage_points": [
+        -56.120000000000005,
+        -61.78,
+        -62.47
+      ]
+    },
+    "krum_minus_fedavg": {
+      "mean_difference_percentage_points": 37.65,
+      "paired_t_statistic": -7.326062839317967,
+      "p_value_two_sided": 0.018126902384557622,
+      "seedwise_differences_percentage_points": [
+        29.169999999999995,
+        36.86,
+        46.92
+      ]
+    },
+    "trimmed_mean_minus_fedavg": {
+      "mean_difference_percentage_points": 55.86666666666667,
+      "paired_t_statistic": -22.954963034661354,
+      "p_value_two_sided": 0.0018923987577933522,
+      "seedwise_differences_percentage_points": [
+        51.41,
+        59.78999999999999,
+        56.400000000000006
+      ]
+    },
+    "atma_minus_fedavg": {
+      "mean_difference_percentage_points": 55.79,
+      "paired_t_statistic": -21.37872213003084,
+      "p_value_two_sided": 0.0021807910017219894,
+      "seedwise_differences_percentage_points": [
+        51.0,
+        59.97999999999999,
+        56.39
+      ]
+    },
+    "atma_minus_trimmed_mean": {
+      "mean_difference_percentage_points": -0.07666666666666799,
+      "paired_t_statistic": 0.43465914396062366,
+      "p_value_two_sided": 0.7062126949915759,
+      "seedwise_differences_percentage_points": [
+        -0.4099999999999966,
+        0.18999999999999773,
+        -0.010000000000005116
+      ]
+    }
+  },
+  "atma_detection": {
+    "tp": 240,
+    "fp": 8,
+    "fn": 0,
+    "tn": 952,
+    "precision": 0.967741935483871,
+    "recall": 1.0,
+    "f1": 0.9836065573770492,
+    "rounds_evaluated": 60,
+    "trim_ratio_min": 0.15000000000000002,
+    "trim_ratio_max": 0.19999990463256836,
+    "trim_ratio_final_by_seed": [
+      0.19999990463256836,
+      0.19999990463256836,
+      0.19999990463256836
+    ],
+    "flagged_count_min": 4,
+    "flagged_count_max": 6
+  },
+  "krum_selection": {
+    "selected_byzantine_rounds": 0,
+    "selected_honest_rounds": 60,
+    "rounds_evaluated": 60
+  },
+  "blockchain": {
+    "chain_id": 1337,
+    "contract_address": "0xe78A0F7E598Cc8b0Bb87894B0F60dD2a88d6a8Ab",
+    "deployment_tx_hash": "fbc2f910da9de1012c0ec4e46fbdb519c848fb542600d6e788d85ba452c8bef7",
+    "deployment_block_number": 1,
+    "deployment_gas_used": 512965,
+    "latest_block": 421,
+    "transaction_count_excluding_deployment": 420,
+    "successful_transaction_count": 420,
+    "total_gas_used_including_deployment": 24415241,
+    "operation_gas": {
+      "record_client_update": {
+        "count": 400,
+        "total": 21622452,
+        "mean": 54056.13,
+        "min": 49964,
+        "max": 69888
+      },
+      "finalize_round": {
+        "count": 20,
+        "total": 2279824,
+        "mean": 113991.2,
+        "min": 113981,
+        "max": 113993
+      }
+    },
+    "all_readback_verifications_passed": true
+  }
+}
