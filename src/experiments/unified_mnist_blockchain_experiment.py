@@ -275,7 +275,7 @@ def run_method(
     atma = AdaptiveTrimmedMean(
         initial_trim_ratio=0.10,
         min_trim_ratio=0.05,
-        max_trim_ratio=config.byzantine_clients / config.total_clients,
+        max_trim_ratio=0.25,
         adaptation_rate=0.50,
         outlier_z_threshold=3.5,
     )
@@ -339,7 +339,7 @@ def run_method(
         blockchain_record = None
         if audit_chain is not None:
             flagged_ids = set(metadata.get("flagged_client_ids", []))
-            verification_passed = True
+            client_verification_passed = True
             for client_id, update in enumerate(updates):
                 update_hash = hash_tensors(update)
                 audit_chain.record_client_update(
@@ -348,7 +348,7 @@ def run_method(
                     update_hash,
                     client_id in flagged_ids,
                 )
-                verification_passed &= audit_chain.verify_client_update(
+                client_verification_passed &= audit_chain.verify_client_update(
                     round_number,
                     client_id,
                     update_hash,
@@ -358,12 +358,25 @@ def run_method(
             receipt = audit_chain.finalize_round(
                 round_number,
                 aggregate_hash,
-                config.clients_per_round - len(flagged_ids),
+                config.clients_per_round,
                 len(flagged_ids),
+                metadata["trim_count_each_tail"],
+            )
+            summary_verification_passed = audit_chain.verify_round_summary(
+                round_number,
+                aggregate_hash,
+                config.clients_per_round,
+                len(flagged_ids),
+                metadata["trim_count_each_tail"],
             )
             blockchain_record = {
                 "aggregate_hash": "0x" + aggregate_hash.hex(),
-                "verification_passed": verification_passed,
+                "client_verification_passed": client_verification_passed,
+                "summary_verification_passed": summary_verification_passed,
+                "verification_passed": (
+                    client_verification_passed
+                    and summary_verification_passed
+                ),
                 "finalize_tx_hash": receipt["tx_hash"],
                 "finalize_block_number": receipt["block_number"],
             }

@@ -105,14 +105,16 @@ class FLAuditChain:
         self,
         round_number: int,
         aggregate_hash: bytes,
-        accepted_count: int,
+        submitted_count: int,
         flagged_count: int,
+        trim_count_each_tail: int,
     ) -> dict:
         tx_hash = self.contract.functions.finalizeRound(
             round_number,
             aggregate_hash,
-            accepted_count,
+            submitted_count,
             flagged_count,
+            trim_count_each_tail,
         ).transact({"from": self.coordinator})
         receipt = self.w3.eth.wait_for_transaction_receipt(tx_hash)
         record = self._receipt_record("finalize_round", tx_hash, receipt)
@@ -120,8 +122,9 @@ class FLAuditChain:
             {
                 "round": round_number,
                 "aggregate_hash": "0x" + aggregate_hash.hex(),
-                "accepted_count": accepted_count,
+                "submitted_count": submitted_count,
                 "flagged_count": flagged_count,
+                "trim_count_each_tail": trim_count_each_tail,
             }
         )
         self.transactions.append(record)
@@ -142,7 +145,34 @@ class FLAuditChain:
             round_number,
             client_id,
         ).call()
-        return stored_hash == expected_hash and stored_flag == expected_flagged
+        stored_recorded = self.contract.functions.updateRecorded(
+            round_number,
+            client_id,
+        ).call()
+        return (
+            stored_recorded
+            and stored_hash == expected_hash
+            and stored_flag == expected_flagged
+        )
+
+    def verify_round_summary(
+        self,
+        round_number: int,
+        expected_hash: bytes,
+        expected_submitted_count: int,
+        expected_flagged_count: int,
+        expected_trim_count_each_tail: int,
+    ) -> bool:
+        stored = self.contract.functions.roundSummaries(round_number).call()
+        finalized = self.contract.functions.roundFinalized(round_number).call()
+        return (
+            finalized
+            and stored[0] == expected_hash
+            and int(stored[1]) == expected_submitted_count
+            and int(stored[2]) == expected_flagged_count
+            and int(stored[3]) == expected_trim_count_each_tail
+            and int(stored[4]) > 0
+        )
 
     def evidence(self) -> dict:
         gas_total = self.deployment["gas_used"] + sum(

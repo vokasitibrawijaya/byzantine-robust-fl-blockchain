@@ -70,6 +70,29 @@ def set_page_break_before(paragraph) -> None:
         properties.append(etree.Element(qn("pageBreakBefore")))
 
 
+def split_paragraph_at_first_break(paragraph):
+    children = list(paragraph)
+    break_child_index = None
+    break_run = None
+    for child_index, child in enumerate(children):
+        if child.tag != qn("r"):
+            continue
+        if child.find(qn("br")) is not None:
+            break_child_index = child_index
+            break_run = child
+            break
+    if break_child_index is None:
+        return paragraph, None
+
+    second = etree.Element(qn("p"))
+    for child in children[break_child_index + 1 :]:
+        paragraph.remove(child)
+        second.append(child)
+    paragraph.remove(break_run)
+    paragraph.addnext(second)
+    return paragraph, second
+
+
 def constrain_inline_images(root, maximum_width_emu: int = 2_925_000) -> None:
     for drawing in root.xpath(".//w:drawing", namespaces=NS):
         extent = drawing.find(".//wp:extent", namespaces=NS)
@@ -179,17 +202,106 @@ def main() -> None:
         set_paragraph_style(response_heading, "Title")
         set_paragraph_alignment(response_heading, "left")
     if manuscript_title is not None:
-        set_paragraph_style(manuscript_title, "Title")
-        set_paragraph_alignment(manuscript_title, "center")
+        set_paragraph_style(manuscript_title, "ETASRpapertitle")
+        set_paragraph_alignment(manuscript_title, "left")
         set_page_break_before(manuscript_title)
     if abstract_heading is not None:
-        set_paragraph_alignment(abstract_heading, "center")
+        set_paragraph_style(abstract_heading, "ETASRHeading5bold")
+        set_paragraph_alignment(abstract_heading, "left")
 
     if manuscript_title is not None and abstract_heading is not None:
         start = paragraphs.index(manuscript_title)
         end = paragraphs.index(abstract_heading)
-        for paragraph in paragraphs[start:end]:
-            set_paragraph_alignment(paragraph, "center")
+        author_paragraphs = paragraphs[start + 1 : end]
+        for paragraph in author_paragraphs:
+            author, affiliation = split_paragraph_at_first_break(paragraph)
+            set_paragraph_style(author, "ETASRauthor")
+            set_paragraph_alignment(author, "left")
+            if affiliation is not None:
+                set_paragraph_style(affiliation, "ETASRaffiliation")
+                set_paragraph_alignment(affiliation, "left")
+
+    paragraphs = document.xpath(".//w:p", namespaces=NS)
+    manuscript_start = paragraphs.index(manuscript_title) if manuscript_title is not None else 0
+    references_heading = next(
+        (
+            paragraph
+            for paragraph in paragraphs
+            if paragraph_text(paragraph).strip() == "References"
+        ),
+        None,
+    )
+    first_reference = next(
+        (
+            paragraph
+            for paragraph in paragraphs
+            if paragraph_text(paragraph).strip().startswith("H. B. McMahan")
+        ),
+        None,
+    )
+    if references_heading is None and first_reference is not None:
+        first_reference_index = paragraphs.index(first_reference)
+        if first_reference_index > 0:
+            previous = paragraphs[first_reference_index - 1]
+            if paragraph_text(previous).strip().isdigit():
+                previous.getparent().remove(previous)
+        references_heading = etree.Element(qn("p"))
+        heading_run = etree.SubElement(references_heading, qn("r"))
+        heading_text = etree.SubElement(heading_run, qn("t"))
+        heading_text.text = "References"
+        first_reference.addprevious(references_heading)
+        set_paragraph_style(references_heading, "ETASRHeading1")
+
+    paragraphs = document.xpath(".//w:p", namespaces=NS)
+    references_start = (
+        paragraphs.index(references_heading)
+        if references_heading is not None
+        else len(paragraphs)
+    )
+
+    for index, paragraph in enumerate(paragraphs):
+        if index <= manuscript_start:
+            continue
+        text = paragraph_text(paragraph).strip()
+        properties = paragraph.find(qn("pPr"))
+        style = properties.find(qn("pStyle")) if properties is not None else None
+        style_id = style.get(qn("val")) if style is not None else None
+
+        if paragraph is abstract_heading:
+            continue
+        if text.startswith("Keywords:"):
+            set_paragraph_style(paragraph, "ETASRkeywords")
+            set_paragraph_alignment(paragraph, "both")
+        elif index == paragraphs.index(abstract_heading) + 1:
+            set_paragraph_style(paragraph, "ETASRabstract")
+            set_paragraph_alignment(paragraph, "both")
+        elif style_id == "Heading1":
+            set_paragraph_style(paragraph, "ETASRHeading1")
+        elif style_id == "Heading2":
+            set_paragraph_style(paragraph, "ETASRHeading2")
+        elif style_id == "Heading3":
+            set_paragraph_style(paragraph, "ETASRHeading3")
+        elif style_id == "TableCaption":
+            set_paragraph_style(paragraph, "ETASRtablehead")
+        elif style_id == "ImageCaption":
+            set_paragraph_style(paragraph, "ETASRfigurecaption")
+        elif index > references_start:
+            set_paragraph_style(paragraph, "ETASRreferences")
+            set_paragraph_alignment(paragraph, "both")
+        elif paragraph.find(".//" + qn("numPr")) is not None or style_id is None:
+            set_paragraph_style(paragraph, "ETASRbulletlist")
+        elif style_id in {"BodyText", "FirstParagraph", "Compact"}:
+            set_paragraph_style(paragraph, "ETASRbodytext")
+            set_paragraph_alignment(paragraph, "both")
+
+    for table in document.xpath(".//w:tbl", namespaces=NS):
+        rows = table.xpath("./w:tr", namespaces=NS)
+        for row_index, row in enumerate(rows):
+            for paragraph in row.xpath(".//w:p", namespaces=NS):
+                set_paragraph_style(
+                    paragraph,
+                    "ETASRtablecolhead" if row_index == 0 else "ETASRtablecopy",
+                )
 
     constrain_inline_images(document)
 

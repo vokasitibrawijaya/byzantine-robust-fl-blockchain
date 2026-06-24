@@ -1,12 +1,12 @@
 # Byzantine-Robust Federated Learning with Blockchain Auditability
 
 This repository contains the reproducible experiment used for manuscript
-revision R2:
+revision R3:
 
 **"Byzantine-Robust Federated Learning with Adaptive Aggregation and
 Blockchain: A Reproducible Empirical Evaluation"**
 
-## Final R2 Experiment
+## Final R3 Experiment
 
 All compared methods use one configuration:
 
@@ -30,21 +30,25 @@ Final test accuracy:
 | FedAvg (attack) | 22.36% | 2.81 | [15.39, 29.33] |
 | Krum | 60.01% | 7.37 | [41.71, 78.32] |
 | TrimmedMean | 78.23% | 1.51 | [74.47, 81.99] |
-| ATMA | 78.15% | 1.80 | [73.68, 82.62] |
+| MAD-ATMA | 78.22% | 1.98 | [73.29, 83.14] |
 
-ATMA and TrimmedMean have statistically indistinguishable final accuracy
-(`p=0.706`). ATMA's contribution in this experiment is automatic trim-ratio
-adaptation and anomaly flagging, not higher final accuracy.
+No statistically significant final-accuracy difference was detected between
+MAD-ATMA and TrimmedMean (`p=0.967`, three paired seeds). MAD-ATMA uses
+distance-to-median MAD scores and adapts its trim ratio inside a prespecified
+5-25% safety interval. Its contribution in this experiment is adaptation and
+anomaly flagging, not higher final accuracy.
 
 ## Blockchain Evidence
 
-The ATMA seed-42 run deploys `FLAudit.sol` to Ganache chain 1337 and records:
+The MAD-ATMA seed-42 run deploys the write-once `FLAudit.sol` contract to
+Ganache chain 1337 and records:
 
 - 400 client-update hashes
 - 20 round summaries
 - 420 successful post-deployment transactions
-- 24,415,241 measured gas including deployment
-- successful contract read-back verification for every stored update
+- 34,647,901 measured gas including deployment
+- successful read-back of every client record and complete round summary
+- overwrite guards for existing client records and finalized rounds
 
 These are local EVM audit measurements. They are not mainnet cost, Layer-2,
 latency, decentralization, or production-readiness claims.
@@ -92,11 +96,11 @@ python -m unittest discover -s tests -p "test_*.py" -v
 
 - `results/unified_mnist_actual.json`: raw final runs and transaction receipts
 - `results/unified_mnist_analysis.json`: calculated statistics
-- `src/aggregation/robust_aggregation.py`: corrected Krum and ATMA
+- `src/aggregation/robust_aggregation.py`: corrected Krum and MAD-ATMA
 - `src/blockchain/contracts/FLAudit.sol`: audit contract
 - `visualizations/revision_actual/`: generated figures and LaTeX tables
-- `revision_ETASR_APRIL2026/18579_REVISION_R2_ETASR_FINAL.docx`: submission file
-- `revision_ETASR_APRIL2026/18579_REVISION_R2_EVIDENCE_BASED.pdf`: review PDF
+- `revision_ETASR_APRIL2026/18579_REVISION_R3_ETASR_FINAL.docx`: submission file
+- `revision_ETASR_APRIL2026/18579_REVISION_R3_EVIDENCE_BASED.pdf`: review PDF
 
 Files and results from earlier development iterations remain for provenance but
-are not used as evidence in revision R2.
+are not used as evidence in revision R3.

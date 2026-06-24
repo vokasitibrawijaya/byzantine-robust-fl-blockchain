@@ -4,17 +4,17 @@
     "atma": {
       "n": 3,
       "accuracies_percent": [
-        76.5,
-        80.07,
-        77.89
+        76.38000000000001,
+        80.32000000000001,
+        77.95
       ],
-      "mean_accuracy_percent": 78.15333333333332,
-      "sample_std_percent": 1.7995091923447684,
+      "mean_accuracy_percent": 78.21666666666668,
+      "sample_std_percent": 1.9834901898757478,
       "confidence_interval_95_percent": [
-        73.6831046860437,
-        82.62356198062294
+        73.28940388517057,
+        83.1439294481628
       ],
-      "confidence_interval_95_margin_percent": 4.470228647289621
+      "confidence_interval_95_margin_percent": 4.927262781496108
     },
     "clean_fedavg": {
       "n": 3,
@@ -109,23 +109,23 @@
       ]
     },
     "atma_minus_fedavg": {
-      "mean_difference_percentage_points": 55.79,
-      "paired_t_statistic": -21.37872213003084,
-      "p_value_two_sided": 0.0021807910017219894,
+      "mean_difference_percentage_points": 55.85333333333333,
+      "paired_t_statistic": -20.56796448294918,
+      "p_value_two_sided": 0.002355487467259187,
       "seedwise_differences_percentage_points": [
-        51.0,
-        59.97999999999999,
-        56.39
+        50.88000000000001,
+        60.230000000000004,
+        56.45
       ]
     },
     "atma_minus_trimmed_mean": {
-      "mean_difference_percentage_points": -0.07666666666666799,
-      "paired_t_statistic": 0.43465914396062366,
-      "p_value_two_sided": 0.7062126949915759,
+      "mean_difference_percentage_points": -0.013333333333325944,
+      "paired_t_statistic": 0.04731491892729751,
+      "p_value_two_sided": 0.9665620091616505,
       "seedwise_differences_percentage_points": [
-        -0.4099999999999966,
-        0.18999999999999773,
-        -0.010000000000005116
+        -0.5299999999999869,
+        0.44000000000001194,
+        0.04999999999999716
       ]
     }
   },
@@ -138,12 +138,12 @@
     "recall": 1.0,
     "f1": 0.9836065573770492,
     "rounds_evaluated": 60,
-    "trim_ratio_min": 0.15000000000000002,
-    "trim_ratio_max": 0.19999990463256836,
+    "trim_ratio_min": 0.1500000014901161,
+    "trim_ratio_max": 0.23828115533105745,
     "trim_ratio_final_by_seed": [
-      0.19999990463256836,
-      0.19999990463256836,
-      0.19999990463256836
+      0.212501432746555,
+      0.23828115533105745,
+      0.20048818883369393
     ],
     "flagged_count_min": 4,
     "flagged_count_max": 6
@@ -156,29 +156,31 @@
   "blockchain": {
     "chain_id": 1337,
     "contract_address": "0xe78A0F7E598Cc8b0Bb87894B0F60dD2a88d6a8Ab",
-    "deployment_tx_hash": "fbc2f910da9de1012c0ec4e46fbdb519c848fb542600d6e788d85ba452c8bef7",
+    "deployment_tx_hash": "fb94cfc4d18b60d70bad58f3ddc979537c2fd6147e710c7a3464ed40b1016372",
     "deployment_block_number": 1,
-    "deployment_gas_used": 512965,
+    "deployment_gas_used": 789893,
     "latest_block": 421,
     "transaction_count_excluding_deployment": 420,
     "successful_transaction_count": 420,
-    "total_gas_used_including_deployment": 24415241,
+    "total_gas_used_including_deployment": 34647901,
     "operation_gas": {
       "record_client_update": {
         "count": 400,
-        "total": 21622452,
-        "mean": 54056.13,
-        "min": 49964,
-        "max": 69888
+        "total": 30667664,
+        "mean": 76669.16,
+        "min": 72577,
+        "max": 92501
       },
       "finalize_round": {
         "count": 20,
-        "total": 2279824,
-        "mean": 113991.2,
-        "min": 113981,
-        "max": 113993
+        "total": 3190344,
+        "mean": 159517.2,
+        "min": 159507,
+        "max": 159519
       }
     },
-    "all_readback_verifications_passed": true
+    "all_readback_verifications_passed": true,
+    "all_client_readback_verifications_passed": true,
+    "all_summary_readback_verifications_passed": true
   }
 }

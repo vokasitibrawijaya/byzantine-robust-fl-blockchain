@@ -29,7 +29,7 @@ METHOD_LABELS = {
     "fedavg": "FedAvg (attack)",
     "krum": "Krum",
     "trimmed_mean": "TrimmedMean",
-    "atma": "ATMA",
+    "atma": "MAD-ATMA",
 }
 COLORS = {
     "clean_fedavg": "#4d4d4d",
@@ -170,11 +170,23 @@ def blockchain_summary(data: dict) -> dict:
             if run["method"] == "atma" and run["seed"] == 42
             for round_result in run["rounds"]
         ),
+        "all_client_readback_verifications_passed": all(
+            round_result["blockchain"]["client_verification_passed"]
+            for run in data["runs"]
+            if run["method"] == "atma" and run["seed"] == 42
+            for round_result in run["rounds"]
+        ),
+        "all_summary_readback_verifications_passed": all(
+            round_result["blockchain"]["summary_verification_passed"]
+            for run in data["runs"]
+            if run["method"] == "atma" and run["seed"] == 42
+            for round_result in run["rounds"]
+        ),
     }
 
 
 def plot_convergence(grouped: dict[str, list[dict]]) -> None:
-    plt.figure(figsize=(8.2, 5.2))
+    plt.figure(figsize=(3.35, 2.55))
     rounds = np.arange(1, len(grouped["atma"][0]["rounds"]) + 1)
     for method in METHOD_ORDER:
         matrix = np.array(
@@ -193,9 +205,9 @@ def plot_convergence(grouped: dict[str, list[dict]]) -> None:
             mean,
             label=METHOD_LABELS[method],
             color=COLORS[method],
-            linewidth=2.2,
+            linewidth=1.4,
             marker="o",
-            markersize=3.5,
+            markersize=2.3,
             markevery=2,
         )
         plt.fill_between(
@@ -205,13 +217,14 @@ def plot_convergence(grouped: dict[str, list[dict]]) -> None:
             color=COLORS[method],
             alpha=0.12,
         )
-    plt.xlabel("Communication round")
-    plt.ylabel("MNIST test accuracy (%)")
+    plt.xlabel("Communication round", fontsize=8)
+    plt.ylabel("Test accuracy (%)", fontsize=8)
     plt.xticks(rounds[::2])
     plt.ylim(0, 90)
     plt.grid(alpha=0.25)
-    plt.legend(ncol=2, frameon=True)
-    plt.tight_layout()
+    plt.tick_params(axis="both", labelsize=7)
+    plt.legend(ncol=2, frameon=True, fontsize=6.4)
+    plt.tight_layout(pad=0.4)
     plt.savefig(
         VISUALIZATION_DIRECTORY / "figure1_convergence_actual.png",
         dpi=300,
@@ -232,13 +245,13 @@ def plot_final_accuracy(data: dict) -> None:
     labels = [METHOD_LABELS[method] for method in METHOD_ORDER]
     colors = [COLORS[method] for method in METHOD_ORDER]
 
-    plt.figure(figsize=(8.2, 4.8))
+    plt.figure(figsize=(3.35, 2.45))
     positions = np.arange(len(labels))
     bars = plt.bar(
         positions,
         means,
         yerr=margins,
-        capsize=5,
+        capsize=3,
         color=colors,
         edgecolor="black",
         linewidth=0.7,
@@ -246,17 +259,18 @@ def plot_final_accuracy(data: dict) -> None:
     for bar, mean in zip(bars, means):
         plt.text(
             bar.get_x() + bar.get_width() / 2,
-            bar.get_height() + 1.2,
+            bar.get_height() + 1.0,
             f"{mean:.1f}",
             ha="center",
             va="bottom",
-            fontsize=9,
+            fontsize=6.5,
         )
-    plt.xticks(positions, labels, rotation=12, ha="right")
-    plt.ylabel("Final accuracy at round 20 (%)")
+    plt.xticks(positions, labels, rotation=18, ha="right", fontsize=6.2)
+    plt.yticks(fontsize=7)
+    plt.ylabel("Final accuracy (%)", fontsize=8)
     plt.ylim(0, 95)
     plt.grid(axis="y", alpha=0.25)
-    plt.tight_layout()
+    plt.tight_layout(pad=0.4)
     plt.savefig(
         VISUALIZATION_DIRECTORY / "figure2_final_accuracy_actual.png",
         dpi=300,
@@ -313,9 +327,9 @@ def write_blockchain_table(blockchain: dict) -> None:
         f"Contract deployment & 1 & "
         f"{blockchain['deployment_gas_used']:,} \\\\",
         f"Client update record & {client['count']} & "
-        f"{client['mean']:.0f} \\\\",
+        f"{client['mean']:,.0f} \\\\",
         f"Round finalization & {rounds['count']} & "
-        f"{rounds['mean']:.0f} \\\\",
+        f"{rounds['mean']:,.0f} \\\\",
         r"\midrule",
         f"Total measured gas & -- & "
         f"{blockchain['total_gas_used_including_deployment']:,} \\\\",

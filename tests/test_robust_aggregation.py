@@ -37,6 +37,19 @@ class RobustAggregationTests(unittest.TestCase):
         self.assertTrue({4, 5}.issubset(set(metadata["flagged_client_ids"])))
         self.assertGreater(metadata["trim_ratio"], 0.05)
 
+    def test_atma_uses_configured_safety_bound_not_known_byzantine_ratio(self):
+        aggregator = AdaptiveTrimmedMean(
+            initial_trim_ratio=0.10,
+            min_trim_ratio=0.05,
+            max_trim_ratio=0.25,
+            adaptation_rate=1.0,
+        )
+        updates = [update(value) for value in [0, 0.01, -0.01, 0.02, 8, 9]]
+
+        _, metadata = aggregator.aggregate(updates, client_ids=list(range(6)))
+
+        self.assertEqual(metadata["trim_ratio"], 0.25)
+
 
 if __name__ == "__main__":
     unittest.main()
