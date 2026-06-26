@@ -129,6 +129,51 @@
       ]
     }
   },
+  "weighting_sensitivity": {
+    "source_result": "results\\unified_mnist_equal_weight_sensitivity.json",
+    "summary": {
+      "n": 3,
+      "accuracies_percent": [
+        38.34,
+        24.37,
+        33.12
+      ],
+      "mean_accuracy_percent": 31.94333333333334,
+      "sample_std_percent": 7.058939958190135,
+      "confidence_interval_95_percent": [
+        14.407954378429231,
+        49.478712288237446
+      ],
+      "confidence_interval_95_margin_percent": 17.535378954904107
+    },
+    "equal_minus_sample_weighted_fedavg": {
+      "mean_difference_percentage_points": 9.58,
+      "paired_t_statistic": -3.583585719093852,
+      "p_value_two_sided": 0.06981289110078674,
+      "seedwise_differences_percentage_points": [
+        12.840000000000003,
+        4.280000000000001,
+        11.619999999999997
+      ]
+    },
+    "robust_method_minus_equal_client_mean": {
+      "krum": {
+        "mean_difference_percentage_points": 28.069999999999997,
+        "paired_t_statistic": -4.739726392662954,
+        "p_value_two_sided": 0.041746075926163674
+      },
+      "trimmed_mean": {
+        "mean_difference_percentage_points": 46.28666666666666,
+        "paired_t_statistic": -9.35491935617352,
+        "p_value_two_sided": 0.0112344792148474
+      },
+      "atma": {
+        "mean_difference_percentage_points": 46.27333333333334,
+        "paired_t_statistic": -8.864122645194717,
+        "p_value_two_sided": 0.012489145626899793
+      }
+    }
+  },
   "atma_detection": {
     "tp": 240,
     "fp": 8,

@@ -1,0 +1,576 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-06-24T18:48:33Z",
+  "device": "cuda",
+  "torch_version": "2.9.1+cu128",
+  "config": {
+    "dataset": "MNIST",
+    "model": "SmallMNISTCNN",
+    "total_clients": 20,
+    "clients_per_round": 20,
+    "byzantine_clients": 4,
+    "dirichlet_alpha": 0.5,
+    "rounds": 20,
+    "local_epochs": 1,
+    "max_batches_per_client": 3,
+    "batch_size": 64,
+    "learning_rate": 0.05,
+    "attack": "label_flip_plus_scaled_model_delta",
+    "attack_scale": 5.0,
+    "label_shift": 1,
+    "static_trim_count_each_tail": 4,
+    "seeds": [
+      42,
+      43,
+      44
+    ]
+  },
+  "runs": [
+    {
+      "method": "fedavg_equal",
+      "seed": 42,
+      "attack_enabled": true,
+      "byzantine_client_ids": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_accuracy": 0.3834,
+      "final_test_loss": 1.5516139312744142,
+      "runtime_seconds": 35.73235439998098,
+      "rounds": [
+        {
+          "round": 1,
+          "accuracy": 0.096,
+          "test_loss": 2.3208744689941407,
+          "mean_local_loss": 2.2023222307364145,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 2,
+          "accuracy": 0.114,
+          "test_loss": 2.3620531005859373,
+          "mean_local_loss": 2.055432577927907,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 3,
+          "accuracy": 0.1369,
+          "test_loss": 2.2806394287109377,
+          "mean_local_loss": 1.937842446565628,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 4,
+          "accuracy": 0.1737,
+          "test_loss": 2.1984580871582033,
+          "mean_local_loss": 1.9350127796332042,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 5,
+          "accuracy": 0.1643,
+          "test_loss": 2.207798254394531,
+          "mean_local_loss": 1.8277167012294133,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 6,
+          "accuracy": 0.1881,
+          "test_loss": 2.110644140625,
+          "mean_local_loss": 1.792679784695307,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 7,
+          "accuracy": 0.1759,
+          "test_loss": 2.1570408081054686,
+          "mean_local_loss": 1.7410379946231842,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 8,
+          "accuracy": 0.1876,
+          "test_loss": 2.01487490234375,
+          "mean_local_loss": 1.6551100293795264,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 9,
+          "accuracy": 0.1919,
+          "test_loss": 2.032615606689453,
+          "mean_local_loss": 1.634630932410558,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 10,
+          "accuracy": 0.2031,
+          "test_loss": 2.0517259826660155,
+          "mean_local_loss": 1.496760927637418,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 11,
+          "accuracy": 0.3321,
+          "test_loss": 2.015024932861328,
+          "mean_local_loss": 1.7935897320508958,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 12,
+          "accuracy": 0.1798,
+          "test_loss": 1.942290313720703,
+          "mean_local_loss": 1.677039800087611,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 13,
+          "accuracy": 0.2603,
+          "test_loss": 1.7966102355957032,
+          "mean_local_loss": 1.4203562458356223,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 14,
+          "accuracy": 0.2147,
+          "test_loss": 1.8684785583496093,
+          "mean_local_loss": 1.305561069647471,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 15,
+          "accuracy": 0.2871,
+          "test_loss": 1.8382298217773438,
+          "mean_local_loss": 1.4954714218775431,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 16,
+          "accuracy": 0.2196,
+          "test_loss": 1.8010463623046875,
+          "mean_local_loss": 1.340482105811437,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 17,
+          "accuracy": 0.3464,
+          "test_loss": 1.661196209716797,
+          "mean_local_loss": 1.2326156248648963,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 18,
+          "accuracy": 0.3075,
+          "test_loss": 1.7676593627929686,
+          "mean_local_loss": 1.129264529546102,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 19,
+          "accuracy": 0.3187,
+          "test_loss": 1.6919496459960937,
+          "mean_local_loss": 1.1664114077885945,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 20,
+          "accuracy": 0.3834,
+          "test_loss": 1.5516139312744142,
+          "mean_local_loss": 1.0918353726466496,
+          "metadata": {},
+          "blockchain": null
+        }
+      ]
+    },
+    {
+      "method": "fedavg_equal",
+      "seed": 43,
+      "attack_enabled": true,
+      "byzantine_client_ids": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_accuracy": 0.2437,
+      "final_test_loss": 1.7941773986816407,
+      "runtime_seconds": 33.473172899801284,
+      "rounds": [
+        {
+          "round": 1,
+          "accuracy": 0.0936,
+          "test_loss": 2.3385488037109377,
+          "mean_local_loss": 2.1927370468775433,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 2,
+          "accuracy": 0.0674,
+          "test_loss": 2.391014990234375,
+          "mean_local_loss": 2.030946073929469,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 3,
+          "accuracy": 0.1463,
+          "test_loss": 2.3223978515625,
+          "mean_local_loss": 1.928300541639328,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 4,
+          "accuracy": 0.0458,
+          "test_loss": 2.4358414916992186,
+          "mean_local_loss": 1.84646941224734,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 5,
+          "accuracy": 0.1906,
+          "test_loss": 2.2045505859375,
+          "mean_local_loss": 1.8721856315930683,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 6,
+          "accuracy": 0.0981,
+          "test_loss": 2.464811572265625,
+          "mean_local_loss": 1.7451720704634983,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 7,
+          "accuracy": 0.2379,
+          "test_loss": 2.1060395629882813,
+          "mean_local_loss": 1.8892524629831313,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 8,
+          "accuracy": 0.1156,
+          "test_loss": 2.6317627502441407,
+          "mean_local_loss": 1.6387608935435611,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 9,
+          "accuracy": 0.318,
+          "test_loss": 2.043964666748047,
+          "mean_local_loss": 1.7881570408741634,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 10,
+          "accuracy": 0.0957,
+          "test_loss": 2.671117224121094,
+          "mean_local_loss": 1.5364390283823013,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 11,
+          "accuracy": 0.3493,
+          "test_loss": 1.9499348083496093,
+          "mean_local_loss": 1.7914272268613178,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 12,
+          "accuracy": 0.1635,
+          "test_loss": 2.4370179077148437,
+          "mean_local_loss": 1.47703704337279,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 13,
+          "accuracy": 0.2784,
+          "test_loss": 1.9228399108886718,
+          "mean_local_loss": 1.5781887571016946,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 14,
+          "accuracy": 0.2098,
+          "test_loss": 2.1389898315429687,
+          "mean_local_loss": 1.3741347402334214,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 15,
+          "accuracy": 0.2982,
+          "test_loss": 1.7465138793945312,
+          "mean_local_loss": 1.43478123297294,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 16,
+          "accuracy": 0.2388,
+          "test_loss": 1.9715036254882812,
+          "mean_local_loss": 1.2408659547567367,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 17,
+          "accuracy": 0.315,
+          "test_loss": 1.6412140594482423,
+          "mean_local_loss": 1.3435648530721664,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 18,
+          "accuracy": 0.2697,
+          "test_loss": 1.8350434936523436,
+          "mean_local_loss": 1.168519002199173,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 19,
+          "accuracy": 0.3829,
+          "test_loss": 1.5480462707519531,
+          "mean_local_loss": 1.3188768496116001,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 20,
+          "accuracy": 0.2437,
+          "test_loss": 1.7941773986816407,
+          "mean_local_loss": 1.083659575879574,
+          "metadata": {},
+          "blockchain": null
+        }
+      ]
+    },
+    {
+      "method": "fedavg_equal",
+      "seed": 44,
+      "attack_enabled": true,
+      "byzantine_client_ids": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "final_accuracy": 0.3312,
+      "final_test_loss": 1.5725974487304688,
+      "runtime_seconds": 34.29548459989019,
+      "rounds": [
+        {
+          "round": 1,
+          "accuracy": 0.1364,
+          "test_loss": 2.3368735778808594,
+          "mean_local_loss": 2.1743030766646068,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 2,
+          "accuracy": 0.1104,
+          "test_loss": 2.359319256591797,
+          "mean_local_loss": 2.0098800897598266,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 3,
+          "accuracy": 0.1812,
+          "test_loss": 2.2798306030273436,
+          "mean_local_loss": 1.9139409800370533,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 4,
+          "accuracy": 0.2317,
+          "test_loss": 2.230371105957031,
+          "mean_local_loss": 1.8931300401687623,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 5,
+          "accuracy": 0.2705,
+          "test_loss": 2.1750455444335937,
+          "mean_local_loss": 1.8418225646018982,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 6,
+          "accuracy": 0.2754,
+          "test_loss": 2.10696318359375,
+          "mean_local_loss": 1.8022000114123027,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 7,
+          "accuracy": 0.1964,
+          "test_loss": 2.1931442138671877,
+          "mean_local_loss": 1.6932833472887676,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 8,
+          "accuracy": 0.2233,
+          "test_loss": 2.120137921142578,
+          "mean_local_loss": 1.769956413904826,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 9,
+          "accuracy": 0.2691,
+          "test_loss": 2.089449041748047,
+          "mean_local_loss": 1.654979140559832,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 10,
+          "accuracy": 0.2907,
+          "test_loss": 2.01962548828125,
+          "mean_local_loss": 1.7453277548154198,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 11,
+          "accuracy": 0.3247,
+          "test_loss": 1.933341259765625,
+          "mean_local_loss": 1.5643592059612277,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 12,
+          "accuracy": 0.3359,
+          "test_loss": 1.9795796875,
+          "mean_local_loss": 1.5567040463288626,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 13,
+          "accuracy": 0.3257,
+          "test_loss": 1.8388924255371093,
+          "mean_local_loss": 1.457656114300092,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 14,
+          "accuracy": 0.3328,
+          "test_loss": 1.8162290588378907,
+          "mean_local_loss": 1.434922407070796,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 15,
+          "accuracy": 0.3301,
+          "test_loss": 1.7758765747070313,
+          "mean_local_loss": 1.3320931156476339,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 16,
+          "accuracy": 0.3582,
+          "test_loss": 1.8337976501464843,
+          "mean_local_loss": 1.4556154578924176,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 17,
+          "accuracy": 0.3042,
+          "test_loss": 1.74680263671875,
+          "mean_local_loss": 1.340086350341638,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 18,
+          "accuracy": 0.3414,
+          "test_loss": 1.6491243041992187,
+          "mean_local_loss": 1.273964140812556,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 19,
+          "accuracy": 0.3465,
+          "test_loss": 1.5833306579589843,
+          "mean_local_loss": 1.1603893404205639,
+          "metadata": {},
+          "blockchain": null
+        },
+        {
+          "round": 20,
+          "accuracy": 0.3312,
+          "test_loss": 1.5725974487304688,
+          "mean_local_loss": 1.2118229190508525,
+          "metadata": {},
+          "blockchain": null
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "fedavg_equal": {
+      "n": 3,
+      "accuracies_percent": [
+        38.34,
+        24.37,
+        33.12
+      ],
+      "mean_accuracy_percent": 31.94333333333334,
+      "sample_std_percent": 7.058939958190135,
+      "confidence_interval_95_percent": [
+        14.407954378429231,
+        49.478712288237446
+      ],
+      "confidence_interval_95_margin_percent": 17.535378954904107
+    }
+  },
+  "blockchain_evidence": null
+}

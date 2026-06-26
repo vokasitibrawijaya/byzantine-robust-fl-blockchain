@@ -2,6 +2,7 @@
 
 Every aggregation method uses the same dataset partition, model architecture,
 client participation, local optimizer, attack, rounds, and random seed.
+The optional ``fedavg_equal`` method is a client-equal sensitivity baseline.
 """
 
 from __future__ import annotations
@@ -158,6 +159,7 @@ def train_client(
     config: ExperimentConfig,
     device: torch.device,
     attack_enabled: bool,
+    attack_scale: float | None = None,
 ) -> tuple[TensorUpdate, float]:
     local_model = SmallMNISTCNN().to(device)
     local_model.load_state_dict(global_model.state_dict())
@@ -198,7 +200,8 @@ def train_client(
 
     delta = model_delta(global_model, local_model)
     if attack_enabled:
-        delta = [tensor * config.attack_scale for tensor in delta]
+        scale = config.attack_scale if attack_scale is None else attack_scale
+        delta = [tensor * scale for tensor in delta]
     return delta, float(np.mean(losses))
 
 
@@ -306,6 +309,8 @@ def run_method(
         metadata: dict = {}
         if method in {"clean_fedavg", "fedavg"}:
             aggregate = mean_aggregate(updates, weights=sample_weights)
+        elif method == "fedavg_equal":
+            aggregate = mean_aggregate(updates)
         elif method == "krum":
             aggregate, metadata = krum(
                 updates,

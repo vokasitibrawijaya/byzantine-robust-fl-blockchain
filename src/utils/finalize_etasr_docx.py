@@ -13,7 +13,8 @@ from lxml import etree
 W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 WP = "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
 A = "http://schemas.openxmlformats.org/drawingml/2006/main"
-NS = {"w": W, "wp": WP, "a": A}
+M = "http://schemas.openxmlformats.org/officeDocument/2006/math"
+NS = {"w": W, "wp": WP, "a": A, "m": M}
 
 
 def qn(local_name: str) -> str:
@@ -68,6 +69,42 @@ def set_page_break_before(paragraph) -> None:
     properties = paragraph_properties(paragraph)
     if properties.find(qn("pageBreakBefore")) is None:
         properties.append(etree.Element(qn("pageBreakBefore")))
+
+
+def add_right_tab_stop(paragraph, position_twips: int = 4320) -> None:
+    properties = paragraph_properties(paragraph)
+    tabs = properties.find(qn("tabs"))
+    if tabs is None:
+        tabs = etree.Element(qn("tabs"))
+        properties.append(tabs)
+    tab = etree.Element(qn("tab"))
+    tab.set(qn("val"), "right")
+    tab.set(qn("pos"), str(position_twips))
+    tabs.append(tab)
+
+
+def append_display_equation_numbers(
+    paragraphs,
+    start_index: int,
+    end_index: int,
+) -> int:
+    number = 1
+    for index, paragraph in enumerate(paragraphs):
+        if index <= start_index or index >= end_index:
+            continue
+        if not paragraph.xpath(".//m:oMathPara", namespaces=NS):
+            continue
+        text = paragraph_text(paragraph).strip()
+        if text.startswith("(") and text.endswith(")"):
+            continue
+
+        add_right_tab_stop(paragraph)
+        number_run = etree.SubElement(paragraph, qn("r"))
+        etree.SubElement(number_run, qn("tab"))
+        number_text = etree.SubElement(number_run, qn("t"))
+        number_text.text = f"({number})"
+        number += 1
+    return number - 1
 
 
 def split_paragraph_at_first_break(paragraph):
@@ -146,39 +183,6 @@ def main() -> None:
     two_column = template_sections[-1]
     paragraphs = document.xpath(".//w:p", namespaces=NS)
 
-    response_marker = next(
-        (
-            paragraph
-            for paragraph in paragraphs
-            if "REVISED MANUSCRIPT FOLLOWS" in paragraph_text(paragraph)
-        ),
-        None,
-    )
-    keywords = next(
-        (
-            paragraph
-            for paragraph in paragraphs
-            if paragraph_text(paragraph).strip().startswith("Keywords:")
-        ),
-        None,
-    )
-    if response_marker is None or keywords is None:
-        raise RuntimeError("Could not locate response marker or manuscript keywords")
-
-    remove_manual_page_breaks(document)
-    set_section_break(response_marker, one_column, "nextPage")
-    set_section_break(keywords, one_column, "continuous")
-    set_paragraph_alignment(response_marker, "center")
-
-    response_heading = next(
-        (
-            paragraph
-            for paragraph in paragraphs
-            if paragraph_text(paragraph).strip()
-            == "Response to Reviewer Comments"
-        ),
-        None,
-    )
     manuscript_title = next(
         (
             paragraph
@@ -187,6 +191,45 @@ def main() -> None:
                 "Byzantine-Robust Federated Learning with Adaptive Aggregation"
             )
             and "Revised title:" not in paragraph_text(paragraph)
+        ),
+        None,
+    )
+    response_marker = next(
+        (
+            paragraph
+            for paragraph in paragraphs
+            if "REVISED MANUSCRIPT FOLLOWS" in paragraph_text(paragraph)
+        ),
+        None,
+    )
+    response_boundary = response_marker
+    if response_boundary is None and manuscript_title is not None:
+        title_index = paragraphs.index(manuscript_title)
+        if title_index > 0:
+            response_boundary = paragraphs[title_index - 1]
+    keywords = next(
+        (
+            paragraph
+            for paragraph in paragraphs
+            if paragraph_text(paragraph).strip().startswith("Keywords:")
+        ),
+        None,
+    )
+    if response_boundary is None or keywords is None:
+        raise RuntimeError("Could not locate response boundary or manuscript keywords")
+
+    remove_manual_page_breaks(document)
+    set_section_break(response_boundary, one_column, "nextPage")
+    set_section_break(keywords, one_column, "continuous")
+    if response_marker is not None:
+        set_paragraph_alignment(response_marker, "center")
+
+    response_heading = next(
+        (
+            paragraph
+            for paragraph in paragraphs
+            if paragraph_text(paragraph).strip()
+            == "Response to Reviewer Comments"
         ),
         None,
     )
@@ -250,7 +293,7 @@ def main() -> None:
         heading_text = etree.SubElement(heading_run, qn("t"))
         heading_text.text = "References"
         first_reference.addprevious(references_heading)
-        set_paragraph_style(references_heading, "ETASRHeading1")
+        set_paragraph_style(references_heading, "ETASRHeading5")
 
     paragraphs = document.xpath(".//w:p", namespaces=NS)
     references_start = (
@@ -269,7 +312,16 @@ def main() -> None:
 
         if paragraph is abstract_heading:
             continue
-        if text.startswith("Keywords:"):
+        if text in {
+            "Declarations",
+            "Declaration of Competing Interests",
+            "Acknowledgment",
+            "Data Availability",
+            "AI Use and Declaration of Generative AI Use",
+            "References",
+        }:
+            set_paragraph_style(paragraph, "ETASRHeading5")
+        elif text.startswith("Keywords:"):
             set_paragraph_style(paragraph, "ETASRkeywords")
             set_paragraph_alignment(paragraph, "both")
         elif index == paragraphs.index(abstract_heading) + 1:
@@ -303,6 +355,11 @@ def main() -> None:
                     "ETASRtablecolhead" if row_index == 0 else "ETASRtablecopy",
                 )
 
+    numbered_equations = append_display_equation_numbers(
+        paragraphs,
+        manuscript_start,
+        references_start,
+    )
     constrain_inline_images(document)
 
     body = document.find(qn("body"))
@@ -336,6 +393,7 @@ def main() -> None:
             archive.writestr(name, data)
 
     print(f"Finalized: {arguments.output_docx}")
+    print(f"Numbered display equations: {numbered_equations}")
 
 
 if __name__ == "__main__":

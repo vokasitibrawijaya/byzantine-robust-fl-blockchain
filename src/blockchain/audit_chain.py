@@ -155,6 +155,24 @@ class FLAuditChain:
             and stored_flag == expected_flagged
         )
 
+    def read_client_flag(self, round_number: int, client_id: int) -> bool:
+        """Read one flag using existence and flag view calls, without a transaction."""
+        recorded = self.contract.functions.updateRecorded(
+            round_number,
+            client_id,
+        ).call()
+        if not recorded:
+            raise ValueError(
+                f"No update recorded for round={round_number}, "
+                f"client={client_id}"
+            )
+        return bool(
+            self.contract.functions.flaggedUpdates(
+                round_number,
+                client_id,
+            ).call()
+        )
+
     def verify_round_summary(
         self,
         round_number: int,

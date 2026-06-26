@@ -1,0 +1,37 @@
+{
+  "source_result": "results\\transparency_paradox_actual.json",
+  "final_accuracy": {
+    "ledger_informed_minus_blind_percentage_points": -1.6233333333333444,
+    "paired_t_statistic": -8.218897163134828,
+    "paired_p_value_two_sided": 0.014482967455731079,
+    "seedwise_differences_percentage_points": [
+      -1.3600000000000136,
+      -2.010000000000005,
+      -1.5000000000000142
+    ]
+  },
+  "detection": {
+    "blind_recall_by_seed": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "ledger_informed_recall_by_seed": [
+      0.4625,
+      0.4875,
+      0.475
+    ],
+    "mean_recall_reduction_percentage_points": 52.49999999999999,
+    "ledger_informed_undetected_byzantine_updates": 126,
+    "total_ledger_informed_byzantine_updates": 240
+  },
+  "blockchain": {
+    "contracts_deployed": 6,
+    "client_record_transactions": 2400,
+    "round_summary_transactions": 120,
+    "ledger_flag_queries": 228,
+    "ledger_contract_view_calls": 456,
+    "all_readback_verifications_passed": true,
+    "total_gas_including_deployments": 205079334
+  }
+}

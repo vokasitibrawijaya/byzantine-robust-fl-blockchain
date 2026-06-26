@@ -2,12 +2,14 @@
 \caption{Final MNIST Accuracy Across Three Seeds}
 \label{tab:actual_results}
 \centering
+\scriptsize
 \begin{tabular}{lccc}
 \toprule
 Method & Mean (\%) & SD & 95\% CI \\
 \midrule
 FedAvg (clean) & 82.49 & 1.29 & [79.28, 85.69] \\
 FedAvg (attack) & 22.36 & 2.81 & [15.39, 29.33] \\
+Equal-client mean (attack) & 31.94 & 7.06 & [14.41, 49.48] \\
 Krum & 60.01 & 7.37 & [41.71, 78.32] \\
 TrimmedMean & 78.23 & 1.51 & [74.47, 81.99] \\
 MAD-ATMA & 78.22 & 1.98 & [73.29, 83.14] \\

@@ -7,6 +7,9 @@ from src.aggregation.robust_aggregation import (
     coordinate_trimmed_mean,
     krum,
 )
+from src.experiments.transparency_paradox_experiment import (
+    LedgerFeedbackController,
+)
 
 
 def update(value: float) -> list[torch.Tensor]:
@@ -49,6 +52,20 @@ class RobustAggregationTests(unittest.TestCase):
         _, metadata = aggregator.aggregate(updates, client_ids=list(range(6)))
 
         self.assertEqual(metadata["trim_ratio"], 0.25)
+
+    def test_ledger_feedback_controller_reduces_scale_after_detection(self):
+        controller = LedgerFeedbackController(initial_scale=5.0)
+        self.assertAlmostEqual(controller.update(1.0), 3.5)
+        self.assertAlmostEqual(controller.update(1.0), 2.45)
+
+    def test_ledger_feedback_controller_respects_bounds(self):
+        controller = LedgerFeedbackController(initial_scale=1.0)
+        for _ in range(20):
+            controller.update(0.0)
+        self.assertLessEqual(controller.scale, controller.maximum_scale)
+        for _ in range(20):
+            controller.update(1.0)
+        self.assertGreaterEqual(controller.scale, controller.minimum_scale)
 
 
 if __name__ == "__main__":

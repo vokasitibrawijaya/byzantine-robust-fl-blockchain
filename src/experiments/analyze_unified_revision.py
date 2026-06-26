@@ -13,6 +13,9 @@ from scipy.stats import ttest_rel
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULT_PATH = ROOT / "results" / "unified_mnist_actual.json"
+SENSITIVITY_PATH = (
+    ROOT / "results" / "unified_mnist_equal_weight_sensitivity.json"
+)
 ANALYSIS_PATH = ROOT / "results" / "unified_mnist_analysis.json"
 VISUALIZATION_DIRECTORY = ROOT / "visualizations" / "revision_actual"
 TABLE_DIRECTORY = ROOT / "visualizations" / "revision_actual"
@@ -42,6 +45,10 @@ COLORS = {
 
 def load_results() -> dict:
     return json.loads(RESULT_PATH.read_text(encoding="utf-8"))
+
+
+def load_sensitivity_results() -> dict:
+    return json.loads(SENSITIVITY_PATH.read_text(encoding="utf-8"))
 
 
 def runs_by_method(data: dict) -> dict[str, list[dict]]:
@@ -78,6 +85,46 @@ def paired_tests(grouped: dict[str, list[dict]]) -> dict:
             "seedwise_differences_percentage_points": [
                 float(value) for value in differences
             ],
+        }
+    return output
+
+
+def weighting_sensitivity(
+    grouped: dict[str, list[dict]],
+    sensitivity_grouped: dict[str, list[dict]],
+) -> dict:
+    weighted = np.array(
+        [run["final_accuracy"] * 100 for run in grouped["fedavg"]]
+    )
+    equal = np.array(
+        [
+            run["final_accuracy"] * 100
+            for run in sensitivity_grouped["fedavg_equal"]
+        ]
+    )
+    statistic, p_value = ttest_rel(weighted, equal)
+    output = {
+        "source_result": str(SENSITIVITY_PATH.relative_to(ROOT)),
+        "summary": load_sensitivity_results()["summary"]["fedavg_equal"],
+        "equal_minus_sample_weighted_fedavg": {
+            "mean_difference_percentage_points": float((equal - weighted).mean()),
+            "paired_t_statistic": float(statistic),
+            "p_value_two_sided": float(p_value),
+            "seedwise_differences_percentage_points": [
+                float(value) for value in equal - weighted
+            ],
+        },
+        "robust_method_minus_equal_client_mean": {},
+    }
+    for method in ("krum", "trimmed_mean", "atma"):
+        values = np.array(
+            [run["final_accuracy"] * 100 for run in grouped[method]]
+        )
+        method_statistic, method_p_value = ttest_rel(equal, values)
+        output["robust_method_minus_equal_client_mean"][method] = {
+            "mean_difference_percentage_points": float((values - equal).mean()),
+            "paired_t_statistic": float(method_statistic),
+            "p_value_two_sided": float(method_p_value),
         }
     return output
 
@@ -279,12 +326,13 @@ def plot_final_accuracy(data: dict) -> None:
     plt.close()
 
 
-def write_results_table(data: dict) -> None:
+def write_results_table(data: dict, sensitivity_data: dict) -> None:
     lines = [
         r"\begin{table}[t]",
         r"\caption{Final MNIST Accuracy Across Three Seeds}",
         r"\label{tab:actual_results}",
         r"\centering",
+        r"\scriptsize",
         r"\begin{tabular}{lccc}",
         r"\toprule",
         r"Method & Mean (\%) & SD & 95\% CI \\",
@@ -299,6 +347,17 @@ def write_results_table(data: dict) -> None:
             f"{summary['sample_std_percent']:.2f} & "
             f"[{lower:.2f}, {upper:.2f}] \\\\"
         )
+        if method == "fedavg":
+            sensitivity = sensitivity_data["summary"]["fedavg_equal"]
+            sensitivity_lower, sensitivity_upper = sensitivity[
+                "confidence_interval_95_percent"
+            ]
+            lines.append(
+                "Equal-client mean (attack) & "
+                f"{sensitivity['mean_accuracy_percent']:.2f} & "
+                f"{sensitivity['sample_std_percent']:.2f} & "
+                f"[{sensitivity_lower:.2f}, {sensitivity_upper:.2f}] \\\\"
+            )
     lines.extend(
         [
             r"\bottomrule",
@@ -345,11 +404,17 @@ def write_blockchain_table(blockchain: dict) -> None:
 
 def main() -> None:
     data = load_results()
+    sensitivity_data = load_sensitivity_results()
     grouped = runs_by_method(data)
+    sensitivity_grouped = runs_by_method(sensitivity_data)
     analysis = {
         "source_result": str(RESULT_PATH.relative_to(ROOT)),
         "summary": data["summary"],
         "paired_tests": paired_tests(grouped),
+        "weighting_sensitivity": weighting_sensitivity(
+            grouped,
+            sensitivity_grouped,
+        ),
         "atma_detection": atma_detection(grouped),
         "krum_selection": krum_selection(grouped),
         "blockchain": blockchain_summary(data),
@@ -362,7 +427,7 @@ def main() -> None:
     )
     plot_convergence(grouped)
     plot_final_accuracy(data)
-    write_results_table(data)
+    write_results_table(data, sensitivity_data)
     write_blockchain_table(analysis["blockchain"])
     print(f"Saved analysis: {ANALYSIS_PATH}")
     print(f"Saved figures and tables: {VISUALIZATION_DIRECTORY}")
