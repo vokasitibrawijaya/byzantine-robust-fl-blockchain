@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.pyd
 .Python
 build/
 develop-eggs/
@@ -22,34 +23,98 @@ wheels/
 
 # Virtual environments
 .venv/
+.venv312/
+.venv_gpu/
 venv/
+**/venv/
 ENV/
 
-# IDE
+# Caches
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Data files and datasets
+data/
+**/data/
+**/MNIST/
+**/cifar-10-batches-py/
+*.tar.gz
+*.gz
+*.zip
+
+# Large binary or model artifacts
+*.bin
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# Node.js
+node_modules/
+**/node_modules/
+
+# Logs
+*.log
+logs*/
+logs_*/
+**/logs/*.log
+
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.lof
+*.lot
+*.out
+*.synctex.gz
+*.toc
+
+# Document exports
+*.docx.pdf
+update2025-*.pdf
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
 .idea/
 .vscode/
 *.swp
 *.swo
 
-# Data files (too large for GitHub)
-data/
-*.tar.gz
-*.zip
+# Trash and backup files
+trash/
+*.bak
+*_backup*
 
-# LaTeX auxiliary files
-*.aux
-*.log
-*.out
-*.toc
-*.lof
-*.lot
-*.bbl
-*.blg
-*.synctex.gz
+# Large or obsolete experiment folders
+topologyA_centralized/
+topologyB_docker/
+topologyC_testnet/
+controlled_experiments/
+robustness_results/
+results_gpu_scientific/
+results_scientific_validated/
+results_updated_2025/
+results_2025_integrated/
+visualizations_updated_2025/
+latex2rtf_paper/
 
-# OS files
-.DS_Store
-Thumbs.db
-
-# Jupyter
-.ipynb_checkpoints/
+# Font and legacy paper build files
+*.pfb
+*.tfm
+federated_learning_paper.tex
+federated_learning_paper_simple.tex
+federated_learning_paper.pdf
+federated_learning_paper_simple.pdf
+*.png.tex
+ieeeaccess.cls
+IEEEtran.bst
+IEEEtran.cls
+spotcolor.sty

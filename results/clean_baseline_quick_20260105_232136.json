@@ -1,0 +1,135 @@
+{
+  "timestamp": "20260105_232136",
+  "experiment": "Clean Baseline (NO Byzantine) - Quick 50 rounds",
+  "config": {
+    "num_clients": 20,
+    "num_rounds": 50,
+    "seed": 42
+  },
+  "results": {
+    "FedAvg": {
+      "clean_accuracy": 57.65,
+      "history": [
+        {
+          "round": 1,
+          "accuracy": 13.45
+        },
+        {
+          "round": 10,
+          "accuracy": 41.72
+        },
+        {
+          "round": 20,
+          "accuracy": 49.1
+        },
+        {
+          "round": 30,
+          "accuracy": 53.32
+        },
+        {
+          "round": 40,
+          "accuracy": 55.23
+        },
+        {
+          "round": 50,
+          "accuracy": 57.65
+        }
+      ],
+      "attacked_accuracy": 10.0,
+      "degradation_percent": 82.6539462272333
+    },
+    "TrimmedMean": {
+      "clean_accuracy": 51.98,
+      "history": [
+        {
+          "round": 1,
+          "accuracy": 10.0
+        },
+        {
+          "round": 10,
+          "accuracy": 36.0
+        },
+        {
+          "round": 20,
+          "accuracy": 42.83
+        },
+        {
+          "round": 30,
+          "accuracy": 47.98
+        },
+        {
+          "round": 40,
+          "accuracy": 50.25
+        },
+        {
+          "round": 50,
+          "accuracy": 51.98
+        }
+      ],
+      "attacked_accuracy": 66.38,
+      "degradation_percent": -27.702962677953057
+    },
+    "FedProx": {
+      "clean_accuracy": 57.55,
+      "history": [
+        {
+          "round": 1,
+          "accuracy": 13.35
+        },
+        {
+          "round": 10,
+          "accuracy": 41.58
+        },
+        {
+          "round": 20,
+          "accuracy": 49.01
+        },
+        {
+          "round": 30,
+          "accuracy": 53.27
+        },
+        {
+          "round": 40,
+          "accuracy": 55.18
+        },
+        {
+          "round": 50,
+          "accuracy": 57.55
+        }
+      ],
+      "attacked_accuracy": 10.0,
+      "degradation_percent": 82.62380538662033
+    },
+    "FedDyn": {
+      "clean_accuracy": 58.22,
+      "history": [
+        {
+          "round": 1,
+          "accuracy": 13.35
+        },
+        {
+          "round": 10,
+          "accuracy": 42.0
+        },
+        {
+          "round": 20,
+          "accuracy": 50.34
+        },
+        {
+          "round": 30,
+          "accuracy": 54.15
+        },
+        {
+          "round": 40,
+          "accuracy": 55.95
+        },
+        {
+          "round": 50,
+          "accuracy": 58.22
+        }
+      ],
+      "attacked_accuracy": 10.0,
+      "degradation_percent": 82.82377189969083
+    }
+  }
+}
