@@ -166,5 +166,6 @@ python -m unittest discover -s tests -p "test_*.py" -v
 - `revision_ETASR_APRIL2026/18579_REVISION_R4_ETASR_FINAL.docx`: submission file
 - `revision_ETASR_APRIL2026/18579_REVISION_R4_EVIDENCE_BASED.pdf`: review PDF
 
-Files and results from earlier development iterations remain for provenance but
-are not used as evidence in revision R4.
+Files and results from earlier development iterations are retained only in Git
+history. The `main` branch is intentionally limited to the R4 submission
+artifacts and reproducibility files.
